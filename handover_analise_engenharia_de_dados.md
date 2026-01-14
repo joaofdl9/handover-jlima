@@ -1731,9 +1731,6 @@ Visao geral dos servicos AWS utilizados no pipeline de dados.
                             │
                      ┌──────┴──────┐
                      │     EC2     │
-
-### 4.2.2. Camadas de Dados
-
                      └─────────────┘
 ```
 
