@@ -11,7 +11,7 @@
 ### 1.1. SQL
 - [1.1.1. SQL Basico (SELECT, WHERE, FROM)](#111-sql-basico-select-where-from)
 - [1.1.2. SQL Intermediario (JOINs, Agregacoes, CTEs, Window Functions, UNION)](#112-sql-intermediario-joins-agregacoes-ctes-window-functions-union)
-- [1.1.3. SQL Aplicado - COFINS a Recuperar (exemplo real)](#113-sql--aplicado-cofins-a-recuperar-exemplo-real)
+- [1.1.3. SQL Aplicado - COFINS a Recuperar (exemplo real)](#113-sql-aplicado---cofins-a-recuperar-exemplo-real)
 
 ### 1.2. Python
 - [1.2.1. Sintaxe Basica (tipos, colecoes, operadores, controle)](#121-sintaxe-basica-tipos-colecoes-operadores-controle)
