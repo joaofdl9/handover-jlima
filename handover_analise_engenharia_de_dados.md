@@ -2728,8 +2728,6 @@ Categoria = RELATED(dim_produto[categoria])
 ```dax
 // Tabela com total por categoria
 
-### 4.4.4. Design de Layouts
-
 SUMMARIZE(
     fato_vendas,
     dim_produto[categoria],
@@ -2782,7 +2780,7 @@ DIVIDE(
 
 ---
 
-### Design de Layouts
+### 4.4.4. Design de Layouts
 
 #### Figma para Tela de Fundo
 
