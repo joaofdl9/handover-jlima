@@ -41,7 +41,7 @@
 
 ### 3.2. Python (Ambiente)
 - [3.2.1. Criar e Ativar Ambiente Virtual](#321-criar-e-ativar-ambiente-virtual)
-- [3.2.2. Gerenciar Dependências](#322-gerenciar-dependencias)
+- [3.2.2. Gerenciar Dependencias](#322-gerenciar-dependencias)
 
 ### 3.3. VS Code
 - [3.3.1. Extensoes Recomendadas](#331-extensoes-recomendadas)
@@ -145,7 +145,7 @@ Guia visual e pratico para construcao de consultas SQL no ambiente Barra Mansa A
 
 #### Estrutura de uma Consulta SQL
 
-O processo completo de construcao de uma query SQL segue três passos sequenciais:
+O processo completo de construcao de uma query SQL segue tres passos sequenciais:
 
 
 - Liste as colunas que deseja exibir
@@ -156,9 +156,9 @@ O processo completo de construcao de uma query SQL segue três passos sequenciai
 SELECT N.codemp, N.codfil, N.numnfi, N.datent
 ```
 
-### 2º Passo: FROM - DE ONDE vêm os dados
+### 2º Passo: FROM - DE ONDE vem os dados
 
-- Especifique a tabela e crie um alias para facilitar referências
+- Especifique a tabela e crie um alias para facilitar referencias
 
 **Exemplo:**
 ```sql
@@ -199,7 +199,7 @@ WHERE N.codemp = 1
 #### JOINs - Combinando Dados de Múltiplas Tabelas
 
 ##### LEFT JOIN
-Retorna todos os registros da tabela principal (esquerda) e os correspondentes da tabela secundaria. Se nao houver correspondência, retorna NULL.
+Retorna todos os registros da tabela principal (esquerda) e os correspondentes da tabela secundaria. Se nao houver correspondencia, retorna NULL.
 
 **Exemplo do contexto:**
 ```sql
@@ -209,18 +209,18 @@ LEFT JOIN e045pla P
    AND P.ctared = L.ctadeb
 ```
 - Busca **todos** os lancamentos da E640LCT
-- Traz descricoes do plano de contas quando houver correspondência
+- Traz descricoes do plano de contas quando houver correspondencia
 - Se nao houver conta correspondente, P.descta sera NULL
 
 ##### INNER JOIN
-Retorna apenas registros que têm correspondência em ambas as tabelas.
+Retorna apenas registros que tem correspondencia em ambas as tabelas.
 ```sql
 FROM E640LCT L
 INNER JOIN e045pla P
     ON P.codemp = L.codemp
    AND P.ctared = L.ctadeb
 ```
-- Retornaria apenas lancamentos que têm conta no plano de contas
+- Retornaria apenas lancamentos que tem conta no plano de contas
 
 ##### RIGHT JOIN
 Retorna todos os registros da tabela secundaria (direita) e os correspondentes da tabela principal.
@@ -232,7 +232,7 @@ RIGHT JOIN e045pla P
 ```
 
 ##### FULL OUTER JOIN
-Retorna todos os registros quando ha correspondência em qualquer uma das tabelas.
+Retorna todos os registros quando ha correspondencia em qualquer uma das tabelas.
 ```sql
 FROM E640LCT L
 FULL OUTER JOIN e045pla P
@@ -301,7 +301,7 @@ WHERE L.ctadeb = '10530'
 **Regras do UNION:**
 - Todas as queries devem ter o **mesmo número de colunas**
 - Colunas correspondentes devem ter **tipos de dados compativeis**
-- Nomes das colunas vêm da **primeira query**
+- Nomes das colunas vem da **primeira query**
 
 ---
 
@@ -412,7 +412,7 @@ FULL OUTER JOIN cofins_credito C
 - Reutilizacao de resultados intermediarios
 - Substituicao elegante de subqueries complexas
 - Facilita debugging (pode testar cada CTE separadamente)
-- **Alternativa ao UNION** quando você quer manter os dados separados para analise
+- **Alternativa ao UNION** quando voce quer manter os dados separados para analise
 
 ##### CTEs Recursivas
 ```sql
@@ -758,7 +758,7 @@ preco = 49.90
 ativo = True
 processado = False
 
-# None (ausência de valor)
+# None (ausencia de valor)
 resultado = None
 ```
 
@@ -772,7 +772,7 @@ resultado = None
 - **Tupla** → quando nao pode mudar (dados fixos)
 
 #### Lista
-Sequência ordenada e mutavel.
+Sequencia ordenada e mutavel.
 ```python
 frutas = ["maca", "banana", "laranja"]
 frutas.append("uva")          # Adiciona
@@ -795,7 +795,7 @@ pessoa.values()               # Lista valores
 ```
 
 #### Tupla
-Sequência imutavel.
+Sequencia imutavel.
 ```python
 coordenadas = (10, 20)
 host, porta = ("localhost", 5432)  # Desempacotamento
@@ -1047,7 +1047,7 @@ def extrair_dados():
     pass
 ```
 
-**Na pratica:** Você vai *ler* e *usar* decorators prontos, nao criar. Quando vir `@algo` antes de uma funcao, saiba que ela esta sendo "decorada" com comportamento extra.
+**Na pratica:** Voce vai *ler* e *usar* decorators prontos, nao criar. Quando vir `@algo` antes de uma funcao, saiba que ela esta sendo "decorada" com comportamento extra.
 
 ---
 
@@ -1181,7 +1181,7 @@ df["salario"].max()           # Maximo
 df["salario"].min()           # Minimo
 df["nome"].count()            # Contagem
 df["nome"].nunique()          # Quantidade de valores únicos
-df["cargo"].value_counts()    # Frequência de cada valor
+df["cargo"].value_counts()    # Frequencia de cada valor
 
 # Group By
 df.groupby("departamento")["salario"].mean()      # Média por grupo
@@ -1315,7 +1315,7 @@ O pipeline de dados esta estruturado para processar informacoes dos sistemas cor
 
 #### Transformacao (T) - Processamento Hibrido
 
-| Tipo | Ferramenta | Frequência | Uso |
+| Tipo | Ferramenta | Frequencia | Uso |
 |------|------------|------------|-----|
 | Batch | dbt Cloud | Varias execucoes/dia | Transformacoes programadas |
 | Near Real-Time (NRT) | Apache Airflow + Scripts Python | Continuo | Dados criticos |
@@ -1383,12 +1383,12 @@ source nome_env/bin/activate    # Ativa (Linux/WSL)
 ```
 
 
-### 3.2.2. Gerenciar Dependências
+### 3.2.2. Gerenciar Dependencias
 
 ```bash
 pip install pacote          # Instala pacote
 pip install -r requirements.txt   # Instala do arquivo
-pip freeze > requirements.txt     # Exporta dependências
+pip freeze > requirements.txt     # Exporta dependencias
 pip list                    # Lista instalados
 ```
 
@@ -1420,7 +1420,7 @@ deactivate                  # Sai do ambiente virtual
 | `Ctrl + B` | Toggle sidebar |
 | `Ctrl + `` ` | Terminal integrado |
 | `Ctrl + Shift + F` | Buscar no projeto |
-| `Ctrl + D` | Seleciona proxima ocorrência |
+| `Ctrl + D` | Seleciona proxima ocorrencia |
 | `Alt + ↑/↓` | Move linha |
 
 ---
@@ -1823,7 +1823,7 @@ WHERE lockable_object_type = 'relation';
 SELECT pg_terminate_backend(PID_AQUI);
 ```
 
-⚠️ **Cuidado:** So derrube processos que você tem certeza que estao travados.
+⚠️ **Cuidado:** So derrube processos que voce tem certeza que estao travados.
 
 ---
 
@@ -2014,7 +2014,7 @@ dbt usa Jinja para SQL dinamico.
 #### Funcoes Comuns
 
 ```sql
--- Referências
+-- Referencias
 {{ ref('stg_clientes') }}
 {{ source('airbyte_raw', 'e095for') }}
 
@@ -2051,7 +2051,7 @@ on-run-end:
 
 ---
 
-### Lineage (Grafo de Dependências)
+### Lineage (Grafo de Dependencias)
 
 Visualiza a relacao entre modelos.
 
@@ -2064,7 +2064,7 @@ dbt docs serve       # Abre no navegador
 ### Como Usar
 1. Clique no icone de grafo (canto inferior direito)
 2. Busque um modelo
-3. Veja dependências (upstream) e dependentes (downstream)
+3. Veja dependencias (upstream) e dependentes (downstream)
 
 **Útil para:** Entender impacto de mudancas, debugar erros em cascata.
 
@@ -2089,7 +2089,7 @@ dbt build                          # Executa run + test
 dbt build -s nome_do_modelo        # Build de modelo especifico
 ```
 
-#### Seeds e Dependências
+#### Seeds e Dependencias
 ```bash
 dbt seed                           # Carrega todos os seeds
 dbt seed -s nome_do_seed           # Carrega seed especifico
@@ -2122,7 +2122,7 @@ Orquestrador de pipelines de dados.
 | Cron/Scripts | Airflow |
 |--------------|---------|
 | Sem visualizacao | Interface web com fluxo visual |
-| Dependências manuais | Dependências automaticas |
+| Dependencias manuais | Dependencias automaticas |
 | Logs espalhados | Logs centralizados |
 | Retry manual | Retry automatico |
 
@@ -2141,7 +2141,7 @@ Orquestrador de pipelines de dados.
 |----------|---------|
 | **DAG** | Fluxo de tarefas (grafo sem ciclos) |
 | **Task** | Unidade de trabalho |
-| **Dependência** | Ordem de execucao |
+| **Dependencia** | Ordem de execucao |
 
 ---
 
@@ -2195,7 +2195,7 @@ with DAG(
     def carregar(dados):
         print(dados)
 
-    # Dependência: extrair → carregar
+    # Dependencia: extrair → carregar
     resultado = extrair()
     carregar(resultado)
 ```
@@ -2786,7 +2786,7 @@ DIVIDE(
 
 #### Figma para Tela de Fundo
 
-**Por que:** Controle total sobre design, consistência visual.
+**Por que:** Controle total sobre design, consistencia visual.
 
 **Como:**
 1. Criar frame 1920x1080 (ou 1280x720)
@@ -2797,7 +2797,7 @@ DIVIDE(
 **Aplicar no Power BI:**
 1. Formato → Tela de fundo da pagina
 2. Imagem → Selecionar arquivo
-3. Ajustar transparência se necessario
+3. Ajustar transparencia se necessario
 
 ### 4.4.6. Interatividade
 
@@ -2858,7 +2858,7 @@ Filtros visuais para o usuario.
 
 #### Drill-down
 
-Navegar em hierarquias (ex: Ano → Mês → Dia).
+Navegar em hierarquias (ex: Ano → Mes → Dia).
 
 1. Criar hierarquia na dimensao
 2. Adicionar ao visual
@@ -2995,7 +2995,7 @@ IF(
 **Visuais:**
 - Cartoes: Realizado, Orcado, % Variacao
 - Tabela: Classe | Realizado | Orcado | Variacao | Status
-- Grafico linha: Tendência mensal (Realizado vs Orcado)
+- Grafico linha: Tendencia mensal (Realizado vs Orcado)
 - Slicers: Departamento, Periodo, Classe
 
 ---
@@ -3014,7 +3014,7 @@ Acompanhar a evolucao do faturamento ao longo do tempo e identificar padroes de 
 2. **Comparativo ano a ano** - Faturamento por ano para identificar crescimento/queda
 3. **Analise de sazonalidade** - Identificar meses de pico e baixa nas vendas
 4. **Top 10 produtos** - Quais produtos mais faturam (curva ABC simples)
-5. **Volume de notas emitidas** - Quantidade de NF-e por mês (indicador operacional)
+5. **Volume de notas emitidas** - Quantidade de NF-e por mes (indicador operacional)
 
 ### Visualizacoes Sugeridas
 
@@ -3024,7 +3024,7 @@ Acompanhar a evolucao do faturamento ao longo do tempo e identificar padroes de 
 
 ### Valor da Analise
 
-Visao rapida e clara do desempenho comercial, identificacao de tendências e padroes sazonais para planejamento.
+Visao rapida e clara do desempenho comercial, identificacao de tendencias e padroes sazonais para planejamento.
 
 | Complexidade | Execucao | Valor Informacional |
 |--------------|----------|---------------------|
@@ -3047,7 +3047,7 @@ A validacao cruzada é essencial para garantir a integridade e confiabilidade do
 
 - Comparar totais entre origem e destino
 - Validar cardinalidades e relacionamentos
-- Verificar consistência de agregacoes
+- Verificar consistencia de agregacoes
 
 ### 5.1.3. Recomendacao
 
@@ -3153,7 +3153,7 @@ WHERE DatGer BETWEEN '20250101' AND '20250630'
 
 **Retornar:** Codigo Empresa, Codigo Filial, Número da NF, Codigo do Fornecedor, Codigo do Servico, Valor Bruto, Valor de ISS, Valor de IRRF e Data de Geracao.
 
-**Critérios:** Mês de Marco de 2025, ordenado por valor bruto decrescente.
+**Critérios:** Mes de Marco de 2025, ordenado por valor bruto decrescente.
 
 <details>
 <summary>📝 Ver Resposta</summary>
@@ -3282,7 +3282,7 @@ ORDER BY nfc.VlrLiq DESC
 
 **Retornar:** Número NF, Nome Fornecedor, Codigo Produto, Descricao Produto, Quantidade Recebida, Preco Unitario, Valor Total do Item, Data de Entrada.
 
-**Critérios:** Mês de Fevereiro 2025, produtos com valor total superior a R$ 1.000,00.
+**Critérios:** Mes de Fevereiro 2025, produtos com valor total superior a R$ 1.000,00.
 
 <details>
 <summary>📝 Ver Resposta</summary>
@@ -3486,11 +3486,11 @@ ORDER BY valor_total_compras DESC
 
 #### EX12: Analise Mensal de Impostos Recuperaveis por Filial
 
-**Objetivo:** Consolidar valores de créditos tributarios (PIS e COFINS) por filial e mês
+**Objetivo:** Consolidar valores de créditos tributarios (PIS e COFINS) por filial e mes
 
-**Retornar:** Codigo Filial, Nome Filial, Mês/Ano, Quantidade de Itens, Total Base PIS, Total PIS Recuperavel, Total Base COFINS, Total COFINS Recuperavel.
+**Retornar:** Codigo Filial, Nome Filial, Mes/Ano, Quantidade de Itens, Total Base PIS, Total PIS Recuperavel, Total Base COFINS, Total COFINS Recuperavel.
 
-**Critérios:** Primeiro semestre de 2025, agrupar por filial e mês, apenas itens com crédito.
+**Critérios:** Primeiro semestre de 2025, agrupar por filial e mes, apenas itens com crédito.
 
 <details>
 <summary>📝 Ver Resposta</summary>
@@ -3731,11 +3731,11 @@ ORDER BY cp.valor_total DESC
 
 #### EX18: CTE com Agregacao Temporal - Comparativo Mensal de Impostos
 
-**Objetivo:** Criar CTE para agregar impostos por mês e depois calcular variacoes
+**Objetivo:** Criar CTE para agregar impostos por mes e depois calcular variacoes
 
-**Retornar:** Mês, Ano, Total Base ICMS, Total ICMS, Total IPI, Total PIS, Total COFINS, Carga Tributaria Efetiva (%).
+**Retornar:** Mes, Ano, Total Base ICMS, Total ICMS, Total IPI, Total PIS, Total COFINS, Carga Tributaria Efetiva (%).
 
-**Critérios:** Primeiro semestre de 2025, agrupar por mês.
+**Critérios:** Primeiro semestre de 2025, agrupar por mes.
 
 <details>
 <summary>📝 Ver Resposta</summary>
@@ -3791,11 +3791,11 @@ ORDER BY ano, mes
 
 ---
 
-#### EX20: CTE Complexa - Analise de Variacao Mês a Mês com Múltiplas Dimensoes
+#### EX20: CTE Complexa - Analise de Variacao Mes a Mes com Múltiplas Dimensoes
 
-**Objetivo:** Usar CTEs para calcular totais mensais e depois comparar com mês anterior
+**Objetivo:** Usar CTEs para calcular totais mensais e depois comparar com mes anterior
 
-**Retornar:** Mês Atual, Ano, Valor Compras Mês Atual, Valor Mês Anterior, Variacao Absoluta, Variacao Percentual, Quantidade Fornecedores Ativos, Ticket Médio.
+**Retornar:** Mes Atual, Ano, Valor Compras Mes Atual, Valor Mes Anterior, Variacao Absoluta, Variacao Percentual, Quantidade Fornecedores Ativos, Ticket Médio.
 
 **Critérios:** Primeiro semestre de 2025, incluir analise comparativa.
 
@@ -3958,11 +3958,11 @@ ORDER BY codigo_filial, ranking_filial
 
 ---
 
-#### EX24: Funcoes LAG e LEAD - Comparacao com Mês Anterior e Posterior
+#### EX24: Funcoes LAG e LEAD - Comparacao com Mes Anterior e Posterior
 
 **Objetivo:** Calcular valor mensal de compras e comparar com meses adjacentes
 
-**Retornar:** Mês, Ano, Valor do Mês, Valor Mês Anterior, Valor Mês Seguinte, Variacao vs Mês Anterior (valor absoluto).
+**Retornar:** Mes, Ano, Valor do Mes, Valor Mes Anterior, Valor Mes Seguinte, Variacao vs Mes Anterior (valor absoluto).
 
 **Critérios:** Primeiro semestre de 2025.
 
@@ -3996,9 +3996,9 @@ ORDER BY ano, mes
 
 #### EX25: SUM OVER - Total Acumulado e Participacao Percentual
 
-**Objetivo:** Calcular valor acumulado mês a mês e percentual sobre o total do periodo
+**Objetivo:** Calcular valor acumulado mes a mes e percentual sobre o total do periodo
 
-**Retornar:** Mês, Ano, Valor Mensal, Acumulado até o Mês, Percentual sobre Total do Semestre, Total do Semestre.
+**Retornar:** Mes, Ano, Valor Mensal, Acumulado até o Mes, Percentual sobre Total do Semestre, Total do Semestre.
 
 **Critérios:** Primeiro semestre de 2025.
 
@@ -4038,7 +4038,7 @@ ORDER BY ano, mes
 
 **Retornar:** Tipo (Produto ou Servico), Codigo do Item, Número da NF, Valor.
 
-**Critérios:** Mês de Janeiro 2025, ordenar por tipo e valor.
+**Critérios:** Mes de Janeiro 2025, ordenar por tipo e valor.
 
 ---
 
@@ -4487,13 +4487,13 @@ configs = {modelo: config_padrao.copy() for modelo in modelos}
 print(configs)
 # {'stg_fornecedores': {'materialized': 'view', 'schema': 'staging'}, ...}
 
-# Nota: .copy() é importante para nao compartilhar a mesma referência
+# Nota: .copy() é importante para nao compartilhar a mesma referencia
 ```
 
 **Conceitos aplicados:**
 - Dictionary comprehension basica
 - Expressoes em dictionary comprehension
-- `.copy()` para dicionarios (referência vs copia)
+- `.copy()` para dicionarios (referencia vs copia)
 
 </details>
 
@@ -4773,7 +4773,7 @@ print("="*50)
 import pandas as pd
 from io import StringIO
 
-# Simulando um CSV de dependências (como nrt_dependencies.csv)
+# Simulando um CSV de dependencias (como nrt_dependencies.csv)
 csv_data = """tabela_origem;tabela_destino;tipo_carga
 e095for;stg_fornecedores;incremental
 e440nfc;stg_notas_fiscais;incremental
@@ -4846,7 +4846,7 @@ df = pd.read_csv(StringIO(csv_data), sep=";")
 # 1. Filtrar apenas linhas com tipo_carga = "incremental"
 # 2. Filtrar apenas linhas do schema "staging"
 # 3. Filtrar linhas incremental E staging (ambos)
-# 4. Contar quantas linhas têm tipo "full"
+# 4. Contar quantas linhas tem tipo "full"
 ```
 
 <details>
@@ -4880,7 +4880,7 @@ print(f"Quantidade de tipo 'full': {count_full}")  # 2
 - Filtros booleanos (`df[condicao]`)
 - Operadores de comparacao (`==`)
 - Operadores logicos (`&` para AND)
-- Parênteses em filtros múltiplos
+- Parenteses em filtros múltiplos
 
 </details>
 
@@ -5064,7 +5064,7 @@ registros = df.to_dict('records')
 # 2. Criar estrutura de tasks
 tasks = []
 for row in registros:
-    # Processar dependências (pode ser NaN ou string com ";")
+    # Processar dependencias (pode ser NaN ou string com ";")
     deps_raw = row['dependencias']
     if pd.isna(deps_raw) or deps_raw == '':
         dependencias = []
@@ -5263,8 +5263,8 @@ CALCULATE(
 
 ### 6.3.2. Comparacoes Temporais
 
-#### Exercicio 3.4 - Mês Anterior 🟡
-**Contexto:** No dashboard de orcamento TI, comparamos realizado atual vs mês anterior.  
+#### Exercicio 3.4 - Mes Anterior 🟡
+**Contexto:** No dashboard de orcamento TI, comparamos realizado atual vs mes anterior.  
 **Objetivo:** Praticar DATEADD para navegar no tempo.
 
 **Dados disponiveis:**
@@ -5273,7 +5273,7 @@ CALCULATE(
 
 **Tarefas:**
 1. Criar medida "Realizado" que soma valor_realizado
-2. Criar medida "Realizado Mês Anterior" usando DATEADD(-1, MONTH)
+2. Criar medida "Realizado Mes Anterior" usando DATEADD(-1, MONTH)
 
 <details>
 <summary>📝 Ver Solucao</summary>
@@ -5282,8 +5282,8 @@ CALCULATE(
 // Medida base
 Realizado = SUM(orcamento_taina[valor_realizado])
 
-// Mês anterior
-Realizado Mês Anterior = 
+// Mes anterior
+Realizado Mes Anterior = 
 CALCULATE(
     [Realizado],
     DATEADD(dim_calendario[data], -1, MONTH)
@@ -5293,7 +5293,7 @@ CALCULATE(
 **Conceitos aplicados:**
 - `DATEADD(coluna_data, quantidade, unidade)` - Navega no tempo
 - Unidades: DAY, MONTH, QUARTER, YEAR
-- Referência de medida: `[nome_medida]`
+- Referencia de medida: `[nome_medida]`
 
 </details>
 
@@ -5587,7 +5587,7 @@ RETURN
 
 ### 6.3.5. Logica Avancada e Iteracao
 
-#### Exercicio 3.11 - Consistência Mensal (Meses Dentro da Meta) 🔴
+#### Exercicio 3.11 - Consistencia Mensal (Meses Dentro da Meta) 🔴
 **Contexto:** No dashboard de orcamento TI, queremos saber quantos % dos meses ficaram dentro da meta.  
 **Objetivo:** Praticar FILTER + SUMMARIZE + COUNTROWS para analise agregada.
 
@@ -5597,7 +5597,7 @@ RETURN
 - Meta: delta de ±10%
 
 **Tarefas:**
-1. Criar tabela resumida por mês com delta %
+1. Criar tabela resumida por mes com delta %
 2. Filtrar apenas meses dentro da meta (±10%)
 3. Calcular % de meses dentro da meta
 
@@ -5685,7 +5685,7 @@ RETURN
 ### 6.4.1. Transformacoes Basicas
 
 #### Exercicio 4.1 - Unpivot de Colunas Mensais 🟢
-**Contexto:** Dados de orcamento chegam com uma coluna para cada mês (jan, fev, mar...).  
+**Contexto:** Dados de orcamento chegam com uma coluna para cada mes (jan, fev, mar...).  
 **Objetivo:** Entender Table.UnpivotOtherColumns para transformar colunas em linhas.
 
 **Codigo fornecido:**
@@ -5750,7 +5750,7 @@ UNIFORME  | fev_orc   | 1100
 ---
 
 #### Exercicio 4.2 - Limpeza e Padronizacao de Texto 🟢
-**Contexto:** Dados vêm com texto inconsistente (espacos, minúsculas/maiúsculas, caracteres especiais).  
+**Contexto:** Dados vem com texto inconsistente (espacos, minúsculas/maiúsculas, caracteres especiais).  
 **Objetivo:** Entender Text.Upper, Text.Clean, Text.Trim para padronizar.
 
 **Codigo fornecido:**
@@ -5990,27 +5990,27 @@ let
     // 2. Renomear
     #"Colunas Renomeadas" = Table.RenameColumns(
         #"Colunas Nao Dinamicas",
-        {{"Atributo", "Mês"}, {"tipo", "TIPO"}}
+        {{"Atributo", "Mes"}, {"tipo", "TIPO"}}
     ),
     
     // 3. Split
     #"Dividir Coluna por Delimitador" = Table.SplitColumn(
         #"Colunas Renomeadas", 
-        "Mês", 
+        "Mes", 
         Splitter.SplitTextByDelimiter("_", QuoteStyle.Csv), 
-        {"Mês.1", "Mês.2", "Mês.3"}
+        {"Mes.1", "Mes.2", "Mes.3"}
     ),
     
     // 4. Remover coluna ano
     #"Colunas Removidas" = Table.RemoveColumns(
         #"Dividir Coluna por Delimitador",
-        {"Mês.3"}
+        {"Mes.3"}
     ),
     
     // 5. Renomear split
     #"Colunas Renomeadas1" = Table.RenameColumns(
         #"Colunas Removidas",
-        {{"Mês.1", "Orcado Real"}, {"Mês.2", "Mês"}}
+        {{"Mes.1", "Orcado Real"}, {"Mes.2", "Mes"}}
     ),
     
     // 6. Pivot
@@ -6091,7 +6091,7 @@ INSUMOS   | 1000         | 950           | 1100         | 1050
 
 FINAL (semi-wide):
 ```
-TIPO      | Mês | valor_orc2025 | valor_real2025
+TIPO      | Mes | valor_orc2025 | valor_real2025
 INSUMOS   | jan | 1000          | 950
 INSUMOS   | fev | 1100          | 1050
 ```
@@ -6104,7 +6104,7 @@ INSUMOS   | fev | 1100          | 1050
 
 É mais facil processar texto quando esta em linhas!
 
-**3. Três Fases Principais:**
+**3. Tres Fases Principais:**
 
 **FASE 1 - Reestruturacao (steps 1-6):**
 - Unpivot → Split → Pivot
