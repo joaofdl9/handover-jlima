@@ -40,11 +40,11 @@
 - [3.1.3. Gerenciamento de Pacotes](#313-gerenciamento-de-pacotes)
 
 ### 3.2. Python (Ambiente)
-- [3.2.1. Criar e Ativar Ambiente Virtual](#321-criar-e-ativar-ambiente-virtual)
+- [3.2.1. Criar e Ativar Ambiente Virtual](#321-criar-e-ativar-ambiente-virtu)
 - [3.2.2. Gerenciar Dependências](#322-gerenciar-dependencias)
 
 ### 3.3. VS Code
-- [3.3.1. Extensões Recomendadas](#331-extensoes-recomendadas)
+- [3.3.1. Extensões Recomendadas](331-extensoes-recomendadas)
 - [3.3.2. Atalhos Principais](#332-atalhos-principais)
 
 ### 3.4. Git
