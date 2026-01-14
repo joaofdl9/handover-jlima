@@ -609,7 +609,7 @@ ORDER BY LC.codfil, LC.datlct, LC.tipo
 
 ---
 
-### 1.1.3. SQL Aplicado - COFINS a Recuperar (exemplo real) {#113-sql-aplicado---cofins-a-recuperar-exemplo-real}
+### 1.1.3. SQL Aplicado - COFINS a Recuperar (exemplo real)
 
 ```sql
 -- =========================================================
