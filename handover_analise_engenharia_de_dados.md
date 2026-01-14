@@ -9,128 +9,129 @@
 ## 1. Linguagens de Programação
 
 ### 1.1. SQL
-1. [1.1.1. SQL Básico (SELECT, WHERE, FROM)](#111-sql-basico-select-where-from)
-2. [1.1.2. SQL Intermediário (JOINs, Agregações, CTEs, Window Functions, UNION)](#112-sql-intermediario-joins-agregacoes-ctes-window-functions-union)
-3. [1.1.3. SQL Aplicado - COFINS a Recuperar (exemplo real)](#113-sql-aplicado-cofins-a-recuperar-exemplo-real)
+- [1.1.1. SQL Básico (SELECT, WHERE, FROM)](#111-sql-basico-select-where-from)
+- [1.1.2. SQL Intermediário (JOINs, Agregações, CTEs, Window Functions, UNION)](#112-sql-intermediario-joins-agregacoes-ctes-window-functions-union)
+- [1.1.3. SQL Aplicado - COFINS a Recuperar (exemplo real)](#113-sql-aplicado-cofins-a-recuperar-exemplo-real)
 
 ### 1.2. Python
-1. [1.2.1. Sintaxe Básica (tipos, coleções, operadores, controle)](#121-sintaxe-basica-tipos-colecoes-operadores-controle)
-2. [1.2.2. Recursos da Linguagem (comprehension, decorators, context manager)](#122-recursos-da-linguagem-comprehension-decorators-context-manager)
-3. [1.2.3. Pandas para Análise Exploratória](#123-pandas-para-analise-exploratoria)
+- [1.2.1. Sintaxe Básica (tipos, coleções, operadores, controle)](#121-sintaxe-basica-tipos-colecoes-operadores-controle)
+- [1.2.2. Recursos da Linguagem (comprehension, decorators, context manager)](#122-recursos-da-linguagem-comprehension-decorators-context-manager)
+- [1.2.3. Pandas para Análise Exploratória](#123-pandas-para-analise-exploratoria)
 
 ---
 
 ## 2. Conceitos e Ciclo de Vida
 
 ### 2.1. Ciclo de Vida da Análise de Dados
-1. [2.1.1. Etapas do Ciclo (6 etapas)](#211-etapas-do-ciclo-6-etapas)
-2. [2.1.2. Detalhamento das Etapas](#212-detalhamento-das-etapas)
+- [2.1.1. Etapas do Ciclo (6 etapas)](#211-etapas-do-ciclo-6-etapas)
+- [2.1.2. Detalhamento das Etapas](#212-detalhamento-das-etapas)
 
 ### 2.2. Arquitetura ELT
-1. [2.2.1. Visão Geral do Processo](#221-visao-geral-do-processo)
-2. [2.2.2. Componentes Principais (fontes, EL, transformação, camadas, visualização)](#222-componentes-principais-fontes-el-transformacao-camadas-visualizacao)
+- [2.2.1. Visão Geral do Processo](#221-visao-geral-do-processo)
+- [2.2.2. Componentes Principais (fontes, EL, transformação, camadas, visualização)](#222-componentes-principais-fontes-el-transformacao-camadas-visualizacao)
 
 ---
 
 ## 3. Ambiente e Ferramentas
 
 ### 3.1. WSL/Linux
-1. [3.1.1. Navegação](#311-navegacao)
-2. [3.1.2. Gerenciamento de Arquivos](#312-gerenciamento-de-arquivos)
-3. [3.1.3. Gerenciamento de Pacotes](#313-gerenciamento-de-pacotes)
+- [3.1.1. Navegação](#311-navegacao)
+- [3.1.2. Gerenciamento de Arquivos](#312-gerenciamento-de-arquivos)
+- [3.1.3. Gerenciamento de Pacotes](#313-gerenciamento-de-pacotes)
 
 ### 3.2. Python (Ambiente)
-1. [3.2.1. Criar e Ativar Ambiente Virtual](#321-criar-e-ativar-ambiente-virtual)
-2. [3.2.2. Gerenciar Dependências](#322-gerenciar-dependencias)
+- [3.2.1. Criar e Ativar Ambiente Virtual](#321-criar-e-ativar-ambiente-virtual)
+- [3.2.2. Gerenciar Dependências](#322-gerenciar-dependencias)
 
 ### 3.3. VS Code
-1. [3.3.1. Extensões Recomendadas](#331-extensoes-recomendadas)
-2. [3.3.2. Atalhos Principais](#332-atalhos-principais)
+- [3.3.1. Extensões Recomendadas](#331-extensoes-recomendadas)
+- [3.3.2. Atalhos Principais](#332-atalhos-principais)
 
 ### 3.4. Git
-1. [3.4.1. Comandos Básicos](#341-comandos-basicos)
-2. [3.4.2. Desfazer Alterações](#342-desfazer-alteracoes)
-3. [3.4.3. Resolução de Conflitos](#343-resolucao-de-conflitos)
-4. [3.4.4. Boas Práticas](#344-boas-praticas)
+- [3.4.1. Comandos Básicos](#341-comandos-basicos)
+- [3.4.2. Desfazer Alterações](#342-desfazer-alteracoes)
+- [3.4.3. Resolução de Conflitos](#343-resolucao-de-conflitos)
+- [3.4.4. Boas Práticas](#344-boas-praticas)
 
 ### 3.5. Fluxo de Desenvolvimento
-1. [3.5.1. Git → dbt → GitHub (passo a passo)](#351-git-dbt-github-passo-a-passo)
+- [3.5.1. Git → dbt → GitHub (passo a passo)](#351-git-dbt-github-passo-a-passo)
 
 ---
 
 ## 4. Stack de Dados
 
 ### 4.1. AWS
-1. [4.1.1. Visão Geral](#411-visao-geral)
-2. [4.1.2. S3 (staging)](#412-s3-staging)
-3. [4.1.3. EC2 (Airflow)](#413-ec2-airflow)
-4. [4.1.4. Redshift (DW)](#414-redshift-dw)
+- [4.1.1. Visão Geral](#411-visao-geral)
+- [4.1.2. S3 (staging)](#412-s3-staging)
+- [4.1.3. EC2 (Airflow)](#413-ec2-airflow)
+- [4.1.4. Redshift (DW)](#414-redshift-dw)
 
 ### 4.2. dbt
-1. [4.2.1. Estrutura do Projeto](#421-estrutura-do-projeto)
-2. [4.2.2. Camadas de Dados](#422-camadas-de-dados)
-3. [4.2.3. Materializações](#423-materializacoes)
-4. [4.2.4. Sources e Refs](#424-sources-e-refs)
-5. [4.2.5. Testes](#425-testes)
-6. [4.2.6. Jinja Básico](#426-jinja-basico)
-7. [4.2.7. Comandos dbt](#427-comandos-dbt)
+- [4.2.1. Estrutura do Projeto](#421-estrutura-do-projeto)
+- [4.2.2. Camadas de Dados](#422-camadas-de-dados)
+- [4.2.3. Materializações](#423-materializacoes)
+- [4.2.4. Sources e Refs](#424-sources-e-refs)
+- [4.2.5. Testes](#425-testes)
+- [4.2.6. Jinja Básico](#426-jinja-basico)
+- [4.2.7. Comandos dbt](#427-comandos-dbt)
 
 ### 4.3. Airflow
-1. [4.3.1. Conceitos Essenciais](#431-conceitos-essenciais)
-2. [4.3.2. Operadores](#432-operadores)
-3. [4.3.3. Anatomia de uma DAG](#433-anatomia-de-uma-dag)
-4. [4.3.4. Hooks e Conexões](#434-hooks-e-conexoes)
-5. [4.3.5. Recursos Intermediários](#435-recursos-intermediarios)
-6. [4.3.6. Airflow na Barra Mansa](#436-airflow-na-barra-mansa)
-7. [4.3.7. Como Adicionar Nova Tabela](#437-como-adicionar-nova-tabela)
-8. [4.3.8. Operação](#438-operacao)
+- [4.3.1. Conceitos Essenciais](#431-conceitos-essenciais)
+- [4.3.2. Operadores](#432-operadores)
+- [4.3.3. Anatomia de uma DAG](#433-anatomia-de-uma-dag)
+- [4.3.4. Hooks e Conexões](#434-hooks-e-conexoes)
+- [4.3.5. Recursos Intermediários](#435-recursos-intermediarios)
+- [4.3.6. Airflow na Barra Mansa](#436-airflow-na-barra-mansa)
+- [4.3.7. Como Adicionar Nova Tabela](#437-como-adicionar-nova-tabela)
+- [4.3.8. Operação](#438-operacao)
 
 ### 4.4. Power BI
-1. [4.4.1. Conexão com Fontes](#441-conexao-com-fontes)
-2. [4.4.2. Modelagem de Dados](#442-modelagem-de-dados)
-3. [4.4.3. DAX Intermediário](#443-dax-intermediario)
-4. [4.4.4. Design de Layouts](#444-design-de-layouts)
-5. [4.4.5. Criação de Visuais](#445-criacao-de-visuais)
-6. [4.4.6. Interatividade](#446-interatividade)
-7. [4.4.7. Boas Práticas](#447-boas-praticas)
-8. [4.4.8. Exemplos Contextualizados](#448-exemplos-contextualizados)
+- [4.4.1. Conexão com Fontes](#441-conexao-com-fontes)
+- [4.4.2. Modelagem de Dados](#442-modelagem-de-dados)
+- [4.4.3. DAX Intermediário](#443-dax-intermediario)
+- [4.4.4. Design de Layouts](#444-design-de-layouts)
+- [4.4.5. Criação de Visuais](#445-criacao-de-visuais)
+- [4.4.6. Interatividade](#446-interatividade)
+- [4.4.7. Boas Práticas](#447-boas-praticas)
+- [4.4.8. Exemplos Contextualizados](#448-exemplos-contextualizados)
 
 ---
 
 ## 5. Qualidade e Validação
 
 ### 5.1. Validação Cruzada
-1. [5.1.1. Importância](#511-importancia)
-2. [5.1.2. Princípios](#512-principios)
-3. [5.1.3. Recomendação](#513-recomendacao)
+- [5.1.1. Importância](#511-importancia)
+- [5.1.2. Princípios](#512-principios)
+- [5.1.3. Recomendação](#513-recomendacao)
 
 ---
 
 ## 6. Prática
 
 ### 6.1. Exercícios SQL Analíticos
-1. [6.1.1. Básico (SELECT + WHERE)](#611-basico-select-where)
-2. [6.1.2. JOINs](#612-joins)
-3. [6.1.3. Agregações](#613-agregacoes)
-4. [6.1.4. CTEs](#614-ctes)
-5. [6.1.5. Window Functions](#615-window-functions)
-6. [6.1.6. UNION + Subconsultas + DML](#616-union-subconsultas-dml)
+- [6.1.1. Básico (SELECT + WHERE)](#611-basico-select-where)
+- [6.1.2. JOINs](#612-joins)
+- [6.1.3. Agregações](#613-agregacoes)
+- [6.1.4. CTEs](#614-ctes)
+- [6.1.5. Window Functions](#615-window-functions)
+- [6.1.6. UNION + Subconsultas + DML](#616-union-subconsultas-dml)
 
 ### 6.2. Exercícios Python para Análise de Dados
-1. [6.2.1. Sintaxe Básica](#621-sintaxe-basica)
-2. [6.2.2. Recursos da Linguagem](#622-recursos-da-linguagem)
-3. [6.2.3. Pandas para Análise Exploratória](#623-pandas-para-analise-exploratoria)
+- [6.2.1. Sintaxe Básica](#621-sintaxe-basica)
+- [6.2.2. Recursos da Linguagem](#622-recursos-da-linguagem)
+- [6.2.3. Pandas para Análise Exploratória](#623-pandas-para-analise-exploratoria)
 
 ### 6.3. Exercícios DAX
-1. [6.3.1. Medidas Básicas com Filtros](#631-medidas-basicas-com-filtros)
-2. [6.3.2. Comparações Temporais](#632-comparacoes-temporais)
-3. [6.3.3. Totalizadores e Contextos](#633-totalizadores-e-contextos)
-4. [6.3.4. Indicadores e Lógica Condicional](#634-indicadores-e-logica-condicional)
-5. [6.3.5. Lógica Avançada e Iteração](#635-logica-avancada-e-iteracao)
+- [6.3.1. Medidas Básicas com Filtros](#631-medidas-basicas-com-filtros)
+- [6.3.2. Comparações Temporais](#632-comparacoes-temporais)
+- [6.3.3. Totalizadores e Contextos](#633-totalizadores-e-contextos)
+- [6.3.4. Indicadores e Lógica Condicional](#634-indicadores-e-logica-condicional)
+- [6.3.5. Lógica Avançada e Iteração](#635-logica-avancada-e-iteracao)
 
 ### 6.4. Exercícios Linguagem M (Power Query)
-1. [6.4.1. Transformações Básicas](#641-transformacoes-basicas)
-2. [6.4.2. Transformações Intermediárias](#642-transformacoes-intermediarias)
+- [6.4.1. Transformações Básicas](#641-transformacoes-basicas)
+- [6.4.2. Transformações Intermediárias](#642-transformacoes-intermediarias)
+- [6.4.3. Análise de Pipeline Completo](#643-analise-de-pipeline-completo)
 
 ---
 
