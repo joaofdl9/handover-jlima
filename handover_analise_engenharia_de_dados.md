@@ -54,7 +54,7 @@
 - [3.4.4. Boas Praticas](#344-boas-praticas)
 
 ### 3.5. Fluxo de Desenvolvimento
-- [3.5.1. Git → dbt → GitHub (passo a passo)](#351-git-dbt-github-passo-a-passo)
+- [3.5.1. Git → dbt → GitHub (passo a passo)](#351-git--dbt--github-passo-a-passo)
 
 ---
 
