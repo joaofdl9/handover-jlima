@@ -988,7 +988,7 @@ caminho = os.path.join("pasta", "arquivo.txt")
 ---
 
 
-### . Recursos da Linguagem (comprehension, decorators, context manager)
+### 1.2.2. Recursos da Linguagem (comprehension, decorators, context manager)
 
 
 > Os topicos a seguir aparecem frequentemente em codigo de DAGs e scripts de extracao.
