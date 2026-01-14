@@ -740,7 +740,7 @@ Visao consolidada dos movimentos de COFINS a Recuperar com valores, descricoes d
 
 Guia rapido com a base minima da linguagem.
 
-### 1.2.1. Sintaxe Basica (tipos, colecoes, operadores, controle) {#121-sintaxe-basica-tipos-colecoes-operadores-controle}
+### 1.2.1. Sintaxe Basica (tipos, colecoes, operadores, controle)
 
 
 #### Tipos de Dados
@@ -988,7 +988,7 @@ caminho = os.path.join("pasta", "arquivo.txt")
 ---
 
 
-### 1.2.2. Recursos da Linguagem (comprehension, decorators, context manager) {#122-recursos-da-linguagem-comprehension-decorators-context-manager}
+### . Recursos da Linguagem (comprehension, decorators, context manager)
 
 
 > Os topicos a seguir aparecem frequentemente em codigo de DAGs e scripts de extracao.
@@ -1114,7 +1114,7 @@ for chave, valor in config.items():
 ---
 
 
-### 1.2.3. Pandas para Analise Exploratoria {#123-pandas-para-analise-exploratoria}
+### 1.2.3. Pandas para Analise Exploratoria
 
 
 > Biblioteca para analise e manipulacao de dados tabulares.
@@ -1244,7 +1244,7 @@ Explicacao: List comprehension que filtra apenas os dicionarios onde `ativo` é 
 
 Framework conceitual para o processo de analise de dados - Pipeline Auditavel End-to-End.
 
-### 2.1.1. Etapas do Ciclo (6 etapas) {#211-etapas-do-ciclo-6-etapas}
+### 2.1.1. Etapas do Ciclo (6 etapas)
 
 
 ```
@@ -1264,7 +1264,7 @@ Framework conceitual para o processo de analise de dados - Pipeline Auditavel En
 ```
 
 
-### 2.1.2. Detalhamento das Etapas {#212-detalhamento-das-etapas}
+### 2.1.2. Detalhamento das Etapas
 
 
 | Etapa | Descricao | Ferramentas/Atividades |
@@ -1282,7 +1282,7 @@ Framework conceitual para o processo de analise de dados - Pipeline Auditavel En
 
 Documentacao da arquitetura de dados implementada na Barra Mansa Alimentos.
 
-### 2.2.1. Visao Geral do Processo {#221-visao-geral-do-processo}
+### 2.2.1. Visao Geral do Processo
 
 
 O pipeline de dados esta estruturado para processar informacoes dos sistemas corporativos e industriais (ERP Sapiens e Sistema AIS) até a disponibilizacao em dashboards no Power BI Service.
@@ -1463,7 +1463,7 @@ git merge --abort                  # Cancela merge em andamento
 
 *Para conflitos detalhados, edite os arquivos manualmente e faca commit apos resolver.*
 
-### 3.4.4. Boas Praticas {#344-boas-praticas}
+### 3.4.4. Boas Praticas
 
 
 ### 1️⃣ Atualizar branch principal
@@ -1674,7 +1674,7 @@ Visao geral dos servicos AWS utilizados no pipeline de dados.
                      ┌──────┴──────┐
                      │     EC2     │
 
-### 4.2.2. Camadas de Dados {#422-camadas-de-dados}
+### 4.2.2. Camadas de Dados
 
                      └─────────────┘
 ```
@@ -2146,7 +2146,7 @@ Orquestrador de pipelines de dados.
 ---
 
 
-### 4.3.2. Operadores {#432-operadores}
+### 4.3.2. Operadores
 
 
 Operador define **o que** a task faz.
@@ -2728,7 +2728,7 @@ Categoria = RELATED(dim_produto[categoria])
 ```dax
 // Tabela com total por categoria
 
-### 4.4.4. Design de Layouts {#444-design-de-layouts}
+### 4.4.4. Design de Layouts
 
 SUMMARIZE(
     fato_vendas,
@@ -2832,7 +2832,7 @@ DIVIDE(
 **Matriz:** Linhas e colunas com agregacao.
 - Permite drill-down (expandir/recolher)
 
-### 4.4.7. Boas Praticas {#447-boas-praticas}
+### 4.4.7. Boas Praticas
 
 
 ---
@@ -2872,7 +2872,7 @@ Navegar em hierarquias (ex: Ano → Mês → Dia).
 
 - ✅ Fundo neutro (cinza claro, branco)
 
-### 4.4.8. Exemplos Contextualizados {#448-exemplos-contextualizados}
+### 4.4.8. Exemplos Contextualizados
 
 - ✅ KPIs no topo
 - ✅ Filtros a esquerda ou topo
@@ -3043,17 +3043,17 @@ Visao rapida e clara do desempenho comercial, identificacao de tendências e pad
 
 ## 5.1. Validacao Cruzada
 
-### 5.1.1. Importancia {#511-importancia}
+### 5.1.1. Importancia
 
 A validacao cruzada é essencial para garantir a integridade e confiabilidade dos dados transformados.
 
-### 5.1.2. Principios {#512-principios}
+### 5.1.2. Principios
 
 - Comparar totais entre origem e destino
 - Validar cardinalidades e relacionamentos
 - Verificar consistência de agregacoes
 
-### 5.1.3. Recomendacao {#513-recomendacao}
+### 5.1.3. Recomendacao
 
 Realizar validacao tripla: Origem (SQL Server) → Transformacao (dbt) → Destino (Redshift/Power BI)
 
@@ -5142,7 +5142,7 @@ print("="*60)
 
 ---
 
-## 6.3. Exercicios DAX {#63-exercicios-dax}
+## 6.3. Exercicios DAX
 
 ---
 
@@ -5476,7 +5476,7 @@ CALCULATE(
 
 ---
 
-### 6.3.4. Bloco 4: Indicadores e Logica Condicional {#634-bloco-4-indicadores-e-logica-condicional}
+### 6.3.4. Bloco 4: Indicadores e Logica Condicional
 
 #### Exercicio 3.9 - Indicador de Meta 🟡
 **Contexto:** No dashboard de orcamento, queremos indicar se estamos dentro da meta (±10%).  
@@ -5589,7 +5589,7 @@ RETURN
 
 ---
 
-### 6.3.5. Bloco 5: Logica Avancada e Iteracao {#635-bloco-5-logica-avancada-e-iteracao}
+### 6.3.5. Bloco 5: Logica Avancada e Iteracao
 
 #### Exercicio 3.11 - Consistência Mensal (Meses Dentro da Meta) 🔴
 **Contexto:** No dashboard de orcamento TI, queremos saber quantos % dos meses ficaram dentro da meta.  
@@ -5682,11 +5682,11 @@ RETURN
 
 ---
 
-## 6.4. Exercicios Linguagem M (Power Query) {#64-exercicios-linguagem-m-power-query}
+## 6.4. Exercicios Linguagem M (Power Query)
 
 ---
 
-### 6.4.1. Bloco 1: Transformacoes Basicas {#641-bloco-1-transformacoes-basicas}
+### 6.4.1. Bloco 1: Transformacoes Basicas
 
 #### Exercicio 4.1 - Unpivot de Colunas Mensais 🟢
 **Contexto:** Dados de orcamento chegam com uma coluna para cada mês (jan, fev, mar...).  
@@ -5820,7 +5820,7 @@ Trim:     "UNIFORME"
 
 ---
 
-### 6.4.2. Bloco 2: Transformacoes Intermediarias {#642-bloco-2-transformacoes-intermediarias}
+### 6.4.2. Bloco 2: Transformacoes Intermediarias
 
 #### Exercicio 4.3 - Split de Coluna por Delimitador 🟡
 **Contexto:** Coluna com dados compostos "orc_jan_2025" precisa ser separada.  
@@ -5968,7 +5968,7 @@ EPI       | 500  | 480
 
 ---
 
-### 6.4.3. Bloco 3: Analise de Pipeline Completo {#643-bloco-3-analise-de-pipeline-completo}
+### 6.4.3. Bloco 3: Analise de Pipeline Completo
 
 #### Exercicio 4.5 - Pipeline de Transformacao Completo 🔴
 **Contexto:** Analisar codigo M real do orcamento de laboratorio com múltiplas transformacoes encadeadas.  
