@@ -109,12 +109,12 @@
 ## 6. Pratica
 
 ### 6.1. Exercicios SQL Analiticos
-- [6.1.1. Basico (SELECT + WHERE)](#611-basico-select-where)
+- [6.1.1. Basico (SELECT + WHERE)](#611-basico-select--where)
 - [6.1.2. JOINs](#612-joins)
 - [6.1.3. Agregacoes](#613-agregacoes)
 - [6.1.4. CTEs](#614-ctes)
 - [6.1.5. Window Functions](#615-window-functions)
-- [6.1.6. UNION + Subconsultas + DML](#616-union-subconsultas-dml)
+- [6.1.6. UNION + Subconsultas + DML](#616-union--subconsultas--dml)
 
 ### 6.2. Exercicios Python para Analise de Dados
 - [6.2.1. Sintaxe Basica](#621-sintaxe-basica)
