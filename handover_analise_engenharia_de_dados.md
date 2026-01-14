@@ -1302,7 +1302,7 @@ O pipeline de dados está estruturado para processar informações dos sistemas 
 ```
 
 
-### 2.2.2. Componentes Principais (fontes, EL, transformação, camadas, visualização) {#222-componentes-principais-fontes-el-transformação-camadas-visualização}
+### 2.2.2. Componentes Principais (fontes, EL, transformação, camadas, visualização)
 
 
 #### Fontes de Dados
@@ -1340,7 +1340,7 @@ O pipeline de dados está estruturado para processar informações dos sistemas 
 
 ## 3.1. WSL/Linux
 
-### 3.1.1. Navegação {#311-navegação}
+### 3.1.1. Navegação
 
 ```bash
 pwd                 # Mostra diretório atual
@@ -1351,7 +1351,7 @@ cd ..               # Volta um nível
 cd ~                # Vai para home
 ```
 
-### 3.1.2. Gerenciamento de Arquivos {#312-gerenciamento-de-arquivos}
+### 3.1.2. Gerenciamento de Arquivos
 
 ```bash
 mkdir pasta         # Cria pasta
@@ -1363,7 +1363,7 @@ rm -rf pasta        # Remove pasta e conteúdo
 ```
 
 
-### 3.1.3. Gerenciamento de Pacotes {#313-gerenciamento-de-pacotes}
+### 3.1.3. Gerenciamento de Pacotes
 
 ```bash
 sudo apt update             # Atualiza lista de pacotes
@@ -1375,7 +1375,7 @@ sudo apt remove pacote      # Remove pacote
 
 ## 3.2. Python (Ambiente)
 
-### 3.2.1. Criar e Ativar Ambiente Virtual {#321-criar-e-ativar-ambiente-virtual}
+### 3.2.1. Criar e Ativar Ambiente Virtual
 
 ```bash
 python -m venv nome_env     # Cria ambiente
@@ -1383,7 +1383,7 @@ source nome_env/bin/activate    # Ativa (Linux/WSL)
 ```
 
 
-### 3.2.2. Gerenciar Dependências {#322-gerenciar-dependências}
+### 3.2.2. Gerenciar Dependências
 
 ```bash
 pip install pacote          # Instala pacote
@@ -1400,7 +1400,7 @@ deactivate                  # Sai do ambiente virtual
 
 ## 3.3. VS Code
 
-### 3.3.1. Extensões Recomendadas {#331-extensões-recomendadas}
+### 3.3.1. Extensões Recomendadas
 
 | Extensão | Uso |
 |----------|-----|
@@ -1411,7 +1411,7 @@ deactivate                  # Sai do ambiente virtual
 | Remote - WSL | Desenvolvimento no WSL |
 
 
-### 3.3.2. Atalhos Principais {#332-atalhos-principais}
+### 3.3.2. Atalhos Principais
 
 | Atalho | Ação |
 |--------|------|
@@ -1427,7 +1427,7 @@ deactivate                  # Sai do ambiente virtual
 
 ## 3.4. Git
 
-### 3.4.1. Comandos Básicos {#341-comandos-básicos}
+### 3.4.1. Comandos Básicos
 
 | Comando | Descrição |
 |---------|-----------|
@@ -1441,7 +1441,7 @@ deactivate                  # Sai do ambiente virtual
 | `git push` | Envia para o GitHub |
 
 
-### 3.4.2. Desfazer Alterações {#342-desfazer-alterações}
+### 3.4.2. Desfazer Alterações
 
 ```bash
 git restore arquivo.sql            # Descarta alterações não staged
@@ -1455,7 +1455,7 @@ git merge --abort                  # Cancela merge em andamento
 ```
 
 
-### 3.4.3. Resolução de Conflitos {#343-resolução-de-conflitos}
+### 3.4.3. Resolução de Conflitos
 
 ```bash
 git merge --abort                  # Cancela merge em andamento
@@ -1511,7 +1511,7 @@ git status                         # Identifica arquivos em conflito
 
 ## 3.5 Fluxo de Desenvolvimento
 
-### 3.5.1. Git → dbt → GitHub (passo a passo) {#351-git--dbt--github-passo-a-passo}
+### 3.5.1. Git → dbt → GitHub (passo a passo)
 
 Abrir arquivo e resolver:
 ```
@@ -1896,7 +1896,7 @@ dbt_bm/
 
 ---
 
-### 4.2.3. Materializações {#423-materializações}
+### 4.2.3. Materializações
 
 Define como o modelo é persistido no banco.
 
@@ -1926,7 +1926,7 @@ models:
 
 ---
 
-### 4.2.4. Sources e Refs {#424-sources-e-refs}
+### 4.2.4. Sources e Refs
 
 #### source() - Referencia tabelas externas (Raw)
 ```sql
@@ -1965,7 +1965,7 @@ sources:
 
 ---
 
-### 4.2.5. Testes {#425-testes}
+### 4.2.5. Testes
 
 Validam qualidade dos dados. Rodam com `dbt test`.
 
@@ -1999,7 +1999,7 @@ models:
 
 ---
 
-### 4.2.6. Jinja Básico {#426-jinja-básico}
+### 4.2.6. Jinja Básico
 
 dbt usa Jinja para SQL dinâmico.
 
@@ -2070,7 +2070,7 @@ dbt docs serve       # Abre no navegador
 
 ---
 
-### 4.2.7. Comandos dbt {#427-comandos-dbt}
+### 4.2.7. Comandos dbt
 
 
 #### Execução
@@ -2112,7 +2112,7 @@ dbt docs serve                     # Abre documentação no navegador
 
 Orquestrador de pipelines de dados.
 
-### 4.3.1. Conceitos Essenciais {#431-conceitos-essenciais}
+### 4.3.1. Conceitos Essenciais
 
 
 **Airflow** agenda, executa e monitora pipelines de dados.
@@ -2172,7 +2172,7 @@ PythonOperator(task_id="extrair", python_callable=extrair_func)
 
 ---
 
-### 4.3.3. Anatomia de uma DAG {#433-anatomia-de-uma-dag}
+### 4.3.3. Anatomia de uma DAG
 
 ```python
 from airflow import DAG
@@ -2202,7 +2202,7 @@ with DAG(
 
 ---
 
-### 4.3.4. Hooks e Conexões {#434-hooks-e-conexões}
+### 4.3.4. Hooks e Conexões
 
 **Hook** = conector para sistemas externos.
 
@@ -2222,7 +2222,7 @@ hook.run("TRUNCATE TABLE destino")
 
 ---
 
-### 4.3.5. Recursos Intermediários {#435-recursos-intermediários}
+### 4.3.5. Recursos Intermediários
 
 ####  Context e Params
 
@@ -2343,7 +2343,7 @@ for _, row in df.iterrows():
 ---
 
 
-### 4.3.6. Airflow na Barra Mansa {#436-airflow-na-barra-mansa}
+### 4.3.6. Airflow na Barra Mansa
 
 
 #### Visão Geral
@@ -2386,7 +2386,7 @@ SQL Server  ──►  S3  ──►  Redshift
 - Evita duplicação
 
 
-### 4.3.7. Como Adicionar Nova Tabela {#437-como-adicionar-nova-tabela}
+### 4.3.7. Como Adicionar Nova Tabela
 
 
 ### DAGs Principais
@@ -2507,7 +2507,7 @@ Próximas execuções: incremental automático.
 
 ---
 
-### 4.3.8. Operação {#438-operação}
+### 4.3.8. Operação
 
 #### Cenário 3: Tabela NRT (transacional + transformação)
 
@@ -2584,7 +2584,7 @@ Conectar  ──►  Modelar  ──►  Visualizar  ──►  Publicar
 
 ---
 
-### 4.4.1. Conexão com Fontes {#441-conexão-com-fontes}
+### 4.4.1. Conexão com Fontes
 
 #### Redshift (conector nativo)
 1. Obter Dados → Banco de Dados → Amazon Redshift
@@ -2597,7 +2597,7 @@ Conectar  ──►  Modelar  ──►  Visualizar  ──►  Publicar
 2. Selecionar arquivo
 3. Escolher planilha/tabela
 
-### 4.4.2. Modelagem de Dados {#442-modelagem-de-dados}
+### 4.4.2. Modelagem de Dados
 
 #### Google Sheets
 1. Obter Dados → Mais → Google Sheets
@@ -2641,7 +2641,7 @@ Modelo ideal para análise: tabela **Fato** no centro, **Dimensões** ao redor.
 | **Dimensão** | Atributos descritivos | produto, cliente, data |
 
 
-### 4.4.3. DAX Intermediário {#443-dax-intermediário}
+### 4.4.3. DAX Intermediário
 
 
 **Criar:** Arrastar campo de uma tabela para outra.
@@ -2764,7 +2764,7 @@ DATATABLE(
 
 #### Exemplo: % Realizado vs Orçado
 
-### 4.4.5. Criação de Visuais {#445-criação-de-visuais}
+### 4.4.5. Criação de Visuais
 
 ```dax
 // Medidas
@@ -2799,7 +2799,7 @@ DIVIDE(
 2. Imagem → Selecionar arquivo
 3. Ajustar transparência se necessário
 
-### 4.4.6. Interatividade {#446-interatividade}
+### 4.4.6. Interatividade
 
 #### Princípios de Design
 
@@ -4090,7 +4090,7 @@ ORDER BY ano, mes
 
 ---
 
-#### 6.2.1. Bloco 1: Sintaxe Básica {#621-bloco-1-sintaxe-basica}
+#### 6.2.1. Bloco 1: Sintaxe Básica
 
 ##### Exercício 1.1 - Configurações de DAG 🟢
 **Contexto:** Toda DAG do Airflow precisa de configurações básicas.  
@@ -4400,7 +4400,7 @@ for schema, count in contador_schema.items():
 
 ---
 
-#### 6.2.2. Bloco 2: Recursos da Linguagem {#622-bloco-2-recursos-da-linguagem}
+#### 6.2.2. Bloco 2: Recursos da Linguagem
 
 ##### Exercício 2.1 - List Comprehension para Task IDs 🟢
 **Contexto:** Gerar listas de forma concisa é essencial em Python.  
@@ -4767,7 +4767,7 @@ print("="*50)
 
 ---
 
-#### 6.2.3. Bloco 3: Pandas para Análise Exploratória {#623-bloco-3-pandas-para-analise-exploratoria}
+#### 6.2.3. Bloco 3: Pandas para Análise Exploratória
 
 ##### Exercício 3.1 - Lendo CSV de Configuração 🟢
 **Contexto:** Arquivos CSV frequentemente armazenam configurações de pipelines.  
@@ -5146,7 +5146,7 @@ print("="*60)
 
 ---
 
-### 6.3.1. Bloco 1: Medidas Básicas com Filtros {#631-bloco-1-medidas-basicas-com-filtros}
+### 6.3.1. Bloco 1: Medidas Básicas com Filtros
 
 #### Exercício 3.1 - Contagem com Filtro Simples 🟢
 **Contexto:** No dashboard de contas a receber, precisamos contar títulos por status.  
@@ -5265,7 +5265,7 @@ CALCULATE(
 
 ---
 
-### 6.3.2. Bloco 2: Comparações Temporais {#632-bloco-2-comparacoes-temporais}
+### 6.3.2. Bloco 2: Comparações Temporais
 
 #### Exercício 3.4 - Mês Anterior 🟡
 **Contexto:** No dashboard de orçamento TI, comparamos realizado atual vs mês anterior.  
@@ -5354,7 +5354,8 @@ CALCULATE(
 <details>
 <summary>📝 Ver Solução</summary>
 
-``dax
+```dax
+
 // Variação absoluta
 variacao_absoluta = [total] - [total_semana_anterior]
 
@@ -5372,6 +5373,7 @@ FORMAT(
     [variacao_percentual],
     "0.0%"
 )
+
 ```
 
 **Conceitos aplicados:**
@@ -5383,7 +5385,7 @@ FORMAT(
 
 ---
 
-### 6.3.3. Bloco 3: Totalizadores e Contextos {#633-bloco-3-totalizadores-e-contextos}
+### 6.3.3. Bloco 3: Totalizadores e Contextos
 
 #### Exercício 3.7 - Total Geral (Ignorar Filtros) 🟡
 **Contexto:** No dashboard de estoque, queremos calcular % sobre o total ignorando filtros visuais.  
@@ -5401,6 +5403,7 @@ FORMAT(
 <summary>📝 Ver Solução</summary>
 
 ```dax
+
 // Total normal (respeita filtros)
 total = SUM(fat_gasto_estoque[vlrmov])
 
@@ -5444,6 +5447,7 @@ DIVIDE(
 <summary>📝 Ver Solução</summary>
 
 ```dax
+
 // Total por categoria (mantém filtros de período/filial)
 total_categoria = 
 CALCULATE(
@@ -5490,6 +5494,7 @@ CALCULATE(
 <summary>📝 Ver Solução</summary>
 
 ```dax
+
 // Base: orçado e realizado
 Orcado = SUM(orcamento_taina[valor_orcado])
 Realizado = SUM(orcamento_taina[valor_realizado])
@@ -5544,6 +5549,7 @@ IF(
 <summary>📝 Ver Solução</summary>
 
 ```dax
+
 // Cor baseada em variação semanal
 Cor_Indicador_Semanal = 
 VAR diferenca = [total] - [total_semana_anterior]
@@ -5603,6 +5609,7 @@ RETURN
 <summary>📝 Ver Solução</summary>
 
 ```dax
+
 Consistencia Mensal = 
 VAR TabelaMensal = 
     SUMMARIZE(
@@ -5648,6 +5655,7 @@ RETURN
 <summary>📝 Ver Solução</summary>
 
 ```dax
+
 % Ano Decorrido = 
 VAR DataSelecionada = MAX(dim_calendario[data])
 VAR AnoSelecionado = YEAR(DataSelecionada)
@@ -5752,6 +5760,7 @@ UNIFORME  | fev_orc   | 1100
 **Código fornecido:**
 
 ```m
+
 let
     Fonte = Excel.Workbook(...),
     #"Texto em Maiúscula" = Table.TransformColumns(
@@ -5820,6 +5829,7 @@ Trim:     "UNIFORME"
 **Código fornecido:**
 
 ```m
+
 let
     Fonte = ...,
     #"Dividir Coluna por Delimitador" = Table.SplitColumn(
@@ -5895,6 +5905,7 @@ orc         | jan
 **Código fornecido:**
 
 ```m
+
 let
     Fonte = ...,
     #"Unpivot" = Table.UnpivotOtherColumns(Fonte, {"tipo"}, "Metrica", "Valor"),
@@ -5966,6 +5977,7 @@ EPI       | 500  | 480
 **Código fornecido (simplificado):**
 
 ```m
+
 let
     Fonte = AmazonRedshift.Database("servidor", "database"),
     dbt_marts = Fonte{[Name="dbt_marts"]}[Data],
