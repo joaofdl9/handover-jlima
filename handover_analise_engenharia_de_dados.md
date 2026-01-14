@@ -3088,7 +3088,7 @@ Contabil | Fiscal | Compras | Financeiro | Controladoria
 
 ---
 
-### Bloco 1: Basico (SELECT + WHERE) ⭐
+### 6.1.1. Basico (SELECT + WHERE)
 
 #### EX1: Consulta de Lancamentos Contabeis com Filtro por Conta Especifica
 
@@ -3245,7 +3245,7 @@ WHERE DatGer BETWEEN '20250101' AND '20250115'
 
 ---
 
-### Bloco 2: JOINs ⭐⭐
+### 6.1.2. JOINs
 
 #### EX6: Analise Completa de Compras com Dados de Fornecedores
 
@@ -3455,7 +3455,7 @@ ORDER BY nfc.DatEmi, ipc.NumNfc
 
 ---
 
-### Bloco 3: Agregacoes ⭐⭐
+### 6.1.3. Agregacoes
 
 #### EX11: Totalizacao de Compras por Fornecedor no Trimestre
 
@@ -3638,7 +3638,7 @@ ORDER BY valor_total_geral DESC
 
 ---
 
-### Bloco 4: CTEs ⭐⭐⭐
+### 6.1.4. CTEs
 
 #### EX16: CTE Basica - Totalizacao de Compras por Fornecedor com Filtro
 
@@ -3851,7 +3851,7 @@ ORDER BY ano, mes
 
 ---
 
-### Bloco 5: Window Functions ⭐⭐⭐
+### 6.1.5. Window Functions
 
 #### EX21: Window Function Basica - Numeracao Sequencial de Notas por Fornecedor
 
@@ -4034,7 +4034,7 @@ ORDER BY ano, mes
 
 ---
 
-### Bloco 6: Complementares (UNION, Subconsultas, DML) ⭐⭐⭐
+### 6.1.6. UNION + Subconsultas + DML
 
 #### EX26: UNION Basico - Listar Todos os Itens de Compra
 
@@ -4090,7 +4090,7 @@ ORDER BY ano, mes
 
 ---
 
-#### 6.2.1. Bloco 1: Sintaxe Basica
+#### 6.2.1. Sintaxe Basica
 
 ##### Exercicio 1.1 - Configuracoes de DAG 🟢
 **Contexto:** Toda DAG do Airflow precisa de configuracoes basicas.  
@@ -4400,7 +4400,7 @@ for schema, count in contador_schema.items():
 
 ---
 
-#### 6.2.2. Bloco 2: Recursos da Linguagem
+#### 6.2.2. Recursos da Linguagem
 
 ##### Exercicio 2.1 - List Comprehension para Task IDs 🟢
 **Contexto:** Gerar listas de forma concisa é essencial em Python.  
@@ -4767,7 +4767,7 @@ print("="*50)
 
 ---
 
-#### 6.2.3. Bloco 3: Pandas para Analise Exploratoria
+#### 6.2.3. Pandas para Analise Exploratoria
 
 ##### Exercicio 3.1 - Lendo CSV de Configuracao 🟢
 **Contexto:** Arquivos CSV frequentemente armazenam configuracoes de pipelines.  
@@ -5146,7 +5146,7 @@ print("="*60)
 
 ---
 
-### 6.3.1. Bloco 1: Medidas Basicas com Filtros
+### 6.3.1. Medidas Basicas com Filtros
 
 #### Exercicio 3.1 - Contagem com Filtro Simples 🟢
 **Contexto:** No dashboard de contas a receber, precisamos contar titulos por status.  
@@ -5265,7 +5265,7 @@ CALCULATE(
 
 ---
 
-### 6.3.2. Bloco 2: Comparacoes Temporais
+### 6.3.2. Comparacoes Temporais
 
 #### Exercicio 3.4 - Mês Anterior 🟡
 **Contexto:** No dashboard de orcamento TI, comparamos realizado atual vs mês anterior.  
@@ -5385,7 +5385,7 @@ FORMAT(
 
 ---
 
-### 6.3.3. Bloco 3: Totalizadores e Contextos
+### 6.3.3. Totalizadores e Contextos
 
 #### Exercicio 3.7 - Total Geral (Ignorar Filtros) 🟡
 **Contexto:** No dashboard de estoque, queremos calcular % sobre o total ignorando filtros visuais.  
@@ -5476,7 +5476,7 @@ CALCULATE(
 
 ---
 
-### 6.3.4. Bloco 4: Indicadores e Logica Condicional
+### 6.3.4. Indicadores e Logica Condicional
 
 #### Exercicio 3.9 - Indicador de Meta 🟡
 **Contexto:** No dashboard de orcamento, queremos indicar se estamos dentro da meta (±10%).  
@@ -5589,7 +5589,7 @@ RETURN
 
 ---
 
-### 6.3.5. Bloco 5: Logica Avancada e Iteracao
+### 6.3.5. Logica Avancada e Iteracao
 
 #### Exercicio 3.11 - Consistência Mensal (Meses Dentro da Meta) 🔴
 **Contexto:** No dashboard de orcamento TI, queremos saber quantos % dos meses ficaram dentro da meta.  
@@ -5686,7 +5686,7 @@ RETURN
 
 ---
 
-### 6.4.1. Bloco 1: Transformacoes Basicas
+### 6.4.1. Transformacoes Basicas
 
 #### Exercicio 4.1 - Unpivot de Colunas Mensais 🟢
 **Contexto:** Dados de orcamento chegam com uma coluna para cada mês (jan, fev, mar...).  
@@ -5820,7 +5820,7 @@ Trim:     "UNIFORME"
 
 ---
 
-### 6.4.2. Bloco 2: Transformacoes Intermediarias
+### 6.4.2. Transformacoes Intermediarias
 
 #### Exercicio 4.3 - Split de Coluna por Delimitador 🟡
 **Contexto:** Coluna com dados compostos "orc_jan_2025" precisa ser separada.  
@@ -5968,7 +5968,7 @@ EPI       | 500  | 480
 
 ---
 
-### 6.4.3. Bloco 3: Analise de Pipeline Completo
+### 6.4.3. Analise de Pipeline Completo
 
 #### Exercicio 4.5 - Pipeline de Transformacao Completo 🔴
 **Contexto:** Analisar codigo M real do orcamento de laboratorio com múltiplas transformacoes encadeadas.  
