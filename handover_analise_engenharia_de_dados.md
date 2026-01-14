@@ -495,109 +495,388 @@ ORDER BY nivel, ctared
 ---
 
 #### Window Functions - Calculos Analiticos
-
 Realizam calculos mantendo o detalhamento de cada linha (diferente do GROUP BY que agrupa).
 
-##### Sintaxe Basica
+##### O que sao e quando usar
+**Definicao:** Funcoes que calculam valores sobre um conjunto de linhas relacionadas, mantendo todas as linhas no resultado.
+
+**Diferenca do GROUP BY:**
+- **GROUP BY**: Agrupa linhas → Reduz registros
+- **Window Functions**: Calcula sobre grupos → Mantem todas as linhas
+
+**Quando usar:**
+- Rankings de produtos/vendas mantendo detalhes
+- Percentuais de participacao sobre totais
+- Comparacoes com medias ou totais
+- Calculos acumulados progressivos
+
+##### Estrutura Basica
 ```sql
-funcao_janela() OVER (
-    [PARTITION BY coluna]
-    [ORDER BY coluna]
-    [ROWS/RANGE BETWEEN ... AND ...]
+FUNCAO() OVER (
+    [PARTITION BY coluna]  -- Divide em grupos independentes
+    [ORDER BY coluna]      -- Define ordem de calculo
+    [ROWS BETWEEN...]      -- Define janela de linhas
 )
 ```
 
-##### Funcoes de Ranking
+##### Exemplo Base - Tabela E140IPV (Vendas)
 ```sql
-SELECT 
-    L.numlct,
-    L.datlct,
-    L.codfil,
-    L.vlrlct,
-    -- Numeracao sequencial única
-    ROW_NUMBER() OVER (ORDER BY L.vlrlct DESC) AS ranking_geral,
-    -- Ranking com empates (pula números)
-    RANK() OVER (ORDER BY L.vlrlct DESC) AS rank_com_pulo,
-    -- Ranking com empates (sem pular números)
-    DENSE_RANK() OVER (ORDER BY L.vlrlct DESC) AS rank_denso,
-    -- Ranking por filial
-    ROW_NUMBER() OVER (PARTITION BY L.codfil ORDER BY L.vlrlct DESC) AS ranking_filial
-FROM E640LCT L
-WHERE L.ctacre = '10530'
-  AND L.datlct BETWEEN DATEADD(DAY, -90, GETDATE()) AND GETDATE()
+-- Principais colunas
+NUMNFV  -- Numero da NF
+CODPRO  -- Codigo do produto
+CODFIL  -- Codigo da filial
+QTDFAT  -- Quantidade vendida
+VLRBRU  -- Valor da venda
 ```
 
-##### Funcoes de Agregacao com OVER
+##### OVER() - Abrindo a Janela
+**O que faz:** Abre a "janela" para realizar calculos sobre conjunto de linhas.
+```sql
+-- Total geral em cada linha
+SELECT 
+    CODPRO,
+    VLRBRU,
+    SUM(VLRBRU) OVER () AS total_geral,
+    VLRBRU * 100.0 / SUM(VLRBRU) OVER () AS perc_do_total
+FROM E140IPV
+```
+
+**Resultado:**
+```
+CODPRO | VLRBRU | total_geral | perc_do_total
+-------|--------|-------------|---------------
+A001   | 50000  | 250000      | 20.00%
+A002   | 30000  | 250000      | 12.00%
+A003   | 45000  | 250000      | 18.00%
+```
+- Cada linha mantem seus dados originais
+- Total geral calculado e repetido em todas as linhas
+- Permite calcular percentuais sem subqueries
+
+##### ORDER BY - Definindo Ordem de Calculo
+**O que faz:** Define ordem de processamento das linhas. **IMPORTANTE:** Afeta o calculo, nao a exibicao final.
+```sql
+-- Ranking simples de vendas
+SELECT 
+    CODPRO,
+    VLRBRU,
+    ROW_NUMBER() OVER (ORDER BY VLRBRU DESC) AS ranking
+FROM E140IPV
+```
+
+**Resultado:**
+```
+CODPRO | VLRBRU | ranking
+-------|--------|--------
+A001   | 50000  | 1      ← Maior venda
+A003   | 45000  | 2
+A004   | 40000  | 3
+A002   | 30000  | 4      ← Menor venda
+```
+
+**Impacto em agregacoes:**
 ```sql
 SELECT 
-    L.numlct,
-    L.datlct,
-    L.codfil,
-    L.vlrlct,
-    -- Soma acumulada ordenada por data
-    SUM(L.vlrlct) OVER (ORDER BY L.datlct) AS soma_acumulada_geral,
-    -- Soma acumulada por filial
-    SUM(L.vlrlct) OVER (PARTITION BY L.codfil ORDER BY L.datlct) AS soma_acumulada_filial,
-    -- Média movel dos últimos 3 lancamentos
-    AVG(L.vlrlct) OVER (ORDER BY L.datlct ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS media_movel_3,
+    CODPRO,
+    VLRBRU,
+    -- Sem ORDER BY: total de tudo
+    SUM(VLRBRU) OVER () AS total_geral,
+    -- Com ORDER BY: soma acumulada
+    SUM(VLRBRU) OVER (ORDER BY NUMNFV) AS soma_acumulada
+FROM E140IPV
+```
+
+**Resultado:**
+```
+CODPRO | VLRBRU | total_geral | soma_acumulada
+-------|--------|-------------|----------------
+A001   | 50000  | 250000      | 50000    ← Primeira
+A002   | 30000  | 250000      | 80000    ← 50k + 30k
+A003   | 45000  | 250000      | 125000   ← 80k + 45k
+A004   | 40000  | 250000      | 165000   ← Acumulando...
+```
+
+##### PARTITION BY - Dividindo em Grupos
+**O que faz:** Cria grupos independentes onde os calculos reiniciam.
+```sql
+-- Ranking geral vs ranking por filial
+SELECT 
+    CODFIL,
+    CODPRO,
+    VLRBRU,
+    -- Ranking GERAL (todas as filiais)
+    ROW_NUMBER() OVER (ORDER BY VLRBRU DESC) AS ranking_geral,
+    -- Ranking POR FILIAL (reinicia em cada filial)
+    ROW_NUMBER() OVER (PARTITION BY CODFIL ORDER BY VLRBRU DESC) AS ranking_filial
+FROM E140IPV
+```
+
+**Resultado:**
+```
+CODFIL | CODPRO | VLRBRU | ranking_geral | ranking_filial
+-------|--------|--------|---------------|----------------
+01     | A001   | 50000  | 1             | 1    ← Melhor da Filial 01
+01     | A003   | 45000  | 2             | 2
+01     | A002   | 30000  | 4             | 3    ← Pior da Filial 01
+02     | A004   | 48000  | 3             | 1    ← Melhor da Filial 02 (reiniciou)
+02     | A005   | 25000  | 5             | 2    ← Pior da Filial 02
+```
+- `ranking_geral`: considera tudo junto
+- `ranking_filial`: reinicia (1,2,3...) a cada nova filial
+- Util para comparar dentro e entre grupos
+
+**Uso pratico - Total e percentual por grupo:**
+```sql
+SELECT 
+    CODFIL,
+    CODPRO,
+    VLRBRU,
+    -- Total da filial
+    SUM(VLRBRU) OVER (PARTITION BY CODFIL) AS total_filial,
+    -- Percentual dentro da filial
+    VLRBRU * 100.0 / SUM(VLRBRU) OVER (PARTITION BY CODFIL) AS perc_filial
+FROM E140IPV
+```
+
+##### Funcoes de Ranking
+**Quatro tipos principais para classificar registros:**
+```sql
+SELECT 
+    CODPRO,
+    VLRBRU,
+    -- ROW_NUMBER: Numeracao sequencial UNICA (1,2,3,4,5)
+    ROW_NUMBER() OVER (ORDER BY VLRBRU DESC) AS row_num,
+    -- RANK: Empates = mesmo numero, PULA posicoes (1,2,2,4,5)
+    RANK() OVER (ORDER BY VLRBRU DESC) AS rank_pula,
+    -- DENSE_RANK: Empates = mesmo numero, NAO pula (1,2,2,3,4)
+    DENSE_RANK() OVER (ORDER BY VLRBRU DESC) AS rank_denso,
+    -- NTILE: Divide em N grupos iguais (quartis, decis)
+    NTILE(4) OVER (ORDER BY VLRBRU DESC) AS quartil
+FROM E140IPV
+```
+
+**Resultado comparativo:**
+```
+CODPRO | VLRBRU | row_num | rank_pula | rank_denso | quartil
+-------|--------|---------|-----------|------------|--------
+A001   | 50000  | 1       | 1         | 1          | 1
+A004   | 50000  | 2       | 1         | 1          | 1  ← Mesmo valor
+A003   | 45000  | 3       | 3         | 2          | 2  ← RANK pulou o 2
+A005   | 40000  | 4       | 4         | 3          | 2
+A002   | 35000  | 5       | 5         | 4          | 3
+A006   | 30000  | 6       | 6         | 5          | 4
+```
+
+**Quando usar cada uma:**
+- **ROW_NUMBER**: Numeracao unica sempre (ex: numerar vendas)
+- **RANK**: Aceita empates, pula numeros (ex: ranking de vendedores)
+- **DENSE_RANK**: Aceita empates, nao pula (ex: categorias de produtos)
+- **NTILE**: Dividir em grupos iguais (ex: quartis de vendas)
+
+##### Funcoes de Agregacao com OVER
+**Permitem calcular totais mantendo detalhamento:**
+```sql
+SELECT 
+    CODPRO,
+    CODFIL,
+    VLRBRU,
     -- Total geral (sem particao)
-    SUM(L.vlrlct) OVER () AS total_geral,
-    -- Percentual do total
-    (L.vlrlct * 100.0 / SUM(L.vlrlct) OVER ()) AS percentual_total
-FROM E640LCT L
-WHERE L.ctacre = '10530'
-  AND L.datlct BETWEEN DATEADD(DAY, -90, GETDATE()) AND GETDATE()
+    SUM(VLRBRU) OVER () AS total_geral,
+    -- Total por filial
+    SUM(VLRBRU) OVER (PARTITION BY CODFIL) AS total_filial,
+    -- Soma acumulada
+    SUM(VLRBRU) OVER (ORDER BY NUMNFV) AS soma_acumulada,
+    -- Soma acumulada por filial
+    SUM(VLRBRU) OVER (PARTITION BY CODFIL ORDER BY NUMNFV) AS soma_acum_filial,
+    -- Media movel de 3 registros
+    AVG(VLRBRU) OVER (ORDER BY NUMNFV ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS media_movel_3
+FROM E140IPV
 ```
 
 ##### Funcoes de Acesso a Linhas
+**Permitem acessar valores de outras linhas:**
 ```sql
 SELECT 
-    L.numlct,
-    L.datlct,
-    L.vlrlct,
-    -- Valor do lancamento anterior
-    LAG(L.vlrlct, 1) OVER (ORDER BY L.datlct) AS valor_anterior,
-    -- Valor do proximo lancamento
-    LEAD(L.vlrlct, 1) OVER (ORDER BY L.datlct) AS valor_proximo,
-    -- Diferenca em relacao ao anterior
-    L.vlrlct - LAG(L.vlrlct, 1) OVER (ORDER BY L.datlct) AS variacao,
+    CODPRO,
+    NUMNFV,
+    VLRBRU,
+    -- Valor da linha ANTERIOR
+    LAG(VLRBRU, 1) OVER (ORDER BY NUMNFV) AS valor_anterior,
+    -- Valor da PROXIMA linha
+    LEAD(VLRBRU, 1) OVER (ORDER BY NUMNFV) AS valor_proximo,
+    -- Variacao em relacao ao anterior
+    VLRBRU - LAG(VLRBRU, 1) OVER (ORDER BY NUMNFV) AS variacao,
     -- Primeiro valor do periodo
-    FIRST_VALUE(L.vlrlct) OVER (ORDER BY L.datlct) AS primeiro_valor,
-    -- Último valor do periodo
-    LAST_VALUE(L.vlrlct) OVER (ORDER BY L.datlct ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS ultimo_valor
-FROM E640LCT L
-WHERE L.ctacre = '10530'
-  AND L.datlct BETWEEN DATEADD(DAY, -90, GETDATE()) AND GETDATE()
+    FIRST_VALUE(VLRBRU) OVER (ORDER BY NUMNFV) AS primeiro_valor,
+    -- Ultimo valor (requer UNBOUNDED FOLLOWING)
+    LAST_VALUE(VLRBRU) OVER (ORDER BY NUMNFV ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS ultimo_valor
+FROM E140IPV
 ```
 
-##### Clausulas de Window Frame
+**Resultado:**
+```
+CODPRO | NUMNFV | VLRBRU | valor_anterior | valor_proximo | variacao
+-------|--------|--------|----------------|---------------|----------
+A001   | 1001   | 50000  | NULL           | 30000         | NULL
+A002   | 1002   | 30000  | 50000          | 45000         | -20000
+A003   | 1003   | 45000  | 30000          | 40000         | 15000
+A004   | 1004   | 40000  | 45000          | NULL          | -5000
+```
+
+##### Window Frame - Definindo Janela de Linhas
+**Especifica quais linhas incluir no calculo:**
 ```sql
 SELECT 
-    L.datlct,
-    L.vlrlct,
-    -- Soma dos últimos 7 dias (incluindo hoje)
-    SUM(L.vlrlct) OVER (
-        ORDER BY L.datlct 
-        RANGE BETWEEN INTERVAL '7' DAY PRECEDING AND CURRENT ROW
-    ) AS soma_7_dias,
-    -- Média das 5 linhas anteriores até a atual
-    AVG(L.vlrlct) OVER (
-        ORDER BY L.datlct 
-        ROWS BETWEEN 5 PRECEDING AND CURRENT ROW
-    ) AS media_movel_5,
-    -- Total da particao inteira
-    SUM(L.vlrlct) OVER (
-        PARTITION BY L.codfil
+    NUMNFV,
+    VLRBRU,
+    -- Media movel dos ultimos 3 registros (incluindo atual)
+    AVG(VLRBRU) OVER (
+        ORDER BY NUMNFV 
+        ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+    ) AS media_movel_3,
+    -- Soma acumulada (do inicio ate atual)
+    SUM(VLRBRU) OVER (
+        ORDER BY NUMNFV 
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+    ) AS soma_acumulada,
+    -- Total da janela inteira
+    SUM(VLRBRU) OVER (
         ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-    ) AS total_filial
-FROM E640LCT L
-WHERE L.ctacre = '10530'
+    ) AS total_completo
+FROM E140IPV
 ```
 
-**Diferenca entre ROWS e RANGE:**
-- `ROWS` - Define janela por **número de linhas** fisicas
-- `RANGE` - Define janela por **valores** (útil para datas)
+**Opcoes de delimitacao:**
+- `UNBOUNDED PRECEDING`: desde o inicio
+- `N PRECEDING`: N linhas antes
+- `CURRENT ROW`: linha atual
+- `N FOLLOWING`: N linhas depois
+- `UNBOUNDED FOLLOWING`: ate o fim
 
+##### Exemplos Praticos - Analise de Vendas
+
+**Top 5 Produtos por Filial:**
+```sql
+WITH ProdutosRankeados AS (
+    SELECT 
+        CODFIL,
+        CODPRO,
+        SUM(VLRBRU) AS total_vendas,
+        ROW_NUMBER() OVER (PARTITION BY CODFIL ORDER BY SUM(VLRBRU) DESC) AS ranking
+    FROM E140IPV
+    GROUP BY CODFIL, CODPRO
+)
+SELECT *
+FROM ProdutosRankeados
+WHERE ranking <= 5  -- Apenas Top 5 de cada filial
+ORDER BY CODFIL, ranking
+```
+
+**Analise ABC de Produtos:**
+```sql
+WITH VendasPorProduto AS (
+    SELECT 
+        CODPRO,
+        SUM(VLRBRU) AS total_vendas
+    FROM E140IPV
+    GROUP BY CODPRO
+),
+Analise AS (
+    SELECT 
+        CODPRO,
+        total_vendas,
+        total_vendas * 100.0 / SUM(total_vendas) OVER () AS perc_individual,
+        SUM(total_vendas) OVER (ORDER BY total_vendas DESC) * 100.0 
+            / SUM(total_vendas) OVER () AS perc_acumulado
+    FROM VendasPorProduto
+)
+SELECT 
+    CODPRO,
+    total_vendas,
+    CAST(perc_individual AS DECIMAL(5,2)) AS perc_individual,
+    CAST(perc_acumulado AS DECIMAL(5,2)) AS perc_acumulado,
+    CASE 
+        WHEN perc_acumulado <= 80 THEN 'A'  -- 80% do faturamento
+        WHEN perc_acumulado <= 95 THEN 'B'  -- 15% do faturamento
+        ELSE 'C'                             -- 5% do faturamento
+    END AS classe_abc
+FROM Analise
+ORDER BY total_vendas DESC
+```
+
+**Comparacao com Media:**
+```sql
+SELECT 
+    CODFIL,
+    CODPRO,
+    SUM(VLRBRU) AS total_vendas,
+    AVG(SUM(VLRBRU)) OVER () AS media_geral,
+    SUM(VLRBRU) - AVG(SUM(VLRBRU)) OVER () AS diff_media,
+    CASE 
+        WHEN SUM(VLRBRU) > AVG(SUM(VLRBRU)) OVER () THEN 'Acima da Media'
+        ELSE 'Abaixo da Media'
+    END AS status
+FROM E140IPV
+GROUP BY CODFIL, CODPRO
+```
+
+##### Limitacoes e Solucoes
+
+**Window Functions NAO funcionam em:**
+- `WHERE` (executado antes do SELECT)
+- `GROUP BY` (executado antes do SELECT)
+- `HAVING` (executado antes do SELECT)
+
+**Solucao: usar CTE ou Subquery:**
+```sql
+-- ❌ ERRO: nao funciona no WHERE
+SELECT * FROM E140IPV
+WHERE ROW_NUMBER() OVER (ORDER BY VLRBRU) <= 10
+
+-- ✅ CORRETO: usar CTE
+WITH Ranked AS (
+    SELECT *, ROW_NUMBER() OVER (ORDER BY VLRBRU DESC) AS rk
+    FROM E140IPV
+)
+SELECT * FROM Ranked WHERE rk <= 10
+```
+
+##### Resumo Rapido
+
+**Componentes:**
+```sql
+FUNCAO() OVER (
+    PARTITION BY coluna  -- Divide em grupos (opcional)
+    ORDER BY coluna      -- Define ordem (opcional)
+    ROWS BETWEEN...      -- Define janela (opcional)
+)
+```
+
+**Principais funcoes:**
+- **Ranking**: ROW_NUMBER, RANK, DENSE_RANK, NTILE
+- **Agregacao**: SUM, AVG, COUNT, MIN, MAX
+- **Acesso**: LAG, LEAD, FIRST_VALUE, LAST_VALUE
+
+**Quando usar:**
+- ✅ Rankings mantendo todas as linhas
+- ✅ Percentuais sobre totais
+- ✅ Comparacoes com medias/totais
+- ✅ Calculos acumulados
+
+**Quando NAO usar:**
+- ❌ Apenas agregacoes simples (use GROUP BY)
+- ❌ Performance critica com milhoes de linhas
+
+## Conclusão
+
+**Window Functions = Análises poderosas sem perder detalhes**
+
+Três regras de ouro:
+1. **OVER()** abre a janela
+2. **PARTITION BY** divide em grupos
+3. **ORDER BY** define ordem de cálculo
+
+Use CTEs para filtrar resultados de Window Functions e mantenha o código limpo e reutilizável.
 ---
 
 #### Aplicacao Pratica no Contexto
