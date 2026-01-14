@@ -1663,7 +1663,7 @@ Visao geral dos servicos AWS utilizados no pipeline de dados.
 
 ---
 
-## 4.1. Visao Geral
+## 4.1.1 Visao Geral
 
 ```
 ┌─────────────┐      ┌─────────────┐      ┌─────────────┐      ┌─────────────┐
@@ -1681,7 +1681,7 @@ Visao geral dos servicos AWS utilizados no pipeline de dados.
 
 ---
 
-## 4.1.2 S3 (Simple Storage Service)
+## 4.1.2 S3
 
 **O que é:** Armazenamento de arquivos na nuvem (buckets e objetos).
 
@@ -1697,7 +1697,7 @@ s3://bm-airflow/
 
 ---
 
-## 4.1.3. EC2 (Elastic Compute Cloud)
+## 4.1.3. EC2
 
 **O que é:** Servidores virtuais na AWS.
 
@@ -2863,11 +2863,7 @@ Navegar em hierarquias (ex: Ano → Mês → Dia).
 1. Criar hierarquia na dimensao
 2. Adicionar ao visual
 3. Usar icones de drill no visual
-
----
-
-### Boas Praticas
-
+   
 #### Layouts
 
 - ✅ Fundo neutro (cinza claro, branco)
