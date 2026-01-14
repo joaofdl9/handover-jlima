@@ -62,9 +62,9 @@
 
 ### 4.1. AWS
 - [4.1.1. Visao Geral](#411-visao-geral)
-- [4.1.2. S3 (staging)](#412-s3-staging)
-- [4.1.3. EC2 (Airflow)](#413-ec2-airflow)
-- [4.1.4. Redshift (DW)](#414-redshift-dw)
+- [4.1.2. S3 (staging)](#412-s3)
+- [4.1.3. EC2 (Airflow)](#413-ec2)
+- [4.1.4. Redshift (DW)](#414-redshift)
 
 ### 4.2. dbt
 - [4.2.1. Estrutura do Projeto](#421-estrutura-do-projeto)
