@@ -1,8 +1,66 @@
-# Handover – Analise e Engenharia de Dados | Barra Mansa Alimentos
+# Handover – Engenharia de Dados
+## Barra Mansa Alimentos | Controladoria Financeira
 
-**Autor:** Joao Lima<br> 
-**Departamento:** Controladoria Financeira<br>
-**Data:** Janeiro 2026<br>
+---
+
+### Metadados do Documento
+
+| Campo | Valor |
+|-------|-------|
+| **Responsável** | João Lima |
+| **Cargo** | Analista Contábil Jr |
+| **Período** | Mar/2025 - Jan/2026 |
+| **Última Atualização** | 14/01/2026 |
+| **Versão** | 1.0 |
+| **Status** | ✅ Final |
+
+---
+
+### Objetivo
+
+Transferir conhecimento operacional do pipeline de dados para garantir continuidade das operações e possibilitar onboarding eficiente do sucessor.
+
+**Escopo:** Pipeline completo de dados, da extração do ERP até dashboards de BI.
+
+---
+
+### Visão Geral da Arquitetura
+```
+┌─────────────┐    ┌──────────┐    ┌──────────┐    ┌─────┐    ┌──────────┐
+│ SQL Server  │───▶│ Airflow  │───▶│ Redshift │───▶│ dbt │───▶│ Power BI │
+│  (Origem)   │    │ (70 DAGs)│    │   (DW)   │    │(300)│    │ (Dashs)  │
+└─────────────┘    └──────────┘    └──────────┘    └─────┘    └──────────┘
+```
+
+**Volume Diário:** ~7.000 execuções de pipeline  
+**Cobertura de Dados:** 8 anos de histórico operacional
+
+---
+
+### Conteúdo
+
+| Seção | Tópico | Páginas |
+|-------|--------|---------|
+| 1-2 | Fundamentos (SQL, Python, conceitos) | ~15 |
+| 3 | Ambiente e Ferramentas (setup técnico) | ~10 |
+| 4 | Stack de Dados (AWS, dbt, Airflow, Power BI) | ~30 |
+| 5-6 | Qualidade e Prática (75 exercícios) | ~15 |
+
+**Total:** ~70 páginas
+
+---
+
+### Navegação Rápida
+
+**Onboarding de novo analista:**  
+→ Seções 1-3 (fundamentos + ambiente)  
+→ [Criar ambiente Python](#321-criar-e-ativar-ambiente-virtuall) (3.2.1)  
+→ [Fluxo Git-dbt-GitHub](#351-git--dbt--github-passo-a-passo) (3.5.1)
+
+**Tarefas operacionais:**  
+→ [Adicionar nova tabela](#437-como-adicionar-nova-tabela) (4.3.7)  
+→ [Conectar fontes Power BI](#441-conexao-com-fontes) (4.4.1)  
+→ [Validação cruzada](#513-recomendacao) (5.1.3)
 
 ---
 
@@ -6151,14 +6209,17 @@ INSUMOS   | fev | 1100          | 1050
 
 ## Contato
 
-**Joao Lima**  
-Contabilidade  
-Sitio Nossa Senhora Aparecida, Zona Rural  
+**João Lima**  
+Controladoria Financeira  
+Barra Mansa Alimentos
+
+Sítio Nossa Senhora Aparecida, Zona Rural  
 CEP 14160-970 - Caixa Postal 167  
-Sertaozinho - Sao Paulo - Brasil  
-Fone: (16) 2105-5300<br>
+Sertãozinho - São Paulo - Brasil  
+Fone: (16) 2105-5300
+
 GitHub: [joaofdl9](https://github.com/joaofdl9)
 
 ---
 
-*Documento gerado como parte do processo de handover - Janeiro 2026*
+*Documento interno | Confidencial*
