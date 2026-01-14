@@ -54,7 +54,7 @@ Transferir conhecimento operacional do pipeline de dados para garantir continuid
 
 **Onboarding de novo analista:**  
 → Seções 1-3 (fundamentos + ambiente)  
-→ [Criar ambiente Python](#321-criar-e-ativar-ambiente-virtuall) (3.2.1)  
+→ [Criar ambiente Python](#321-criar-e-ativar-ambiente-virtual) (3.2.1)  
 → [Fluxo Git-dbt-GitHub](#351-git--dbt--github-passo-a-passo) (3.5.1)
 
 **Tarefas operacionais:**  
