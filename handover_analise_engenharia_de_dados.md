@@ -6,120 +6,143 @@
 
 ---
 
-
 # Sumário
 
 ## 1. Linguagens de Programação
 
 ### 1.1. SQL
-1. [1.1.1. SQL Básico (SELECT, WHERE, FROM)](#111-sql-básico-select-where-from)
-2. [1.1.2. SQL Intermediário (JOINs, Agregações, CTEs, Window Functions)](#112-sql-intermediário-joins-agregações-ctes-window-functions)
-3. [1.1.3. SQL Aplicado - COFINS a Recuperar (exemplo real)](#113-sql-aplicado---cofins-a-recuperar-exemplo-real)
+- [SQL Básico (SELECT, WHERE, FROM)](#111-sql-basico-select-where-from)
+- [SQL Intermediário (JOINs, Agregações, CTEs, Window Functions, UNION)](#112-sql-intermediario-joins-agregacoes-ctes-window-functions-union)
+- [SQL Aplicado - COFINS a Recuperar (exemplo real)](#113-sql-aplicado-cofins-a-recuperar-exemplo-real)
 
 ### 1.2. Python
-1. [1.2.1. Sintaxe Básica (tipos, coleções, operadores, controle)](#121-sintaxe-básica-tipos-coleções-operadores-controle)
-2. [1.2.2. Recursos da Linguagem (comprehension, decorators, context manager)](#122-recursos-da-linguagem-comprehension-decorators-context-manager)
-3. [1.2.3. Pandas para Análise Exploratória](#123-pandas-para-análise-exploratória)
+- [Sintaxe Básica (tipos, coleções, operadores, controle)](#121-sintaxe-basica-tipos-colecoes-operadores-controle)
+- [Recursos da Linguagem (comprehension, decorators, context manager)](#122-recursos-da-linguagem-comprehension-decorators-context-manager)
+- [Pandas para Análise Exploratória](#123-pandas-para-analise-exploratoria)
+
+---
 
 ## 2. Conceitos e Ciclo de Vida
 
 ### 2.1. Ciclo de Vida da Análise de Dados
-1. [2.1.1. Etapas do Ciclo (6 etapas)](#211-etapas-do-ciclo-6-etapas)
-2. [2.1.2. Detalhamento das Etapas](#212-detalhamento-das-etapas)
+- [Etapas do Ciclo (6 etapas)](#211-etapas-do-ciclo-6-etapas)
+- [Detalhamento das Etapas](#212-detalhamento-das-etapas)
 
 ### 2.2. Arquitetura ELT
-1. [2.2.1. Visão Geral do Processo](#221-visão-geral-do-processo)
-2. [2.2.2. Componentes Principais (fontes, EL, transformação, camadas, visualização)](#222-componentes-principais-fontes-el-transformação-camadas-visualização)
+- [Visão Geral do Processo](#221-visao-geral-do-processo)
+- [Componentes Principais (fontes, EL, transformação, camadas, visualização)](#222-componentes-principais-fontes-el-transformacao-camadas-visualizacao)
+
+---
 
 ## 3. Ambiente e Ferramentas
 
 ### 3.1. WSL/Linux
-1. [3.1.1. Navegação](#311-navegação)
-2. [3.1.2. Gerenciamento de Arquivos](#312-gerenciamento-de-arquivos)
-3. [3.1.3. Gerenciamento de Pacotes](#313-gerenciamento-de-pacotes)
+- [Navegação](#311-navegacao)
+- [Gerenciamento de Arquivos](#312-gerenciamento-de-arquivos)
+- [Gerenciamento de Pacotes](#313-gerenciamento-de-pacotes)
 
 ### 3.2. Python (Ambiente)
-1. [3.2.1. Criar e Ativar Ambiente Virtual](#321-criar-e-ativar-ambiente-virtual)
-2. [3.2.2. Gerenciar Dependências](#322-gerenciar-dependências)
+- [Criar e Ativar Ambiente Virtual](#321-criar-e-ativar-ambiente-virtual)
+- [Gerenciar Dependências](#322-gerenciar-dependencias)
 
 ### 3.3. VS Code
-1. [3.3.1. Extensões Recomendadas](#331-extensões-recomendadas)
-2. [3.3.2. Atalhos Principais](#332-atalhos-principais)
+- [Extensões Recomendadas](#331-extensoes-recomendadas)
+- [Atalhos Principais](#332-atalhos-principais)
 
 ### 3.4. Git
-1. [3.4.1. Comandos Básicos](#341-comandos-básicos)
-2. [3.4.2. Desfazer Alterações](#342-desfazer-alterações)
-3. [3.4.3. Resolução de Conflitos](#343-resolução-de-conflitos)
-4. [3.4.4. Boas Práticas](#344-boas-práticas)
+- [Comandos Básicos](#341-comandos-basicos)
+- [Desfazer Alterações](#342-desfazer-alteracoes)
+- [Resolução de Conflitos](#343-resolucao-de-conflitos)
+- [Boas Práticas](#344-boas-praticas)
 
 ### 3.5. Fluxo de Desenvolvimento
-1. [3.5.1. Git → dbt → GitHub (passo a passo)](#351-git--dbt--github-passo-a-passo)
+- [Git → dbt → GitHub (passo a passo)](#351-git-dbt-github-passo-a-passo)
+
+---
 
 ## 4. Stack de Dados
 
 ### 4.1. AWS
-1. [4.1.1. Visão Geral](#411-visão-geral)
-2. [4.1.2. S3 (staging)](#412-s3-staging)
-3. [4.1.3. EC2 (Airflow)](#413-ec2-airflow)
-4. [4.1.4. Redshift (DW)](#414-redshift-dw)
+- [Visão Geral](#411-visao-geral)
+- [S3 (staging)](#412-s3-staging)
+- [EC2 (Airflow)](#413-ec2-airflow)
+- [Redshift (DW)](#414-redshift-dw)
 
 ### 4.2. dbt
-1. [4.2.1. Estrutura do Projeto](#421-estrutura-do-projeto)
-2. [4.2.2. Camadas de Dados](#422-camadas-de-dados)
-3. [4.2.3. Materializações](#423-materializações)
-4. [4.2.4. Sources e Refs](#424-sources-e-refs)
-5. [4.2.5. Testes](#425-testes)
-6. [4.2.6. Jinja Básico](#426-jinja-básico)
-7. [4.2.7. Comandos dbt](#427-comandos-dbt)
+- [Estrutura do Projeto](#421-estrutura-do-projeto)
+- [Camadas de Dados](#422-camadas-de-dados)
+- [Materializações](#423-materializacoes)
+- [Sources e Refs](#424-sources-e-refs)
+- [Testes](#425-testes)
+- [Jinja Básico](#426-jinja-basico)
+- [Comandos dbt](#427-comandos-dbt)
 
 ### 4.3. Airflow
-1. [4.3.1. Conceitos Essenciais](#431-conceitos-essenciais)
-2. [4.3.2. Operadores](#432-operadores)
-3. [4.3.3. Anatomia de uma DAG](#433-anatomia-de-uma-dag)
-4. [4.3.4. Hooks e Conexões](#434-hooks-e-conexões)
-5. [4.3.5. Recursos Intermediários](#435-recursos-intermediários)
-6. [4.3.6. Airflow na Barra Mansa](#436-airflow-na-barra-mansa)
-7. [4.3.7. Como Adicionar Nova Tabela](#437-como-adicionar-nova-tabela)
-8. [4.3.8. Operação](#438-operação)
+- [Conceitos Essenciais](#431-conceitos-essenciais)
+- [Operadores](#432-operadores)
+- [Anatomia de uma DAG](#433-anatomia-de-uma-dag)
+- [Hooks e Conexões](#434-hooks-e-conexoes)
+- [Recursos Intermediários](#435-recursos-intermediarios)
+- [Airflow na Barra Mansa](#436-airflow-na-barra-mansa)
+- [Como Adicionar Nova Tabela](#437-como-adicionar-nova-tabela)
+- [Operação](#438-operacao)
 
 ### 4.4. Power BI
-1. [4.4.1. Conexão com Fontes](#441-conexão-com-fontes)
-2. [4.4.2. Modelagem de Dados](#442-modelagem-de-dados)
-3. [4.4.3. DAX Intermediário](#443-dax-intermediário)
-4. [4.4.4. Design de Layouts](#444-design-de-layouts)
-5. [4.4.5. Criação de Visuais](#445-criação-de-visuais)
-6. [4.4.6. Interatividade](#446-interatividade)
-7. [4.4.7. Boas Práticas](#447-boas-práticas)
-8. [4.4.8. Exemplos Contextualizados](#448-exemplos-contextualizados)
+- [Conexão com Fontes](#441-conexao-com-fontes)
+- [Modelagem de Dados](#442-modelagem-de-dados)
+- [DAX Intermediário](#443-dax-intermediario)
+- [Design de Layouts](#444-design-de-layouts)
+- [Criação de Visuais](#445-criacao-de-visuais)
+- [Interatividade](#446-interatividade)
+- [Boas Práticas](#447-boas-praticas)
+- [Exemplos Contextualizados](#448-exemplos-contextualizados)
+
+---
 
 ## 5. Qualidade e Validação
 
 ### 5.1. Validação Cruzada
-1. [5.1.1. Importância](#511-importância)
-2. [5.1.2. Princípios](#512-princípios)
-3. [5.1.3. Recomendação](#513-recomendação)
+- [Importância](#511-importancia)
+- [Princípios](#512-principios)
+- [Recomendação](#513-recomendacao)
+
+---
 
 ## 6. Prática
 
 ### 6.1. Exercícios SQL Analíticos
-1. [6.1.1. Bloco 1: Básico (SELECT + WHERE)](#611-bloco-1-básico-select--where)
-2. [6.1.2. Bloco 2: JOINs](#612-bloco-2-joins)
-3. [6.1.3. Bloco 3: Agregações](#613-bloco-3-agregações)
-4. [6.1.4. Bloco 4: CTEs](#614-bloco-4-ctes)
-5. [6.1.5. Bloco 5: Window Functions](#615-bloco-5-window-functions)
-6. [6.1.6. Bloco 6: UNION + Subconsultas + DML](#616-bloco-6-union--subconsultas--dml)
+- [Básico (SELECT + WHERE)](#611-basico-select-where)
+- [JOINs](#612-joins)
+- [Agregações](#613-agregacoes)
+- [CTEs](#614-ctes)
+- [Window Functions](#615-window-functions)
+- [UNION + Subconsultas + DML](#616-union-subconsultas-dml)
+
+### 6.2. Exercícios Python para Análise de Dados
+- [Sintaxe Básica](#621-sintaxe-basica)
+- [Recursos da Linguagem](#622-recursos-da-linguagem)
+- [Pandas para Análise Exploratória](#623-pandas-para-analise-exploratoria)
+
+### 6.3. Exercícios DAX
+- [Medidas Básicas com Filtros](#631-medidas-basicas-com-filtros)
+- [Comparações Temporais](#632-comparacoes-temporais)
+- [Totalizadores e Contextos](#633-totalizadores-e-contextos)
+- [Indicadores e Lógica Condicional](#634-indicadores-e-logica-condicional)
+- [Lógica Avançada e Iteração](#635-logica-avancada-e-iteracao)
+
+### 6.4. Exercícios Linguagem M (Power Query)
+- [Transformações Básicas](#641-transformacoes-basicas)
+- [Transformações Intermediárias](#642-transformacoes-intermediarias)
+- [Análise de Pipeline Completo](#643-analise-de-pipeline-completo)
 
 ---
-
----
-
 # 1. Linguagens de Programação
 
 ## 1.1. SQL
 
 Guia visual e prático para construção de consultas SQL no ambiente Barra Mansa Alimentos.
 
-### 1.1.1. SQL Básico (SELECT, WHERE, FROM) {#111-sql-básico-select-where-from}
+### 1.1.1. SQL Básico (SELECT, WHERE, FROM)
 
 #### Estrutura de uma Consulta SQL
 
@@ -170,16 +193,424 @@ WHERE N.codemp = 1
 
 ---
 
-### 1.1.2. SQL Intermediário (JOINs, Agregações, CTEs, Window Functions) {#112-sql-intermediário-joins-agregações-ctes-window-functions}
+### 1.1.2. SQL Intermediário (JOINs, Agregações, CTEs, Window Functions, UNION) {#112-sql-intermediário-joins-agregações-ctes-window-functions-union}
 
-*Conceitos intermediários de SQL são aplicados nos exemplos práticos ao longo do documento, especialmente nos exercícios SQL analíticos (Seção 6).*
+---
+
+#### JOINs - Combinando Dados de Múltiplas Tabelas
+
+##### LEFT JOIN
+Retorna todos os registros da tabela principal (esquerda) e os correspondentes da tabela secundária. Se não houver correspondência, retorna NULL.
+
+**Exemplo do contexto:**
+```sql
+FROM E640LCT L
+LEFT JOIN e045pla P
+    ON P.codemp = L.codemp
+   AND P.ctared = L.ctadeb
+```
+- Busca **todos** os lançamentos da E640LCT
+- Traz descrições do plano de contas quando houver correspondência
+- Se não houver conta correspondente, P.descta será NULL
+
+##### INNER JOIN
+Retorna apenas registros que têm correspondência em ambas as tabelas.
+```sql
+FROM E640LCT L
+INNER JOIN e045pla P
+    ON P.codemp = L.codemp
+   AND P.ctared = L.ctadeb
+```
+- Retornaria apenas lançamentos que têm conta no plano de contas
+
+##### RIGHT JOIN
+Retorna todos os registros da tabela secundária (direita) e os correspondentes da tabela principal.
+```sql
+FROM E640LCT L
+RIGHT JOIN e045pla P
+    ON P.codemp = L.codemp
+   AND P.ctared = L.ctadeb
+```
+
+##### FULL OUTER JOIN
+Retorna todos os registros quando há correspondência em qualquer uma das tabelas.
+```sql
+FROM E640LCT L
+FULL OUTER JOIN e045pla P
+    ON P.codemp = L.codemp
+   AND P.ctared = L.ctadeb
+```
+
+---
+
+#### UNION - Combinando Resultados de Múltiplas Consultas
+
+Combina os resultados de duas ou mais queries em um único conjunto de dados.
+
+##### UNION vs UNION ALL
+
+**UNION** - Remove duplicatas automaticamente:
+```sql
+SELECT ctadeb, vlrlct FROM E640LCT WHERE ctadeb = '10530'
+UNION
+SELECT ctacre, vlrlct FROM E640LCT WHERE ctacre = '10530'
+```
+
+**UNION ALL** - Mantém todas as linhas, incluindo duplicatas (mais rápido):
+```sql
+SELECT ctadeb, vlrlct FROM E640LCT WHERE ctadeb = '10530'
+UNION ALL
+SELECT ctacre, vlrlct FROM E640LCT WHERE ctacre = '10530'
+```
+
+##### Exemplo Prático - COFINS a Recuperar
+```sql
+-- Lançamentos a CRÉDITO (conta 10.530 recebendo)
+SELECT
+    L.codemp,
+    L.codfil,
+    L.numlct,
+    CAST(L.datlct AS DATE) AS datlct,
+    (L.vlrlct * -1) AS vlrlct,  -- Inverte o sinal
+    'CRÉDITO' AS tipo_lancamento
+FROM E640LCT L
+WHERE L.ctacre = '10530'
+  AND L.datlct BETWEEN DATEADD(DAY, -90, GETDATE()) AND GETDATE()
+  AND L.sitlct = 2
+
+UNION
+
+-- Lançamentos a DÉBITO (conta 10.530 pagando)
+SELECT
+    L.codemp,
+    L.codfil,
+    L.numlct,
+    CAST(L.datlct AS DATE) AS datlct,
+    L.vlrlct,  -- Mantém o sinal positivo
+    'DÉBITO' AS tipo_lancamento
+FROM E640LCT L
+WHERE L.ctadeb = '10530'
+  AND L.datlct BETWEEN DATEADD(DAY, -90, GETDATE()) AND GETDATE()
+  AND L.sitlct = 2
+```
+
+**Por que usar UNION?**
+- Conta contábil pode aparecer tanto no débito quanto no crédito
+- UNION consolida ambas as movimentações em uma única visão
+- Permite padronizar valores (invertendo sinal quando necessário)
+
+**Regras do UNION:**
+- Todas as queries devem ter o **mesmo número de colunas**
+- Colunas correspondentes devem ter **tipos de dados compatíveis**
+- Nomes das colunas vêm da **primeira query**
+
+---
+
+#### Agregações - Sumarizando Dados
+
+Funções que calculam valores sobre grupos de registros.
+
+##### Funções de Agregação Principais
+```sql
+-- Soma total de COFINS por filial
+SELECT 
+    L.codfil,
+    SUM(L.vlrlct) AS total_cofins,
+    COUNT(*) AS qtd_lancamentos,
+    COUNT(DISTINCT L.numlct) AS qtd_lancamentos_unicos,
+    AVG(L.vlrlct) AS media_valor,
+    MAX(L.vlrlct) AS maior_valor,
+    MIN(L.vlrlct) AS menor_valor
+FROM E640LCT L
+WHERE L.ctacre = '10530'
+  AND L.datlct BETWEEN DATEADD(DAY, -90, GETDATE()) AND GETDATE()
+GROUP BY L.codfil
+```
+
+**Funções disponíveis:**
+- `SUM()` - Soma valores
+- `COUNT()` - Conta registros
+- `COUNT(DISTINCT)` - Conta valores únicos
+- `AVG()` - Calcula média
+- `MAX()` / `MIN()` - Valores máximo/mínimo
+
+##### HAVING - Filtro Após Agregação
+```sql
+SELECT 
+    L.codfil,
+    SUM(L.vlrlct) AS total_cofins,
+    COUNT(*) AS qtd_lancamentos
+FROM E640LCT L
+WHERE L.ctacre = '10530'
+GROUP BY L.codfil
+HAVING SUM(L.vlrlct) > 10000  -- Filtra após agregação
+```
+
+**Diferença entre WHERE e HAVING:**
+- `WHERE` - Filtra **antes** da agregação (registros individuais)
+- `HAVING` - Filtra **depois** da agregação (grupos)
+
+---
+
+#### CTEs (Common Table Expressions) - Consultas Temporárias
+
+Cria "tabelas temporárias" nomeadas para organizar queries complexas de forma legível.
+
+##### Sintaxe Básica
+```sql
+WITH nome_cte AS (
+    SELECT coluna1, coluna2
+    FROM tabela
+    WHERE condicao
+)
+SELECT * FROM nome_cte
+```
+
+##### Exemplo Prático - Análise de COFINS
+```sql
+WITH cofins_debito AS (
+    -- Totaliza lançamentos a débito
+    SELECT 
+        codemp, 
+        codfil, 
+        SUM(vlrlct) AS total_debito,
+        COUNT(*) AS qtd_debito
+    FROM E640LCT
+    WHERE ctadeb = '10530'
+      AND datlct BETWEEN DATEADD(DAY, -90, GETDATE()) AND GETDATE()
+      AND sitlct = 2
+    GROUP BY codemp, codfil
+),
+cofins_credito AS (
+    -- Totaliza lançamentos a crédito
+    SELECT 
+        codemp, 
+        codfil, 
+        SUM(vlrlct) AS total_credito,
+        COUNT(*) AS qtd_credito
+    FROM E640LCT
+    WHERE ctacre = '10530'
+      AND datlct BETWEEN DATEADD(DAY, -90, GETDATE()) AND GETDATE()
+      AND sitlct = 2
+    GROUP BY codemp, codfil
+)
+-- Consolida débito e crédito
+SELECT 
+    COALESCE(D.codfil, C.codfil) AS codfil,
+    COALESCE(D.total_debito, 0) AS total_debito,
+    COALESCE(C.total_credito, 0) AS total_credito,
+    (COALESCE(D.total_debito, 0) - COALESCE(C.total_credito, 0)) AS saldo_liquido,
+    COALESCE(D.qtd_debito, 0) AS lancamentos_debito,
+    COALESCE(C.qtd_credito, 0) AS lancamentos_credito
+FROM cofins_debito D
+FULL OUTER JOIN cofins_credito C
+    ON D.codemp = C.codemp
+   AND D.codfil = C.codfil
+```
+
+**Vantagens das CTEs:**
+- Código mais legível e organizado
+- Reutilização de resultados intermediários
+- Substituição elegante de subqueries complexas
+- Facilita debugging (pode testar cada CTE separadamente)
+- **Alternativa ao UNION** quando você quer manter os dados separados para análise
+
+##### CTEs Recursivas
+```sql
+WITH hierarquia_contas AS (
+    -- Âncora: contas de nível superior
+    SELECT ctared, descta, ctasup, 1 AS nivel
+    FROM e045pla
+    WHERE ctasup IS NULL
+    
+    UNION ALL
+    
+    -- Recursão: contas subordinadas
+    SELECT p.ctared, p.descta, p.ctasup, h.nivel + 1
+    FROM e045pla p
+    INNER JOIN hierarquia_contas h
+        ON p.ctasup = h.ctared
+)
+SELECT * FROM hierarquia_contas
+ORDER BY nivel, ctared
+```
+
+---
+
+#### Window Functions - Cálculos Analíticos
+
+Realizam cálculos mantendo o detalhamento de cada linha (diferente do GROUP BY que agrupa).
+
+##### Sintaxe Básica
+```sql
+funcao_janela() OVER (
+    [PARTITION BY coluna]
+    [ORDER BY coluna]
+    [ROWS/RANGE BETWEEN ... AND ...]
+)
+```
+
+##### Funções de Ranking
+```sql
+SELECT 
+    L.numlct,
+    L.datlct,
+    L.codfil,
+    L.vlrlct,
+    -- Numeração sequencial única
+    ROW_NUMBER() OVER (ORDER BY L.vlrlct DESC) AS ranking_geral,
+    -- Ranking com empates (pula números)
+    RANK() OVER (ORDER BY L.vlrlct DESC) AS rank_com_pulo,
+    -- Ranking com empates (sem pular números)
+    DENSE_RANK() OVER (ORDER BY L.vlrlct DESC) AS rank_denso,
+    -- Ranking por filial
+    ROW_NUMBER() OVER (PARTITION BY L.codfil ORDER BY L.vlrlct DESC) AS ranking_filial
+FROM E640LCT L
+WHERE L.ctacre = '10530'
+  AND L.datlct BETWEEN DATEADD(DAY, -90, GETDATE()) AND GETDATE()
+```
+
+##### Funções de Agregação com OVER
+```sql
+SELECT 
+    L.numlct,
+    L.datlct,
+    L.codfil,
+    L.vlrlct,
+    -- Soma acumulada ordenada por data
+    SUM(L.vlrlct) OVER (ORDER BY L.datlct) AS soma_acumulada_geral,
+    -- Soma acumulada por filial
+    SUM(L.vlrlct) OVER (PARTITION BY L.codfil ORDER BY L.datlct) AS soma_acumulada_filial,
+    -- Média móvel dos últimos 3 lançamentos
+    AVG(L.vlrlct) OVER (ORDER BY L.datlct ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS media_movel_3,
+    -- Total geral (sem partição)
+    SUM(L.vlrlct) OVER () AS total_geral,
+    -- Percentual do total
+    (L.vlrlct * 100.0 / SUM(L.vlrlct) OVER ()) AS percentual_total
+FROM E640LCT L
+WHERE L.ctacre = '10530'
+  AND L.datlct BETWEEN DATEADD(DAY, -90, GETDATE()) AND GETDATE()
+```
+
+##### Funções de Acesso a Linhas
+```sql
+SELECT 
+    L.numlct,
+    L.datlct,
+    L.vlrlct,
+    -- Valor do lançamento anterior
+    LAG(L.vlrlct, 1) OVER (ORDER BY L.datlct) AS valor_anterior,
+    -- Valor do próximo lançamento
+    LEAD(L.vlrlct, 1) OVER (ORDER BY L.datlct) AS valor_proximo,
+    -- Diferença em relação ao anterior
+    L.vlrlct - LAG(L.vlrlct, 1) OVER (ORDER BY L.datlct) AS variacao,
+    -- Primeiro valor do período
+    FIRST_VALUE(L.vlrlct) OVER (ORDER BY L.datlct) AS primeiro_valor,
+    -- Último valor do período
+    LAST_VALUE(L.vlrlct) OVER (ORDER BY L.datlct ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS ultimo_valor
+FROM E640LCT L
+WHERE L.ctacre = '10530'
+  AND L.datlct BETWEEN DATEADD(DAY, -90, GETDATE()) AND GETDATE()
+```
+
+##### Cláusulas de Window Frame
+```sql
+SELECT 
+    L.datlct,
+    L.vlrlct,
+    -- Soma dos últimos 7 dias (incluindo hoje)
+    SUM(L.vlrlct) OVER (
+        ORDER BY L.datlct 
+        RANGE BETWEEN INTERVAL '7' DAY PRECEDING AND CURRENT ROW
+    ) AS soma_7_dias,
+    -- Média das 5 linhas anteriores até a atual
+    AVG(L.vlrlct) OVER (
+        ORDER BY L.datlct 
+        ROWS BETWEEN 5 PRECEDING AND CURRENT ROW
+    ) AS media_movel_5,
+    -- Total da partição inteira
+    SUM(L.vlrlct) OVER (
+        PARTITION BY L.codfil
+        ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+    ) AS total_filial
+FROM E640LCT L
+WHERE L.ctacre = '10530'
+```
+
+**Diferença entre ROWS e RANGE:**
+- `ROWS` - Define janela por **número de linhas** físicas
+- `RANGE` - Define janela por **valores** (útil para datas)
+
+---
+
+#### Aplicação Prática no Contexto
+
+A query de COFINS a Recuperar demonstra a aplicação desses conceitos:
+
+1. **LEFT JOIN** - Enriquece dados com descrições do plano de contas
+2. **UNION** - Consolida lançamentos de débito e crédito em visão única
+3. **Agregação** - Poderia totalizar movimentações por período/filial
+4. **CTEs** - Alternativa para separar lógica de débito/crédito antes de consolidar
+5. **Window Functions** - Análise de evolução temporal e cálculo de saldos acumulados
+
+##### Exemplo Completo Combinando Técnicas
+```sql
+WITH lancamentos_consolidados AS (
+    -- CTE: Consolida débito e crédito com UNION
+    SELECT
+        L.codemp,
+        L.codfil,
+        L.numlct,
+        CAST(L.datlct AS DATE) AS datlct,
+        (L.vlrlct * -1) AS vlrlct,
+        'CRÉDITO' AS tipo,
+        L.cpllct
+    FROM E640LCT L
+    WHERE L.ctacre = '10530'
+      AND L.datlct BETWEEN DATEADD(DAY, -90, GETDATE()) AND GETDATE()
+      AND L.sitlct = 2
+    
+    UNION ALL
+    
+    SELECT
+        L.codemp,
+        L.codfil,
+        L.numlct,
+        CAST(L.datlct AS DATE) AS datlct,
+        L.vlrlct,
+        'DÉBITO' AS tipo,
+        L.cpllct
+    FROM E640LCT L
+    WHERE L.ctadeb = '10530'
+      AND L.datlct BETWEEN DATEADD(DAY, -90, GETDATE()) AND GETDATE()
+      AND L.sitlct = 2
+)
+-- Query principal com JOINs, Agregações e Window Functions
+SELECT 
+    LC.codfil,
+    LC.datlct,
+    LC.tipo,
+    COUNT(*) AS qtd_lancamentos,
+    SUM(LC.vlrlct) AS total_dia,
+    -- Window Function: Saldo acumulado por filial
+    SUM(SUM(LC.vlrlct)) OVER (
+        PARTITION BY LC.codfil 
+        ORDER BY LC.datlct
+    ) AS saldo_acumulado,
+    -- Window Function: Média móvel 7 dias
+    AVG(SUM(LC.vlrlct)) OVER (
+        PARTITION BY LC.codfil 
+        ORDER BY LC.datlct 
+        ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
+    ) AS media_movel_7_dias
+FROM lancamentos_consolidados LC
+GROUP BY LC.codfil, LC.datlct, LC.tipo
+ORDER BY LC.codfil, LC.datlct, LC.tipo
+```
+
+---
 
 ### 1.1.3. SQL Aplicado - COFINS a Recuperar (exemplo real) {#113-sql-aplicado---cofins-a-recuperar-exemplo-real}
-
-
-Documentação de query essencial para análise contábil de COFINS a Recuperar.
-
-### Query: COFINS a Recuperar - Visão Contábil (Conta 10.530)
 
 ```sql
 -- =========================================================
@@ -313,7 +744,7 @@ Guia rápido com a base mínima da linguagem.
 ### 1.2.1. Sintaxe Básica (tipos, coleções, operadores, controle) {#121-sintaxe-básica-tipos-coleções-operadores-controle}
 
 
-### 3.1. Tipos de Dados
+#### Tipos de Dados
 
 ```python
 # String (texto)
@@ -334,7 +765,7 @@ resultado = None
 
 ---
 
-### 3.2. Coleções
+#### Coleções
 
 **Quando usar cada uma:**
 - **Lista** → quando a ordem importa e pode mudar
@@ -373,7 +804,7 @@ host, porta = ("localhost", 5432)  # Desempacotamento
 
 ---
 
-### 3.3. Operadores
+### Operadores
 
 ```python
 # Aritméticos
@@ -396,7 +827,7 @@ not True              # False
 
 ---
 
-### 3.4. Estruturas de Controle
+### Estruturas de Controle
 
 #### Condicional
 ```python
@@ -446,7 +877,7 @@ for i in range(10):
 
 ---
 
-### 3.5. Funções
+### Funções
 
 #### Definir e Chamar
 ```python
@@ -477,7 +908,7 @@ q, r = dividir(10, 3)         # q=3, r=1
 
 ---
 
-### 3.6. Tratamento de Erros
+#### Tratamento de Erros
 
 **Quando usar:** Evita que o script pare por erros previsíveis (conexão, arquivo não encontrado, divisão por zero).
 
@@ -494,7 +925,7 @@ finally:
 
 ---
 
-### 3.7. Manipulação de Strings
+#### Manipulação de Strings
 
 ```python
 texto = "  Olá Mundo  "
@@ -516,16 +947,16 @@ f"Nome: {nome}, Idade: {idade}"
 
 ---
 
-### 3.8. Bibliotecas Essenciais
+#### Bibliotecas Essenciais
 
-#### Importação
+##### Importação
 ```python
 import os                           # Módulo inteiro
 from datetime import datetime       # Função específica
 import pandas as pd                 # Com alias
 ```
 
-#### Bibliotecas Comuns
+##### Bibliotecas Comuns
 | Biblioteca | Uso |
 |------------|-----|
 | `os` | Variáveis de ambiente, caminhos |
@@ -535,7 +966,7 @@ import pandas as pd                 # Com alias
 | `pandas` | Manipulação de dados |
 | `boto3` | Integração AWS (S3) |
 
-#### Exemplo: datetime
+##### Exemplo: datetime
 ```python
 from datetime import datetime, timedelta
 
@@ -544,7 +975,7 @@ ontem = agora - timedelta(days=1)
 formatado = agora.strftime("%Y-%m-%d")   # "2025-01-13"
 ```
 
-#### Exemplo: os
+##### Exemplo: os
 ```python
 import os
 
@@ -565,7 +996,7 @@ caminho = os.path.join("pasta", "arquivo.txt")
 
 ---
 
-### 3.9. Comprehension
+#### Comprehension
 
 **Quando usar:** Transformar ou filtrar uma lista/dicionário de forma compacta.
 
@@ -589,7 +1020,7 @@ colunas = [desc[0] for desc in cursor.description]
 
 ---
 
-### 3.10. Context Manager (with)
+#### Context Manager (with)
 
 **Quando usar:** Abrir arquivos, conexões ou recursos que precisam ser fechados.
 
@@ -607,7 +1038,7 @@ with open("entrada.txt") as entrada, open("saida.txt", "w") as saida:
 
 ---
 
-### 3.11. Decorators
+#### Decorators
 
 **O que é:** Marcador (`@`) que modifica o comportamento de uma função.
 
@@ -621,7 +1052,7 @@ def extrair_dados():
 
 ---
 
-### 3.12. Argumentos `**kwargs`
+#### Argumentos `**kwargs`
 
 **O que é:** Captura argumentos nomeados extras como dicionário.
 
@@ -645,7 +1076,7 @@ def minha_task(**context):
 
 ---
 
-### 3.13. Type Hints
+#### Type Hints
 
 **O que é:** Indica tipos esperados. Não obriga, apenas documenta.
 
@@ -661,7 +1092,7 @@ def processar(nome: str, ativo: bool = True) -> dict:
 
 ---
 
-### 3.14. Unpacking
+#### Unpacking
 
 **Quando usar:** Extrair valores de tuplas, listas ou dicionários em variáveis separadas.
 
@@ -691,7 +1122,7 @@ for chave, valor in config.items():
 
 ---
 
-### 3.15. Criar DataFrame
+#### Criar DataFrame
 
 ```python
 import pandas as pd
@@ -710,7 +1141,7 @@ df = pd.read_excel("dados.xlsx")
 
 ---
 
-### 3.16. Conhecer os Dados
+#### Conhecer os Dados
 
 ```python
 df.head()              # Primeiras 5 linhas
@@ -724,7 +1155,7 @@ df.describe()          # Estatísticas numéricas
 
 ---
 
-### 3.17. Selecionar e Filtrar
+#### Selecionar e Filtrar
 
 ```python
 # Seleção
@@ -741,7 +1172,7 @@ df[(df["idade"] > 25) & (df["salario"] > 5000)]   # Múltiplas condições
 
 ---
 
-### 3.18. Agregar
+#### Agregar
 
 ```python
 # Valores únicos
@@ -763,7 +1194,7 @@ df.groupby("departamento").agg({
 
 ---
 
-### 3.19. Tratar Nulos
+#### Tratar Nulos
 
 ```python
 df.isnull().sum()         # Conta nulos por coluna
@@ -773,7 +1204,7 @@ df.fillna(0)              # Substitui nulos por 0
 
 ---
 
-### 3.20. Exportar
+#### Exportar
 
 ```python
 df.to_csv("saida.csv", index=False)
@@ -782,7 +1213,7 @@ df.to_excel("saida.xlsx", index=False)
 
 ---
 
-## Teste seu Conhecimento
+##### Teste seu Conhecimento
 
 **O que esse código retorna?**
 
@@ -805,11 +1236,6 @@ resultado = [x["nome"] for x in dados if x["ativo"]]
 Explicação: List comprehension que filtra apenas os dicionários onde `ativo` é `True` e extrai o valor de `"nome"`.
 
 </details>
-
----
-
-# 1. Ambiente de Desenvolvimento
-
 
 ---
 
@@ -862,7 +1288,7 @@ Documentação da arquitetura de dados implementada na Barra Mansa Alimentos.
 
 O pipeline de dados está estruturado para processar informações dos sistemas corporativos e industriais (ERP Sapiens e Sistema AIS) até a disponibilização em dashboards no Power BI Service.
 
-### Arquitetura do Pipeline
+#### Arquitetura do Pipeline
 
 ```
 ┌─────────────┐     ┌──────────────────┐     ┌─────────────────────────────────────────┐     ┌─────────────────┐
@@ -1072,7 +1498,7 @@ git push origin -u nome-da-branch
 
 ---
 
-## 2.4. Resolução de Conflitos
+## 3.4.3 Resolução de Conflitos
 
 ### Quando Acontece
 Conflitos ocorrem quando duas branches alteram as mesmas linhas.
@@ -1084,7 +1510,7 @@ git status                         # Identifica arquivos em conflito
 ```
 
 
-## 3.5. Fluxo de Desenvolvimento
+## 3.5 Fluxo de Desenvolvimento
 
 ### 3.5.1. Git → dbt → GitHub (passo a passo) {#351-git--dbt--github-passo-a-passo}
 
@@ -1111,7 +1537,7 @@ git merge --abort                  # Volta ao estado anterior
 
 ---
 
-## 2.5. Boas Práticas
+## Boas Práticas
 
 - ✅ Commits pequenos e objetivos
 - ✅ Mensagens claras: `feat:`, `fix:`, `docs:`
@@ -1150,27 +1576,6 @@ Criar ou editar arquivos no VS Code. Exemplos de arquivos: `.sql`, `.yml`, `.md`
 
 ---
 
-# 4. Stack de Dados
-
-## 4.1. AWS
-
-### 4.1.1. Visão Geral {#411-visão-geral}
-
-# Executar o modelo + dependências (filhos)
-dbt run -s +nome_do_modelo
-
-# Executar o modelo + pais e filhos
-dbt run -s @nome_do_modelo
-```
-
-
-### 4.1.2. S3 (staging) {#412-s3-staging}
-
-```bash
-git branch
-```
-⚠️ Garanta que NÃO está na main
-
 #### 6️⃣ Verificar alterações realizadas
 ```bash
 git status
@@ -1191,7 +1596,6 @@ git commit -m "mensagem clara e objetiva"
 git commit -m "feat: cria modelo de vendas"
 git commit -m "fix: ajusta calculo de ICMS"
 
-### 4.1.3. EC2 (Airflow) {#413-ec2-airflow}
 
 ```
 
@@ -1210,9 +1614,6 @@ git push
 2. Clique em **Compare & Pull Request**
 3. Preencha a descrição
 4. Solicite revisão
-
-
-### 4.1.4. Redshift (DW) {#414-redshift-dw}
 
 
 ```bash
@@ -1255,40 +1656,9 @@ git push
 
 ---
 
+# 4. Stack de Dados
 
-
-
-## 6. Validação Cruzada e Qualidade de Dados
-
-Diretrizes essenciais sobre validação da qualidade dos dados na arquitetura analítica.
-
-### Importância da Validação de Dados
-
-A confiabilidade das análises e dashboards corporativos depende diretamente da qualidade dos dados processados. Por isso, é fundamental implementar validações sistemáticas em todas as etapas do pipeline.
-
-### Princípios de Validação Cruzada
-
-#### Reconciliação com Fonte de Origem
-
-## 4.2. dbt
-
-Ferramenta de transformação de dados que permite construir pipelines analíticos usando SQL.
-
-### 4.2.1. Estrutura do Projeto {#421-estrutura-do-projeto}
-
-
-#### Validações no Pipeline
-- Comparação de totalizadores entre camadas (Raw vs Source vs Marts)
-- Testes de integridade referencial entre tabelas relacionadas
-- Alertas automáticos via Airflow para discrepâncias identificadas
-
-### Recomendação
-
-Qualquer nova análise deve incluir **validação cruzada com a fonte primária** antes da disponibilização para os usuários finais.
-
----
-
-# 4. AWS no Contexto Barra Mansa
+## 4.1 AWS no Contexto Barra Mansa
 
 Visão geral dos serviços AWS utilizados no pipeline de dados.
 
@@ -1312,7 +1682,7 @@ Visão geral dos serviços AWS utilizados no pipeline de dados.
 
 ---
 
-## 4.2. S3 (Simple Storage Service)
+## 4.1.2 S3 (Simple Storage Service)
 
 **O que é:** Armazenamento de arquivos na nuvem (buckets e objetos).
 
@@ -1328,7 +1698,7 @@ s3://bm-airflow/
 
 ---
 
-## 4.3. EC2 (Elastic Compute Cloud)
+## 4.1.3. EC2 (Elastic Compute Cloud)
 
 **O que é:** Servidores virtuais na AWS.
 
@@ -1336,7 +1706,7 @@ s3://bm-airflow/
 
 ---
 
-## 4.4. Redshift
+## 4.1.4. Redshift
 
 **O que é:** Data Warehouse colunar da AWS, otimizado para consultas analíticas (OLAP).
 
@@ -1472,13 +1842,13 @@ ANALYZE tabela;
 
 ---
 
-# 5. dbt (Data Build Tool)
+# 4.2. dbt (Data Build Tool)
 
 Ferramenta de transformação de dados que roda SQL no warehouse.
 
 ---
 
-## 5.1. Estrutura do Projeto
+## 4.2.1. Estrutura do Projeto
 
 ```
 dbt_bm/
@@ -1507,7 +1877,7 @@ dbt_bm/
 
 ---
 
-## 5.2. Camadas de Dados
+## 4.2.2. Camadas de Dados
 
 ```
 ┌─────────┐    ┌─────────┐    ┌─────────────────────┐    ┌─────────┐
@@ -1528,8 +1898,6 @@ dbt_bm/
 ---
 
 ### 4.2.3. Materializações {#423-materializações}
-
-## 5.3. Materializações
 
 Define como o modelo é persistido no banco.
 
@@ -1561,16 +1929,14 @@ models:
 
 ### 4.2.4. Sources e Refs {#424-sources-e-refs}
 
-## 5.4. Sources e Refs
-
-### source() - Referencia tabelas externas (Raw)
+#### source() - Referencia tabelas externas (Raw)
 ```sql
 -- models/staging/stg_clientes.sql
 SELECT *
 FROM {{ source('airbyte_raw', 'e095for') }}
 ```
 
-### ref() - Referencia outros modelos dbt
+#### ref() - Referencia outros modelos dbt
 ```sql
 -- models/marts/dim_clientes.sql
 SELECT *
@@ -1581,7 +1947,7 @@ FROM {{ ref('stg_clientes') }}
 
 ---
 
-### Declarar Sources (schema.yml)
+#### Declarar Sources (schema.yml)
 
 ```yaml
 # models/staging/schema.yml
@@ -1602,11 +1968,9 @@ sources:
 
 ### 4.2.5. Testes {#425-testes}
 
-## 5.5. Testes
-
 Validam qualidade dos dados. Rodam com `dbt test`.
 
-### Testes Nativos
+#### Testes Nativos
 
 | Teste | Valida |
 |-------|--------|
@@ -1615,7 +1979,7 @@ Validam qualidade dos dados. Rodam com `dbt test`.
 | `accepted_values` | Valores dentro de lista permitida |
 | `relationships` | FK existe na tabela referenciada |
 
-### Configurar no schema.yml
+#### Configurar no schema.yml
 
 ```yaml
 # models/marts/schema.yml
@@ -1638,11 +2002,9 @@ models:
 
 ### 4.2.6. Jinja Básico {#426-jinja-básico}
 
-## 5.6. Jinja Básico
-
 dbt usa Jinja para SQL dinâmico.
 
-### Sintaxe
+#### Sintaxe
 
 | Sintaxe | Uso |
 |---------|-----|
@@ -1650,7 +2012,7 @@ dbt usa Jinja para SQL dinâmico.
 | `{% %}` | Lógica (if, for) |
 | `{# #}` | Comentário |
 
-### Funções Comuns
+#### Funções Comuns
 
 ```sql
 -- Referências
@@ -1670,7 +2032,7 @@ dbt usa Jinja para SQL dinâmico.
 
 ---
 
-## 5.7. Macro de Permissões (BM)
+### Macro de Permissões (BM)
 
 Macro que concede permissões após criar tabelas. Roda automaticamente.
 
@@ -1690,7 +2052,7 @@ on-run-end:
 
 ---
 
-## 5.8. Lineage (Grafo de Dependências)
+### Lineage (Grafo de Dependências)
 
 Visualiza a relação entre modelos.
 
@@ -1712,7 +2074,7 @@ dbt docs serve       # Abre no navegador
 ### 4.2.7. Comandos dbt {#427-comandos-dbt}
 
 
-### Execução
+#### Execução
 ```bash
 dbt run                            # Executa todos os modelos
 dbt run -s nome_do_modelo          # Executa modelo específico
@@ -1720,7 +2082,7 @@ dbt run -s +nome_do_modelo         # Modelo + filhos (downstream)
 dbt run -s @nome_do_modelo         # Modelo + pais e filhos
 ```
 
-### Testes e Build
+#### Testes e Build
 ```bash
 dbt test                           # Executa todos os testes
 dbt test -s nome_do_modelo         # Testa modelo específico
@@ -1728,7 +2090,7 @@ dbt build                          # Executa run + test
 dbt build -s nome_do_modelo        # Build de modelo específico
 ```
 
-### Seeds e Dependências
+#### Seeds e Dependências
 ```bash
 dbt seed                           # Carrega todos os seeds
 dbt seed -s nome_do_seed           # Carrega seed específico
@@ -1736,7 +2098,7 @@ dbt seed --full-refresh            # Substitui todos os dados
 dbt deps                           # Instala packages do packages.yml
 ```
 
-### Debug e Documentação
+#### Debug e Documentação
 ```bash
 dbt debug                          # Verifica conexão e configuração
 dbt compile                        # Compila SQL sem executar
@@ -1767,7 +2129,6 @@ Orquestrador de pipelines de dados.
 
 ---
 
-### 6.2. Conceitos Essenciais
 
 ```
 ┌───────┐      ┌───────┐      ┌───────┐
@@ -1814,8 +2175,6 @@ PythonOperator(task_id="extrair", python_callable=extrair_func)
 
 ### 4.3.3. Anatomia de uma DAG {#433-anatomia-de-uma-dag}
 
-### 6.4. Anatomia de uma DAG
-
 ```python
 from airflow import DAG
 from airflow.decorators import task
@@ -1846,8 +2205,6 @@ with DAG(
 
 ### 4.3.4. Hooks e Conexões {#434-hooks-e-conexões}
 
-### 6.5. Hooks e Conexões
-
 **Hook** = conector para sistemas externos.
 
 ```python
@@ -1866,9 +2223,9 @@ hook.run("TRUNCATE TABLE destino")
 
 ---
 
-## Parte 2: Recursos Intermediários
+### 4.3.5. Recursos Intermediários {#435-recursos-intermediários}
 
-### 6.6. Context e Params
+####  Context e Params
 
 **Context:** Informações da execução.
 
@@ -1890,11 +2247,9 @@ with DAG(
 # Disparar: {"custom_tables": ["e640lct"]}
 ```
 
-### 4.3.5. Recursos Intermediários {#435-recursos-intermediários}
-
 ---
 
-### 6.7. Controle de Fluxo
+#### Controle de Fluxo
 
 **TriggerRule:** Quando a task executa.
 
@@ -1917,7 +2272,7 @@ def processar(tabela, **context):
 
 ---
 
-### 6.8. TaskGroups
+#### TaskGroups
 
 Agrupa tasks visualmente.
 
@@ -1931,7 +2286,7 @@ with TaskGroup(group_id="vendas") as grupo:
 
 ---
 
-### 6.9. Modularização
+#### Modularização
 
 **O que:** Separar DAG (orquestração) de lógica (funções).
 
@@ -1955,11 +2310,11 @@ def extrair(tabela):
 
 ---
 
-### 6.10. Geração Dinâmica
+#### Geração Dinâmica
 
 Cria tasks automaticamente a partir de lista ou arquivo.
 
-#### Via Lista
+##### Via Lista
 
 ```python
 TABELAS = ["e095for", "e440nfc", "e660inv"]
@@ -1992,7 +2347,7 @@ for _, row in df.iterrows():
 ### 4.3.6. Airflow na Barra Mansa {#436-airflow-na-barra-mansa}
 
 
-### 6.11. Visão Geral
+#### Visão Geral
 
 **Números:** 70+ DAGs | 300+ tabelas | ~7k execuções/dia
 
@@ -2013,7 +2368,7 @@ SQL Server  ──►  S3  ──►  Redshift
 
 ---
 
-### 6.12. Estratégias de Carga
+### Estratégias de Carga
 
 | Estratégia | Operação | Uso | Schedule |
 |------------|----------|-----|----------|
@@ -2035,7 +2390,7 @@ SQL Server  ──►  S3  ──►  Redshift
 ### 4.3.7. Como Adicionar Nova Tabela {#437-como-adicionar-nova-tabela}
 
 
-### 6.13. DAGs Principais
+### DAGs Principais
 
 #### job_sapiens_full_auto
 
@@ -2122,7 +2477,7 @@ Pipeline NRT: ingestão + transformação a cada 5min (60+ tabelas).
 
 ---
 
-### 6.14. Como Adicionar Nova Tabela
+### Como Adicionar Nova Tabela
 
 #### Cenário 1: Tabela Full (cadastro pequeno)
 
@@ -2186,7 +2541,7 @@ dbt run -s fato_nova
 
 ---
 
-### 6.15. Operação
+### Operação
 
 #### Rodar Tabela Específica
 
@@ -2212,22 +2567,7 @@ airflow dags trigger job_sapiens_incremental \
 
 ## 4.4. Power BI
 
-Ferramenta de visualização e análise de dados.
-
-### 4.4.1. Conexão com Fontes {#441-conexão-com-fontes}
-
-
----
-
-7. Power BI
-
-Ferramenta de visualização e análise de dados.
-
----
-
-## Parte 1: Fundamentos
-
-### 7.1. Visão Geral
+#### Ferramenta de visualização e análise de dados.
 
 **Fluxo de trabalho:**
 ```
@@ -2245,7 +2585,7 @@ Conectar  ──►  Modelar  ──►  Visualizar  ──►  Publicar
 
 ---
 
-### 7.2. Conexão com Fontes de Dados
+### 4.4.1. Conexão com Fontes {#441-conexão-com-fontes}
 
 #### Redshift (conector nativo)
 1. Obter Dados → Banco de Dados → Amazon Redshift
@@ -2276,7 +2616,7 @@ Conectar  ──►  Modelar  ──►  Visualizar  ──►  Publicar
 
 ---
 
-### 7.3. Modelagem de Dados
+### Modelagem de Dados
 
 #### Star Schema
 
@@ -2326,7 +2666,7 @@ Traduz códigos para descrições ou agrupa categorias.
 
 ---
 
-### 7.4. DAX Intermediário
+### DAX Intermediário
 
 #### Colunas Calculadas vs Medidas
 
@@ -2443,9 +2783,7 @@ DIVIDE(
 
 ---
 
-## Parte 2: Visualização
-
-### 7.5. Design de Layouts
+### Design de Layouts
 
 #### Figma para Tela de Fundo
 
@@ -2475,7 +2813,7 @@ DIVIDE(
 
 ---
 
-### 7.6. Criação de Visuais
+### Criação de Visuais
 
 #### Quando Usar Cada Visual
 
@@ -2500,7 +2838,7 @@ DIVIDE(
 
 ---
 
-### 7.7. Interatividade
+### Interatividade
 
 #### Segmentação (Slicers)
 
@@ -2529,9 +2867,7 @@ Navegar em hierarquias (ex: Ano → Mês → Dia).
 
 ---
 
-## Parte 3: Boas Práticas
-
-### 7.8. Boas Práticas
+### Boas Práticas
 
 #### Layouts
 
@@ -2669,7 +3005,7 @@ IF(
 
 ---
 
-## 7. Power BI - Análise de Vendas (NF-e Saída 2020-2025)
+### Ex: Power BI - Análise de Vendas (NF-e Saída 2020-2025)
 
 Sugestão de análise utilizando a base histórica de notas fiscais de saída.
 
@@ -3751,9 +4087,2062 @@ ORDER BY ano, mes
 
 ---
 
+### 6.2. Exercícios Python para Análise de Dados
 
 ---
 
+#### 6.2.1. Bloco 1: Sintaxe Básica {#621-bloco-1-sintaxe-basica}
+
+##### Exercício 1.1 - Configurações de DAG 🟢
+**Contexto:** Toda DAG do Airflow precisa de configurações básicas.  
+**Objetivo:** Trabalhar com dicionários e tipos de dados.
+```python
+# Configuração de uma DAG
+dag_config = {
+    "dag_id": "process_sales",
+    "schedule_interval": "0 8 * * *",
+    "retries": 3,
+    "active": True,
+    "tags": ["vendas", "diario"]
+}
+
+# TODO:
+# 1. Imprimir o nome da DAG
+# 2. Verificar se a DAG está ativa (True/False)
+# 3. Adicionar uma nova tag "producao" à lista de tags
+# 4. Alterar o número de retries para 5
+# 5. Imprimir a configuração completa
+```
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```python
+# 1. Nome da DAG
+print(f"DAG: {dag_config['dag_id']}")  # DAG: process_sales
+
+# 2. Verificar se está ativa
+print(f"Ativa: {dag_config['active']}")  # Ativa: True
+
+# 3. Adicionar tag
+dag_config['tags'].append('producao')
+print(f"Tags: {dag_config['tags']}")  # ['vendas', 'diario', 'producao']
+
+# 4. Alterar retries
+dag_config['retries'] = 5
+
+# 5. Configuração completa
+print(dag_config)
+```
+
+**Conceitos aplicados:**
+- Dicionários (acesso por chave)
+- Tipos de dados (string, int, bool, list)
+- Métodos de lista (`.append()`)
+
+</details>
+
+---
+
+##### Exercício 1.2 - Lista de Tabelas para Processar 🟢
+**Contexto:** Em pipelines, frequentemente processamos múltiplas tabelas.  
+**Objetivo:** Manipular listas e usar loops básicos.
+```python
+# Tabelas a serem extraídas do SQL Server
+tabelas = ["e095for", "e440nfc", "e660inv", "e640lct", "e045pla"]
+
+# TODO:
+# 1. Contar quantas tabelas existem
+# 2. Imprimir a primeira e a última tabela
+# 3. Verificar se "e640lct" está na lista
+# 4. Adicionar a tabela "e075age" ao final
+# 5. Criar um loop que imprima: "Processando tabela: [nome]"
+```
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```python
+# 1. Contar tabelas
+print(f"Total: {len(tabelas)} tabelas")  # Total: 5 tabelas
+
+# 2. Primeira e última
+print(f"Primeira: {tabelas[0]}")   # Primeira: e095for
+print(f"Última: {tabelas[-1]}")    # Última: e045pla
+
+# 3. Verificar se existe
+existe = "e640lct" in tabelas
+print(f"e640lct existe: {existe}")  # True
+
+# 4. Adicionar tabela
+tabelas.append("e075age")
+
+# 5. Loop para processar
+for tabela in tabelas:
+    print(f"Processando tabela: {tabela}")
+```
+
+**Conceitos aplicados:**
+- Listas (indexação, tamanho)
+- Operador `in` para verificação
+- Loop `for` básico
+- f-strings para formatação
+
+</details>
+
+---
+
+##### Exercício 1.3 - Validação de Schemas dbt 🟡
+**Contexto:** No dbt, organizamos modelos em schemas (raw, staging, marts).  
+**Objetivo:** Usar condicionais e estruturas de controle.
+
+```python
+# Modelo dbt e seu schema
+modelo = "stg_fornecedores"
+schema_atual = "staging"
+
+# Regras de nomenclatura:
+# - Modelos "raw_" devem estar em schema "raw"
+# - Modelos "stg_" devem estar em schema "staging"
+# - Modelos "fct_" ou "dim_" devem estar em schema "marts"
+
+# TODO:
+# 1. Extrair o prefixo do modelo (parte antes do "_")
+# 2. Determinar o schema esperado baseado no prefixo
+# 3. Verificar se o schema atual está correto
+# 4. Imprimir mensagem de validação
+```
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```python
+# 1. Extrair prefixo
+prefixo = modelo.split("_")[0]
+print(f"Prefixo: {prefixo}")  # Prefixo: stg
+
+# 2. Determinar schema esperado
+if prefixo == "raw":
+    schema_esperado = "raw"
+elif prefixo == "stg":
+    schema_esperado = "staging"
+elif prefixo in ["fct", "dim"]:
+    schema_esperado = "marts"
+else:
+    schema_esperado = "desconhecido"
+
+print(f"Schema esperado: {schema_esperado}")  # staging
+
+# 3 e 4. Validar
+if schema_atual == schema_esperado:
+    print(f"✓ Modelo '{modelo}' está no schema correto: {schema_atual}")
+else:
+    print(f"✗ ERRO: Modelo '{modelo}' deveria estar em '{schema_esperado}', mas está em '{schema_atual}'")
+```
+
+**Conceitos aplicados:**
+- String methods (`.split()`)
+- Condicionais (`if/elif/else`)
+- Operador `in` para múltiplos valores
+- Comparação de igualdade
+
+</details>
+
+---
+
+##### Exercício 1.4 - Filtragem de Tabelas por Critério 🟡
+**Contexto:** Às vezes queremos processar apenas tabelas específicas.  
+**Objetivo:** Combinar listas, loops e condicionais.
+
+```python
+# Todas as tabelas disponíveis
+todas_tabelas = [
+    "e095for", "e440nfc", "e660inv", "e640lct", 
+    "e045pla", "e075age", "e001tns", "e070emp"
+]
+
+# Critérios de filtro
+processar_apenas = ["e095for", "e640lct", "e045pla"]  # Lista específica
+iniciam_com = "e0"  # Prefixo
+
+# TODO:
+# 1. Criar lista com tabelas que estão em 'processar_apenas'
+# 2. Criar lista com tabelas que começam com 'e0'
+# 3. Criar lista com tabelas que atendem AMBOS os critérios
+# 4. Imprimir quantas tabelas foram selecionadas em cada caso
+```
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```python
+# 1. Tabelas na lista específica
+tabelas_especificas = []
+for tabela in todas_tabelas:
+    if tabela in processar_apenas:
+        tabelas_especificas.append(tabela)
+
+print(f"Específicas: {tabelas_especificas}")
+# ['e095for', 'e640lct', 'e045pla']
+
+# 2. Tabelas que começam com 'e0'
+tabelas_prefixo = []
+for tabela in todas_tabelas:
+    if tabela.startswith(iniciam_com):
+        tabelas_prefixo.append(tabela)
+
+print(f"Com prefixo 'e0': {tabelas_prefixo}")
+# ['e095for', 'e045pla', 'e075age', 'e001tns', 'e070emp']
+
+# 3. Tabelas que atendem AMBOS
+tabelas_ambos = []
+for tabela in todas_tabelas:
+    if tabela in processar_apenas and tabela.startswith(iniciam_com):
+        tabelas_ambos.append(tabela)
+
+print(f"Ambos critérios: {tabelas_ambos}")
+# ['e095for', 'e045pla']
+
+# 4. Contagem
+print(f"\nResumo:")
+print(f"- Específicas: {len(tabelas_especificas)} tabelas")
+print(f"- Com prefixo: {len(tabelas_prefixo)} tabelas")
+print(f"- Ambos: {len(tabelas_ambos)} tabelas")
+```
+
+**Conceitos aplicados:**
+- Loops aninhados com condicionais
+- String method (`.startswith()`)
+- Operadores lógicos (`and`)
+- Listas vazias e `.append()`
+
+</details>
+
+---
+
+##### Exercício 1.5 - Construtor de Task IDs Dinâmicos 🔴
+**Contexto:** No Airflow, cada task precisa de um ID único. Ao processar múltiplas tabelas, geramos IDs automaticamente.  
+**Objetivo:** Combinar loops, strings, dicionários e lógica condicional.
+
+```python
+# Tabelas e suas configurações
+tabelas_config = {
+    "e095for": {"tipo": "incremental", "schema": "raw"},
+    "e440nfc": {"tipo": "full", "schema": "raw"},
+    "e640lct": {"tipo": "incremental", "schema": "staging"},
+    "e045pla": {"tipo": "full", "schema": "marts"}
+}
+
+# Padrão de task_id: {tipo}_{schema}_{tabela}
+# Exemplo: "incremental_raw_e095for"
+
+# TODO:
+# 1. Criar dicionário onde a chave é o task_id e o valor é o nome da tabela
+# 2. Criar lista apenas com task_ids de tabelas incrementais
+# 3. Contar quantas tasks existem por schema
+# 4. Imprimir relatório formatado com todas as informações
+```
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```python
+# 1. Dicionário de task_ids
+task_mapping = {}
+for tabela, config in tabelas_config.items():
+    task_id = f"{config['tipo']}_{config['schema']}_{tabela}"
+    task_mapping[task_id] = tabela
+
+print("Task IDs criados:")
+for task_id, tabela in task_mapping.items():
+    print(f"  {task_id} -> {tabela}")
+
+# 2. Tasks incrementais apenas
+tasks_incrementais = []
+for tabela, config in tabelas_config.items():
+    if config['tipo'] == 'incremental':
+        task_id = f"{config['tipo']}_{config['schema']}_{tabela}"
+        tasks_incrementais.append(task_id)
+
+print(f"\nTasks incrementais: {tasks_incrementais}")
+
+# 3. Contar por schema
+contador_schema = {}
+for tabela, config in tabelas_config.items():
+    schema = config['schema']
+    if schema in contador_schema:
+        contador_schema[schema] += 1
+    else:
+        contador_schema[schema] = 1
+
+print(f"\nTasks por schema: {contador_schema}")
+
+# 4. Relatório completo
+print("\n" + "="*50)
+print("RELATÓRIO DE TASKS")
+print("="*50)
+print(f"Total de tasks: {len(task_mapping)}")
+print(f"Tasks incrementais: {len(tasks_incrementais)}")
+print(f"Tasks full refresh: {len(task_mapping) - len(tasks_incrementais)}")
+print("\nDistribuição por schema:")
+for schema, count in contador_schema.items():
+    print(f"  - {schema}: {count} tasks")
+```
+
+**Conceitos aplicados:**
+- Dicionários aninhados (`.items()`)
+- Criação dinâmica de chaves em dicionário
+- Contadores com dicionário
+- Múltiplos loops independentes
+- Formatação de strings complexa
+- Operações aritméticas com contadores
+
+</details>
+
+---
+
+#### 6.2.2. Bloco 2: Recursos da Linguagem {#622-bloco-2-recursos-da-linguagem}
+
+##### Exercício 2.1 - List Comprehension para Task IDs 🟢
+**Contexto:** Gerar listas de forma concisa é essencial em Python.  
+**Objetivo:** Transformar loops em list comprehensions.
+
+```python
+# Lista de tabelas
+tabelas = ["e095for", "e440nfc", "e660inv", "e640lct", "e045pla"]
+
+# TODO (usando list comprehension):
+# 1. Criar lista de task_ids no formato "extract_{tabela}"
+# 2. Criar lista apenas com tabelas que começam com "e6"
+# 3. Criar lista com o tamanho (length) de cada nome de tabela
+# 4. Criar lista de tuplas (tabela, tamanho)
+```
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```python
+# 1. Task IDs
+task_ids = [f"extract_{tabela}" for tabela in tabelas]
+print(task_ids)
+# ['extract_e095for', 'extract_e440nfc', 'extract_e660inv', 'extract_e640lct', 'extract_e045pla']
+
+# 2. Filtrar por prefixo
+tabelas_e6 = [t for t in tabelas if t.startswith("e6")]
+print(tabelas_e6)
+# ['e660inv', 'e640lct']
+
+# 3. Tamanhos
+tamanhos = [len(t) for t in tabelas]
+print(tamanhos)
+# [7, 7, 7, 7, 7]
+
+# 4. Tuplas (tabela, tamanho)
+tabelas_tamanhos = [(t, len(t)) for t in tabelas]
+print(tabelas_tamanhos)
+# [('e095for', 7), ('e440nfc', 7), ('e660inv', 7), ('e640lct', 7), ('e045pla', 7)]
+```
+
+**Conceitos aplicados:**
+- List comprehension básica
+- List comprehension com filtro (`if`)
+- Expressões dentro de comprehension
+- Criação de tuplas em comprehension
+
+</details>
+
+---
+
+##### Exercício 2.2 - Dictionary Comprehension para Configs 🟢
+**Contexto:** Criar dicionários de configuração rapidamente.  
+**Objetivo:** Usar dictionary comprehension.
+
+```python
+# Lista de modelos dbt
+modelos = ["stg_fornecedores", "stg_produtos", "stg_vendas"]
+
+# Configuração padrão
+config_padrao = {
+    "materialized": "view",
+    "schema": "staging"
+}
+
+# TODO (usando dictionary comprehension):
+# 1. Criar dicionário {modelo: "view"} para cada modelo
+# 2. Criar dicionário {modelo: len(modelo)} com tamanho do nome
+# 3. Criar dicionário {modelo: config_padrao} para cada modelo
+```
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```python
+# 1. Modelo -> materialização
+materializacoes = {modelo: "view" for modelo in modelos}
+print(materializacoes)
+# {'stg_fornecedores': 'view', 'stg_produtos': 'view', 'stg_vendas': 'view'}
+
+# 2. Modelo -> tamanho
+tamanhos = {modelo: len(modelo) for modelo in modelos}
+print(tamanhos)
+# {'stg_fornecedores': 17, 'stg_produtos': 12, 'stg_vendas': 10}
+
+# 3. Modelo -> config completa
+configs = {modelo: config_padrao.copy() for modelo in modelos}
+print(configs)
+# {'stg_fornecedores': {'materialized': 'view', 'schema': 'staging'}, ...}
+
+# Nota: .copy() é importante para não compartilhar a mesma referência
+```
+
+**Conceitos aplicados:**
+- Dictionary comprehension básica
+- Expressões em dictionary comprehension
+- `.copy()` para dicionários (referência vs cópia)
+
+</details>
+
+---
+
+##### Exercício 2.3 - Simulando o Decorator @task 🟡
+**Contexto:** O Airflow usa `@task` para transformar funções em tasks.  
+**Objetivo:** Entender o conceito de decorators.
+
+```python
+# Simulação simplificada do comportamento do @task do Airflow
+
+def criar_task(func):
+    """Decorator que adiciona metadados à função"""
+    def wrapper(*args, **kwargs):
+        print(f"[TASK START] Executando: {func.__name__}")
+        resultado = func(*args, **kwargs)
+        print(f"[TASK END] Finalizado: {func.__name__}")
+        return resultado
+    
+    wrapper.task_id = func.__name__
+    return wrapper
+
+# TODO:
+# 1. Criar função 'extrair_dados' que retorna "dados extraídos"
+# 2. Aplicar o decorator 'criar_task' nela usando @
+# 3. Criar função 'transformar_dados' que recebe dados e retorna f"{dados} transformados"
+# 4. Aplicar o decorator também
+# 5. Executar ambas e observar os logs
+```
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```python
+@criar_task
+def extrair_dados():
+    return "dados extraídos"
+
+@criar_task
+def transformar_dados(dados):
+    return f"{dados} transformados"
+
+# Executando as tasks
+print("\n--- Execução do Pipeline ---")
+dados = extrair_dados()
+print(f"Resultado: {dados}\n")
+
+resultado_final = transformar_dados(dados)
+print(f"Resultado: {resultado_final}\n")
+
+# Acessando metadados
+print(f"Task ID 1: {extrair_dados.task_id}")
+print(f"Task ID 2: {transformar_dados.task_id}")
+
+# Output:
+# --- Execução do Pipeline ---
+# [TASK START] Executando: extrair_dados
+# [TASK END] Finalizado: extrair_dados
+# Resultado: dados extraídos
+#
+# [TASK START] Executando: transformar_dados
+# [TASK END] Finalizado: transformar_dados
+# Resultado: dados extraídos transformados
+#
+# Task ID 1: extrair_dados
+# Task ID 2: transformar_dados
+```
+
+**Conceitos aplicados:**
+- Decorators (conceito e sintaxe `@`)
+- Funções como objetos
+- `*args` e `**kwargs`
+- Atributos de funções
+
+</details>
+
+---
+
+##### Exercício 2.4 - Context Manager para Conexões 🟡
+**Contexto:** Gerenciar conexões com bancos requer abertura e fechamento adequados.  
+**Objetivo:** Usar context managers (`with`).
+
+```python
+class ConexaoSimulada:
+    """Simula uma conexão de banco de dados"""
+    
+    def __init__(self, nome_conexao):
+        self.nome = nome_conexao
+        self.conectado = False
+    
+    def __enter__(self):
+        """Executado ao entrar no bloco 'with'"""
+        print(f"[CONNECT] Abrindo conexão: {self.nome}")
+        self.conectado = True
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Executado ao sair do bloco 'with'"""
+        print(f"[DISCONNECT] Fechando conexão: {self.nome}")
+        self.conectado = False
+    
+    def executar(self, query):
+        if self.conectado:
+            print(f"[QUERY] Executando: {query}")
+            return f"Resultado de '{query}'"
+        else:
+            return "ERRO: Conexão fechada"
+
+# TODO:
+# 1. Usar context manager para conectar ao "redshift"
+# 2. Executar query "SELECT * FROM tabela"
+# 3. Tentar executar query fora do bloco 'with' e observar erro
+```
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```python
+# 1 e 2. Usando context manager corretamente
+print("=== Uso correto ===")
+with ConexaoSimulada("redshift") as conn:
+    resultado = conn.executar("SELECT * FROM tabela")
+    print(f"Retorno: {resultado}")
+    print(f"Status dentro: conectado={conn.conectado}")
+
+print(f"Status fora: conectado={conn.conectado}\n")
+
+# 3. Tentando usar fora do contexto (erro)
+print("=== Uso incorreto ===")
+conexao = ConexaoSimulada("redshift")
+print(conexao.executar("SELECT * FROM outra_tabela"))
+
+# Output:
+# === Uso correto ===
+# [CONNECT] Abrindo conexão: redshift
+# [QUERY] Executando: SELECT * FROM tabela
+# Retorno: Resultado de 'SELECT * FROM tabela'
+# Status dentro: conectado=True
+# [DISCONNECT] Fechando conexão: redshift
+# Status fora: conectado=False
+#
+# === Uso incorreto ===
+# ERRO: Conexão fechada
+```
+
+**Conceitos aplicados:**
+- Context managers (`with`)
+- `__enter__` e `__exit__`
+- Gerenciamento automático de recursos
+- Estados de objetos
+
+</details>
+
+---
+
+##### Exercício 2.5 - Pipeline Completo com Múltiplos Conceitos 🔴
+**Contexto:** Construir um pipeline que combina todos os conceitos aprendidos.  
+**Objetivo:** Integrar comprehensions, decorators e context managers.
+
+```python
+# Decorator para logging
+def log_task(func):
+    def wrapper(*args, **kwargs):
+        print(f"→ Iniciando: {func.__name__}")
+        resultado = func(*args, **kwargs)
+        print(f"✓ Concluído: {func.__name__}")
+        return resultado
+    return wrapper
+
+# Context manager (já definido anteriormente)
+class ConexaoSimulada:
+    def __init__(self, nome):
+        self.nome = nome
+    
+    def __enter__(self):
+        print(f"[DB] Conectando a {self.nome}")
+        return self
+    
+    def __exit__(self, *args):
+        print(f"[DB] Desconectando de {self.nome}")
+    
+    def buscar_tabelas(self):
+        return ["e095for", "e440nfc", "e640lct"]
+
+# TODO:
+# 1. Criar função decorada 'obter_tabelas_filtradas' que:
+#    - Recebe uma conexão e um prefixo
+#    - Busca tabelas da conexão
+#    - Retorna apenas tabelas que começam com o prefixo (usar comprehension)
+#
+# 2. Criar função decorada 'gerar_task_ids' que:
+#    - Recebe lista de tabelas
+#    - Retorna dicionário {tabela: task_id} usando dict comprehension
+#    - task_id formato: "process_{tabela}"
+#
+# 3. Executar pipeline completo:
+#    - Abrir conexão com context manager
+#    - Filtrar tabelas (prefixo "e6")
+#    - Gerar task_ids
+#    - Imprimir resultado
+```
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```python
+@log_task
+def obter_tabelas_filtradas(conexao, prefixo):
+    todas = conexao.buscar_tabelas()
+    filtradas = [t for t in todas if t.startswith(prefixo)]
+    return filtradas
+
+@log_task
+def gerar_task_ids(tabelas):
+    return {tabela: f"process_{tabela}" for tabela in tabelas}
+
+# Pipeline completo
+print("="*50)
+print("EXECUTANDO PIPELINE")
+print("="*50)
+
+with ConexaoSimulada("mssql_source") as db:
+    # Etapa 1: Filtrar tabelas
+    tabelas = obter_tabelas_filtradas(db, "e6")
+    print(f"Tabelas filtradas: {tabelas}\n")
+    
+    # Etapa 2: Gerar task_ids
+    tasks = gerar_task_ids(tabelas)
+    print(f"Tasks geradas:")
+    for tabela, task_id in tasks.items():
+        print(f"  {tabela} → {task_id}")
+
+print("\n" + "="*50)
+print("PIPELINE FINALIZADO")
+print("="*50)
+
+# Output:
+# ==================================================
+# EXECUTANDO PIPELINE
+# ==================================================
+# [DB] Conectando a mssql_source
+# → Iniciando: obter_tabelas_filtradas
+# ✓ Concluído: obter_tabelas_filtradas
+# Tabelas filtradas: ['e640lct']
+#
+# → Iniciando: gerar_task_ids
+# ✓ Concluído: gerar_task_ids
+# Tasks geradas:
+#   e640lct → process_e640lct
+# [DB] Desconectando de mssql_source
+#
+# ==================================================
+# PIPELINE FINALIZADO
+# ==================================================
+```
+
+**Conceitos aplicados:**
+- Múltiplos decorators
+- List comprehension com filtro
+- Dictionary comprehension
+- Context manager
+- Composição de funções
+- Pipeline de dados
+
+</details>
+
+---
+
+#### 6.2.3. Bloco 3: Pandas para Análise Exploratória {#623-bloco-3-pandas-para-analise-exploratoria}
+
+##### Exercício 3.1 - Lendo CSV de Configuração 🟢
+**Contexto:** Arquivos CSV frequentemente armazenam configurações de pipelines.  
+**Objetivo:** Ler e explorar DataFrames básicos.
+
+```python
+import pandas as pd
+from io import StringIO
+
+# Simulando um CSV de dependências (como nrt_dependencies.csv)
+csv_data = """tabela_origem;tabela_destino;tipo_carga
+e095for;stg_fornecedores;incremental
+e440nfc;stg_notas_fiscais;incremental
+e640lct;stg_lancamentos;full
+e045pla;stg_plano_contas;full
+e660inv;stg_inventario;incremental"""
+
+# TODO:
+# 1. Ler o CSV em um DataFrame (sep=";")
+# 2. Exibir as primeiras 3 linhas
+# 3. Exibir informações sobre o DataFrame (.info())
+# 4. Exibir os nomes das colunas
+# 5. Contar quantas linhas existem
+```
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```python
+# 1. Ler CSV
+df = pd.read_csv(StringIO(csv_data), sep=";")
+
+# 2. Primeiras 3 linhas
+print("Primeiras 3 linhas:")
+print(df.head(3))
+print()
+
+# 3. Informações
+print("Informações do DataFrame:")
+df.info()
+print()
+
+# 4. Nomes das colunas
+print(f"Colunas: {list(df.columns)}")
+# ['tabela_origem', 'tabela_destino', 'tipo_carga']
+
+# 5. Contagem
+print(f"Total de linhas: {len(df)}")  # 5
+```
+
+**Conceitos aplicados:**
+- `pd.read_csv()` com separador customizado
+- `.head()` para preview
+- `.info()` para metadados
+- `.columns` para nomes de colunas
+- `len()` para contar linhas
+
+</details>
+
+---
+
+##### Exercício 3.2 - Filtragem de Dados 🟢
+**Contexto:** Filtrar configurações por tipo de carga é comum.  
+**Objetivo:** Usar filtros booleanos em DataFrames.
+
+```python
+import pandas as pd
+from io import StringIO
+
+csv_data = """tabela_origem;tabela_destino;tipo_carga;schema
+e095for;stg_fornecedores;incremental;staging
+e440nfc;stg_notas_fiscais;incremental;staging
+e640lct;stg_lancamentos;full;staging
+e045pla;dim_plano_contas;full;marts
+e660inv;stg_inventario;incremental;staging"""
+
+df = pd.read_csv(StringIO(csv_data), sep=";")
+
+# TODO:
+# 1. Filtrar apenas linhas com tipo_carga = "incremental"
+# 2. Filtrar apenas linhas do schema "staging"
+# 3. Filtrar linhas incremental E staging (ambos)
+# 4. Contar quantas linhas têm tipo "full"
+```
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```python
+# 1. Apenas incrementais
+incrementais = df[df['tipo_carga'] == 'incremental']
+print("Incrementais:")
+print(incrementais)
+print()
+
+# 2. Apenas staging
+staging = df[df['schema'] == 'staging']
+print("Schema staging:")
+print(staging)
+print()
+
+# 3. Incremental E staging
+inc_stg = df[(df['tipo_carga'] == 'incremental') & (df['schema'] == 'staging')]
+print("Incremental + Staging:")
+print(inc_stg)
+print()
+
+# 4. Contar tipo "full"
+count_full = len(df[df['tipo_carga'] == 'full'])
+print(f"Quantidade de tipo 'full': {count_full}")  # 2
+```
+
+**Conceitos aplicados:**
+- Filtros booleanos (`df[condicao]`)
+- Operadores de comparação (`==`)
+- Operadores lógicos (`&` para AND)
+- Parênteses em filtros múltiplos
+
+</details>
+
+---
+
+##### Exercício 3.3 - Seleção e Transformação de Colunas 🟡
+**Contexto:** Preparar dados para gerar tasks dinamicamente.  
+**Objetivo:** Selecionar colunas e criar novas.
+
+```python
+import pandas as pd
+from io import StringIO
+
+csv_data = """tabela_origem;tabela_destino;tipo_carga;schema
+e095for;stg_fornecedores;incremental;staging
+e440nfc;stg_notas_fiscais;incremental;staging
+e640lct;stg_lancamentos;full;staging
+e045pla;dim_plano_contas;full;marts"""
+
+df = pd.read_csv(StringIO(csv_data), sep=";")
+
+# TODO:
+# 1. Selecionar apenas colunas 'tabela_origem' e 'tipo_carga'
+# 2. Criar nova coluna 'task_id' no formato: "{tipo_carga}_{tabela_origem}"
+# 3. Criar nova coluna 'prefixo' com os 3 primeiros caracteres de tabela_origem
+# 4. Exibir o DataFrame final com todas as colunas
+```
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```python
+# 1. Selecionar colunas
+df_selecionado = df[['tabela_origem', 'tipo_carga']]
+print("Colunas selecionadas:")
+print(df_selecionado)
+print()
+
+# 2. Criar coluna task_id
+df['task_id'] = df['tipo_carga'] + '_' + df['tabela_origem']
+
+# 3. Criar coluna prefixo
+df['prefixo'] = df['tabela_origem'].str[:3]
+
+# 4. DataFrame completo
+print("DataFrame com novas colunas:")
+print(df)
+
+# Output:
+#   tabela_origem  tabela_destino     tipo_carga  schema                    task_id prefixo
+# 0       e095for  stg_fornecedores  incremental staging  incremental_e095for    e09
+# 1       e440nfc  stg_notas_fiscais incremental staging  incremental_e440nfc    e44
+# 2       e640lct  stg_lancamentos          full staging          full_e640lct    e64
+# 3       e045pla  dim_plano_contas        full   marts          full_e045pla    e04
+```
+
+**Conceitos aplicados:**
+- Seleção de colunas (`df[['col1', 'col2']]`)
+- Criação de colunas com operações
+- Concatenação de strings em Series
+- `.str` accessor para métodos de string
+
+</details>
+
+---
+
+##### Exercício 3.4 - Agrupamento e Agregação 🟡
+**Contexto:** Analisar distribuição de tasks por schema ou tipo.  
+**Objetivo:** Usar `groupby()` e agregações.
+```python
+import pandas as pd
+from io import StringIO
+
+csv_data = """tabela;schema;tipo_carga;prioridade
+e095for;staging;incremental;1
+e440nfc;staging;incremental;1
+e640lct;staging;full;2
+e045pla;marts;full;2
+e660inv;staging;incremental;1
+e001tns;raw;full;3
+e070emp;raw;incremental;2"""
+
+df = pd.read_csv(StringIO(csv_data), sep=";")
+
+# TODO:
+# 1. Contar quantas tabelas existem por schema
+# 2. Contar quantas tabelas existem por tipo_carga
+# 3. Calcular a prioridade média por schema
+# 4. Criar tabela cruzada: schema vs tipo_carga (contagem)
+```
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```python
+# 1. Contagem por schema
+por_schema = df.groupby('schema')['tabela'].count()
+print("Tabelas por schema:")
+print(por_schema)
+print()
+# staging    4
+# marts      1
+# raw        2
+
+# 2. Contagem por tipo_carga
+por_tipo = df.groupby('tipo_carga')['tabela'].count()
+print("Tabelas por tipo_carga:")
+print(por_tipo)
+print()
+# full           3
+# incremental    4
+
+# 3. Prioridade média por schema
+prioridade_media = df.groupby('schema')['prioridade'].mean()
+print("Prioridade média por schema:")
+print(prioridade_media)
+print()
+# staging    1.25
+# marts      2.00
+# raw        2.50
+
+# 4. Tabela cruzada
+tabela_cruzada = pd.crosstab(df['schema'], df['tipo_carga'])
+print("Schema vs Tipo (contagem):")
+print(tabela_cruzada)
+# tipo_carga   full  incremental
+# schema                        
+# marts           1            0
+# raw             1            1
+# staging         1            3
+```
+
+**Conceitos aplicados:**
+- `.groupby()` para agrupamento
+- Agregações (`.count()`, `.mean()`)
+- `pd.crosstab()` para tabelas cruzadas
+- Análise multidimensional
+
+</details>
+
+---
+
+##### Exercício 3.5 - Iteração para Geração de Tasks 🔴
+**Contexto:** Converter DataFrame em estruturas para criar tasks do Airflow dinamicamente.  
+**Objetivo:** Iterar sobre DataFrame e construir dicionários/listas complexas.
+
+```python
+import pandas as pd
+from io import StringIO
+
+csv_data = """tabela_origem;tabela_destino;tipo_carga;schema;dependencias
+e095for;stg_fornecedores;incremental;staging;
+e440nfc;stg_notas_fiscais;incremental;staging;e095for
+e640lct;stg_lancamentos;full;staging;e440nfc
+e045pla;dim_plano_contas;full;marts;e640lct;e095for
+e660inv;fct_inventario;incremental;marts;e045pla;e440nfc"""
+
+df = pd.read_csv(StringIO(csv_data), sep=";")
+
+# TODO:
+# 1. Converter DataFrame em lista de dicionários
+# 2. Para cada linha, criar estrutura:
+#    {
+#        "task_id": "{tipo_carga}_{tabela_origem}",
+#        "source": "tabela_origem",
+#        "target": "tabela_destino",
+#        "dependencies": ["dep1", "dep2"]  # split por ";"
+#    }
+# 3. Filtrar apenas tasks do schema "staging"
+# 4. Criar dicionário final: {task_id: task_config}
+# 5. Imprimir em formato legível
+```
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```python
+# 1. Converter para lista de dicionários
+registros = df.to_dict('records')
+
+# 2. Criar estrutura de tasks
+tasks = []
+for row in registros:
+    # Processar dependências (pode ser NaN ou string com ";")
+    deps_raw = row['dependencias']
+    if pd.isna(deps_raw) or deps_raw == '':
+        dependencias = []
+    else:
+        dependencias = [d.strip() for d in str(deps_raw).split(';')]
+    
+    task = {
+        "task_id": f"{row['tipo_carga']}_{row['tabela_origem']}",
+        "source": row['tabela_origem'],
+        "target": row['tabela_destino'],
+        "schema": row['schema'],
+        "dependencies": dependencias
+    }
+    tasks.append(task)
+
+# 3. Filtrar schema "staging"
+tasks_staging = [t for t in tasks if t['schema'] == 'staging']
+
+# 4. Criar dicionário final
+task_dict = {task['task_id']: task for task in tasks_staging}
+
+# 5. Imprimir formatado
+print("="*60)
+print("TASKS CONFIGURADAS (SCHEMA: STAGING)")
+print("="*60)
+for task_id, config in task_dict.items():
+    print(f"\nTask ID: {task_id}")
+    print(f"  Source: {config['source']}")
+    print(f"  Target: {config['target']}")
+    print(f"  Dependencies: {config['dependencies']}")
+
+print("\n" + "="*60)
+print(f"Total: {len(task_dict)} tasks")
+print("="*60)
+
+# Output:
+# ============================================================
+# TASKS CONFIGURADAS (SCHEMA: STAGING)
+# ============================================================
+#
+# Task ID: incremental_e095for
+#   Source: e095for
+#   Target: stg_fornecedores
+#   Dependencies: []
+#
+# Task ID: incremental_e440nfc
+#   Source: e440nfc
+#   Target: stg_notas_fiscais
+#   Dependencies: ['e095for']
+#
+# Task ID: full_e640lct
+#   Source: e640lct
+#   Target: stg_lancamentos
+#   Dependencies: ['e440nfc']
+#
+# ============================================================
+# Total: 3 tasks
+# ============================================================
+```
+
+**Conceitos aplicados:**
+- `.to_dict('records')` para conversão
+- Iteração sobre DataFrame
+- `pd.isna()` para verificar NaN
+- `.split()` e `.strip()` para processar strings
+- List comprehension para filtragem
+- Dictionary comprehension para estrutura final
+- Formatação de output complexa
+
+</details>
+
+---
+
+## 6.3. Exercícios DAX {#63-exercicios-dax}
+
+---
+
+### 6.3.1. Bloco 1: Medidas Básicas com Filtros {#631-bloco-1-medidas-basicas-com-filtros}
+
+#### Exercício 3.1 - Contagem com Filtro Simples 🟢
+**Contexto:** No dashboard de contas a receber, precisamos contar títulos por status.  
+**Objetivo:** Praticar COUNT com CALCULATE e filtro direto.
+
+**Dados disponíveis:**
+- fat_contas_a_receber (num_titulo, sit_titulo, vlr_original_titulo, dat_vencimento)
+
+**Tarefas:**
+1. Criar medida que conta títulos com status "AB" (aberto)
+2. Criar medida que conta títulos com status "LQ" (liquidado)
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```dax
+// Medida 1: Títulos em Aberto
+titulos_em_aberto = 
+CALCULATE(
+    COUNT(fat_contas_a_receber[num_titulo]),
+    fat_contas_a_receber[sit_titulo] = "AB"
+)
+
+// Medida 2: Títulos Liquidados
+titulos_liquidados = 
+CALCULATE(
+    COUNT(fat_contas_a_receber[num_titulo]),
+    fat_contas_a_receber[sit_titulo] = "LQ"
+)
+```
+
+**Conceitos aplicados:**
+- `COUNT()` - Conta linhas não vazias de uma coluna
+- `CALCULATE()` - Modifica o contexto de filtro
+- Filtro direto: `tabela[coluna] = "valor"`
+
+</details>
+
+---
+
+#### Exercício 3.2 - Soma com Filtro Simples 🟢
+**Contexto:** Além de contar, precisamos somar o valor total dos títulos em aberto.  
+**Objetivo:** Praticar SUM com CALCULATE e filtro direto.
+
+**Dados disponíveis:**
+- fat_contas_a_receber (num_titulo, sit_titulo, vlr_original_titulo)
+
+**Tarefas:**
+1. Criar medida que soma valor de títulos com status "AB"
+2. Criar medida que soma valor de títulos com status "LQ"
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```dax
+// Medida 1: Valor em Aberto
+vlr_titulos_em_aberto = 
+CALCULATE(
+    SUM(fat_contas_a_receber[vlr_original_titulo]),
+    fat_contas_a_receber[sit_titulo] = "AB"
+)
+
+// Medida 2: Valor Liquidado
+vlr_titulos_liquidados = 
+CALCULATE(
+    SUM(fat_contas_a_receber[vlr_original_titulo]),
+    fat_contas_a_receber[sit_titulo] = "LQ"
+)
+```
+
+**Conceitos aplicados:**
+- `SUM()` - Soma valores de uma coluna
+- `CALCULATE()` - Aplica filtro à agregação
+- Filtro em contexto de medida
+
+</details>
+
+---
+
+#### Exercício 3.3 - Soma Total com Múltiplos Filtros 🟢
+**Contexto:** No dashboard de estoque, precisamos somar gastos por categoria específica.  
+**Objetivo:** Praticar SUM com CALCULATE e filtro de texto exato.
+
+**Dados disponíveis:**
+- fat_gasto_estoque (vlrmov, grupo_epi, grupo_epi_donos)
+
+**Tarefas:**
+1. Criar medida que soma gastos onde grupo_epi_donos = "UNIFORMES"
+2. Criar medida que soma gastos onde grupo_epi_donos = "EPI"
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```dax
+// Medida 1: Total Uniformes
+total_uniformes = 
+CALCULATE(
+    SUM(fat_gasto_estoque[vlrmov]),
+    fat_gasto_estoque[grupo_epi_donos] = "UNIFORMES"
+)
+
+// Medida 2: Total EPI
+total_epi = 
+CALCULATE(
+    SUM(fat_gasto_estoque[vlrmov]),
+    fat_gasto_estoque[grupo_epi_donos] = "EPI"
+)
+```
+
+**Conceitos aplicados:**
+- `SUM()` com filtro categórico
+- `CALCULATE()` com filtro de texto
+- Agregação por grupo
+
+</details>
+
+---
+
+### 6.3.2. Bloco 2: Comparações Temporais {#632-bloco-2-comparacoes-temporais}
+
+#### Exercício 3.4 - Mês Anterior 🟡
+**Contexto:** No dashboard de orçamento TI, comparamos realizado atual vs mês anterior.  
+**Objetivo:** Praticar DATEADD para navegar no tempo.
+
+**Dados disponíveis:**
+- orcamento_taina (valor_orcado, valor_realizado)
+- dim_calendario (data, mes, ano)
+
+**Tarefas:**
+1. Criar medida "Realizado" que soma valor_realizado
+2. Criar medida "Realizado Mês Anterior" usando DATEADD(-1, MONTH)
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```dax
+// Medida base
+Realizado = SUM(orcamento_taina[valor_realizado])
+
+// Mês anterior
+Realizado Mês Anterior = 
+CALCULATE(
+    [Realizado],
+    DATEADD(dim_calendario[data], -1, MONTH)
+)
+```
+
+**Conceitos aplicados:**
+- `DATEADD(coluna_data, quantidade, unidade)` - Navega no tempo
+- Unidades: DAY, MONTH, QUARTER, YEAR
+- Referência de medida: `[nome_medida]`
+
+</details>
+
+---
+
+#### Exercício 3.5 - Semana Anterior 🟡
+**Contexto:** No dashboard de estoque, acompanhamos variação semanal de gastos.  
+**Objetivo:** Praticar DATEADD com dias para comparação semanal.
+
+**Dados disponíveis:**
+- fat_gasto_estoque (vlrmov, data_movimento)
+- dim_calendario (data, semana, mes)
+
+**Tarefas:**
+1. Criar medida "total" que soma vlrmov
+2. Criar medida "total_semana_anterior" usando DATEADD(-7, DAY)
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```dax
+// Medida base
+total = SUM(fat_gasto_estoque[vlrmov])
+
+// Semana anterior (7 dias atrás)
+total_semana_anterior = 
+CALCULATE(
+    [total],
+    DATEADD(dim_calendario[data], -7, DAY)
+)
+```
+
+**Conceitos aplicados:**
+- `DATEADD()` com DAY para dias específicos
+- -7 dias = semana anterior
+- Navegação temporal personalizada
+
+</details>
+
+---
+
+#### Exercício 3.6 - Variação Percentual 🟡
+**Contexto:** Precisamos calcular crescimento percentual entre períodos.  
+**Objetivo:** Praticar DIVIDE para evitar erros de divisão por zero.
+
+**Dados disponíveis:**
+- Medidas já criadas: [total], [total_semana_anterior]
+
+**Tarefas:**
+1. Criar medida "variacao_absoluta" (diferença simples)
+2. Criar medida "variacao_percentual" usando DIVIDE
+3. Formatar como percentual
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+``dax
+// Variação absoluta
+variacao_absoluta = [total] - [total_semana_anterior]
+
+// Variação percentual (segura contra divisão por zero)
+variacao_percentual = 
+DIVIDE(
+    [total] - [total_semana_anterior],
+    [total_semana_anterior],
+    0  // valor padrão se denominador for zero
+)
+
+// Com formatação
+variacao_percentual_formatada = 
+FORMAT(
+    [variacao_percentual],
+    "0.0%"
+)
+```
+
+**Conceitos aplicados:**
+- `DIVIDE(numerador, denominador, valor_alternativo)` - Divisão segura
+- Terceiro parâmetro previne erro #DIV/0
+- `FORMAT()` para apresentação
+
+</details>
+
+---
+
+### 6.3.3. Bloco 3: Totalizadores e Contextos {#633-bloco-3-totalizadores-e-contextos}
+
+#### Exercício 3.7 - Total Geral (Ignorar Filtros) 🟡
+**Contexto:** No dashboard de estoque, queremos calcular % sobre o total ignorando filtros visuais.  
+**Objetivo:** Praticar REMOVEFILTERS para criar totalizadores globais.
+
+**Dados disponíveis:**
+- fat_gasto_estoque (vlrmov, grupo_epi)
+
+**Tarefas:**
+1. Criar medida "total" que respeita filtros
+2. Criar medida "total_geral" que ignora filtro de grupo_epi
+3. Criar medida "percentual_do_total"
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```dax
+// Total normal (respeita filtros)
+total = SUM(fat_gasto_estoque[vlrmov])
+
+// Total geral (ignora filtro de grupo)
+total_geral = 
+CALCULATE(
+    SUM(fat_gasto_estoque[vlrmov]),
+    REMOVEFILTERS(fat_gasto_estoque[grupo_epi])
+)
+
+// Percentual do total
+percentual_do_total = 
+DIVIDE(
+    [total],
+    [total_geral]
+)
+```
+
+**Conceitos aplicados:**
+- `REMOVEFILTERS(tabela[coluna])` - Remove filtro específico
+- `REMOVEFILTERS(tabela)` - Remove todos os filtros da tabela
+- Total geral vs total filtrado
+
+</details>
+
+---
+
+#### Exercício 3.8 - Subtotal por Categoria 🟡
+**Contexto:** Queremos total por categoria mantendo outros filtros ativos (período, filial).  
+**Objetivo:** Praticar ALLEXCEPT para remover filtros seletivamente.
+
+**Dados disponíveis:**
+- fat_gasto_estoque (vlrmov, grupo_epi, filial, data)
+- dim_calendario (data, mes, ano)
+
+**Tarefas:**
+1. Criar medida que soma por grupo_epi
+2. Ignorar filtro de grupo_epi MAS manter filtros de período e filial
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```dax
+// Total por categoria (mantém filtros de período/filial)
+total_categoria = 
+CALCULATE(
+    SUM(fat_gasto_estoque[vlrmov]),
+    ALLEXCEPT(
+        fat_gasto_estoque,
+        fat_gasto_estoque[filial],
+        dim_calendario[data]
+    )
+)
+
+// Alternativa usando REMOVEFILTERS
+total_categoria_v2 = 
+CALCULATE(
+    SUM(fat_gasto_estoque[vlrmov]),
+    REMOVEFILTERS(fat_gasto_estoque[grupo_epi])
+)
+```
+
+**Conceitos aplicados:**
+- `ALLEXCEPT(tabela, coluna1, coluna2, ...)` - Remove todos EXCETO
+- Mantém filtros específicos enquanto remove outros
+- Útil para subtotais por dimensão
+
+</details>
+
+---
+
+### 6.3.4. Bloco 4: Indicadores e Lógica Condicional {#634-bloco-4-indicadores-e-logica-condicional}
+
+#### Exercício 3.9 - Indicador de Meta 🟡
+**Contexto:** No dashboard de orçamento, queremos indicar se estamos dentro da meta (±10%).  
+**Objetivo:** Praticar IF com lógica condicional para criar indicadores.
+
+**Dados disponíveis:**
+- orcamento_taina (valor_orcado, valor_realizado)
+
+**Tarefas:**
+1. Criar medida "delta_percentual" (realizado vs orçado)
+2. Criar medida "status_meta" que retorna "Dentro" ou "Fora"
+3. Meta: variação de até ±10%
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```dax
+// Base: orçado e realizado
+Orcado = SUM(orcamento_taina[valor_orcado])
+Realizado = SUM(orcamento_taina[valor_realizado])
+
+// Delta percentual
+delta_percentual = 
+DIVIDE(
+    [Realizado] - [Orcado],
+    [Orcado],
+    0
+)
+
+// Status da meta (±10%)
+status_meta = 
+IF(
+    ABS([delta_percentual]) <= 0.10,
+    "Dentro da Meta",
+    "Fora da Meta"
+)
+
+// Versão com cores
+status_meta_cor = 
+IF(
+    ABS([delta_percentual]) <= 0.10,
+    "🟢 Dentro",
+    "🔴 Fora"
+)
+```
+
+**Conceitos aplicados:**
+- `IF(teste_lógico, valor_se_verdadeiro, valor_se_falso)`
+- `ABS()` - Valor absoluto (ignora sinal)
+- Lógica condicional para indicadores
+
+</details>
+
+---
+
+#### Exercício 3.10 - Cor Condicional Baseada em Crescimento 🟡
+**Contexto:** No dashboard de estoque, queremos cor verde para crescimento e vermelha para queda.  
+**Objetivo:** Praticar IF aninhado para retornar valores condicionais (códigos de cor).
+
+**Dados disponíveis:**
+- Medidas já criadas: [total], [total_semana_anterior]
+
+**Tarefas:**
+1. Calcular diferença entre períodos
+2. Retornar código de cor: verde (#008000) para crescimento, vermelho (#FF0000) para queda
+3. Retornar BLANK() se não houver dados
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```dax
+// Cor baseada em variação semanal
+Cor_Indicador_Semanal = 
+VAR diferenca = [total] - [total_semana_anterior]
+RETURN
+    IF(
+        ISBLANK(diferenca),
+        BLANK(),
+        IF(
+            diferenca >= 0,
+            "#008000",  // Verde (crescimento)
+            "#FF0000"   // Vermelho (queda)
+        )
+    )
+
+// Versão com emoji
+Indicador_Visual = 
+VAR diferenca = [total] - [total_semana_anterior]
+RETURN
+    IF(
+        ISBLANK(diferenca),
+        "",
+        IF(
+            diferenca >= 0,
+            "🟢 +" & FORMAT(diferenca, "#,##0"),
+            "🔴 " & FORMAT(diferenca, "#,##0")
+        )
+    )
+```
+
+**Conceitos aplicados:**
+- `VAR` - Variáveis para armazenar valores intermediários
+- `ISBLANK()` - Verifica se valor é vazio
+- IF aninhado para múltiplas condições
+- Códigos HEX para cores no Power BI
+
+</details>
+
+---
+
+### 6.3.5. Bloco 5: Lógica Avançada e Iteração {#635-bloco-5-logica-avancada-e-iteracao}
+
+#### Exercício 3.11 - Consistência Mensal (Meses Dentro da Meta) 🔴
+**Contexto:** No dashboard de orçamento TI, queremos saber quantos % dos meses ficaram dentro da meta.  
+**Objetivo:** Praticar FILTER + SUMMARIZE + COUNTROWS para análise agregada.
+
+**Dados disponíveis:**
+- orcamento_taina (valor_orcado, valor_realizado)
+- dim_calendario (data, conc_mes, mes, ano)
+- Meta: delta de ±10%
+
+**Tarefas:**
+1. Criar tabela resumida por mês com delta %
+2. Filtrar apenas meses dentro da meta (±10%)
+3. Calcular % de meses dentro da meta
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```dax
+Consistencia Mensal = 
+VAR TabelaMensal = 
+    SUMMARIZE(
+        dim_calendario,
+        dim_calendario[conc_mes],
+        "DeltaMes", [delta_percentual]
+    )
+VAR MesesDentroMeta = 
+    COUNTROWS(
+        FILTER(
+            TabelaMensal,
+            ABS([DeltaMes]) <= 0.10
+        )
+    )
+VAR TotalMeses = DISTINCTCOUNT(dim_calendario[conc_mes])
+RETURN 
+    DIVIDE(MesesDentroMeta, TotalMeses, 0)
+```
+
+**Conceitos aplicados:**
+- `SUMMARIZE(tabela, coluna_grupo, "nome", medida)` - Cria tabela resumida
+- `FILTER(tabela, condição)` - Filtra tabela virtual
+- `COUNTROWS()` - Conta linhas de tabela
+- `VAR` para organizar lógica complexa
+
+</details>
+
+---
+
+#### Exercício 3.12 - Percentual de Ano Decorrido 🔴
+**Contexto:** Queremos calcular que % do ano já passou para comparar orçado vs realizado.  
+**Objetivo:** Praticar lógica de data complexa com cálculo de dias e ano bissexto.
+
+**Dados disponíveis:**
+- dim_calendario (data)
+
+**Tarefas:**
+1. Calcular quantos dias se passaram desde 01/jan
+2. Calcular total de dias do ano (considerar ano bissexto)
+3. Retornar % do ano decorrido
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+```dax
+% Ano Decorrido = 
+VAR DataSelecionada = MAX(dim_calendario[data])
+VAR AnoSelecionado = YEAR(DataSelecionada)
+VAR InicioAno = DATE(AnoSelecionado, 1, 1)
+VAR DiaDoAno = DATEDIFF(InicioAno, DataSelecionada, DAY) + 1
+VAR TotalDiasAno = 
+    IF(
+        MOD(AnoSelecionado, 4) = 0 
+        && (MOD(AnoSelecionado, 100) <> 0 || MOD(AnoSelecionado, 400) = 0),
+        366,  // Ano bissexto
+        365   // Ano normal
+    )
+RETURN
+    DIVIDE(DiaDoAno, TotalDiasAno, 0)
+```
+
+**Conceitos aplicados:**
+- `YEAR()`, `DATE()` - Funções de data
+- `DATEDIFF(data_inicial, data_final, unidade)` - Diferença entre datas
+- `MOD()` - Resto da divisão (para detectar ano bissexto)
+- Lógica complexa de ano bissexto
+
+</details>
+
+---
+
+## 6.4. Exercícios Linguagem M (Power Query) {#64-exercicios-linguagem-m-power-query}
+
+---
+
+### 6.4.1. Bloco 1: Transformações Básicas {#641-bloco-1-transformacoes-basicas}
+
+#### Exercício 4.1 - Unpivot de Colunas Mensais 🟢
+**Contexto:** Dados de orçamento chegam com uma coluna para cada mês (jan, fev, mar...).  
+**Objetivo:** Entender Table.UnpivotOtherColumns para transformar colunas em linhas.
+
+**Código fornecido:**
+
+```m
+let
+    Fonte = Excel.Workbook(...),
+    Planilha = Fonte{[Name="orcamento"]}[Data],
+    #"Colunas Removidas" = Table.RemoveColumns(Planilha, {"regra", "amostra"}),
+    #"Colunas Não Dinâmicas" = Table.UnpivotOtherColumns(
+        #"Colunas Removidas", 
+        {"tipo"}, 
+        "Atributo", 
+        "Valor"
+    )
+in
+    #"Colunas Não Dinâmicas"
+```
+
+**Perguntas:**
+1. O que faz `Table.UnpivotOtherColumns`?
+2. Por que {"tipo"} está no segundo parâmetro?
+3. O que significam "Atributo" e "Valor"?
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+**Respostas:**
+
+1. **Table.UnpivotOtherColumns**: Transforma múltiplas colunas em duas colunas (nome + valor)
+   - ANTES: `tipo | jan | fev | mar`
+   - DEPOIS: `tipo | Atributo | Valor` (3x mais linhas)
+
+2. **{"tipo"}**: Lista de colunas que **NÃO** serão dinamizadas
+   - Essas colunas permanecem fixas
+   - Todas as outras viram linhas
+
+3. **"Atributo" e "Valor"**: Nomes das novas colunas
+   - "Atributo": nome da coluna original (jan, fev, mar...)
+   - "Valor": conteúdo da célula
+
+**Exemplo visual:**
+```
+ANTES:
+tipo      | jan_orc | jan_real | fev_orc
+UNIFORME  | 1000    | 950      | 1100
+
+DEPOIS:
+tipo      | Atributo  | Valor
+UNIFORME  | jan_orc   | 1000
+UNIFORME  | jan_real  | 950
+UNIFORME  | fev_orc   | 1100
+```
+
+**Conceitos aplicados:**
+- Unpivot (wide → long format)
+- Colunas fixas vs dinâmicas
+- Reestruturação de dados
+
+</details>
+
+---
+
+#### Exercício 4.2 - Limpeza e Padronização de Texto 🟢
+**Contexto:** Dados vêm com texto inconsistente (espaços, minúsculas/maiúsculas, caracteres especiais).  
+**Objetivo:** Entender Text.Upper, Text.Clean, Text.Trim para padronizar.
+
+**Código fornecido:**
+
+```m
+let
+    Fonte = Excel.Workbook(...),
+    #"Texto em Maiúscula" = Table.TransformColumns(
+        Fonte,
+        {{"tipo", Text.Upper, type text}}
+    ),
+    #"Texto Limpo" = Table.TransformColumns(
+        #"Texto em Maiúscula",
+        {{"tipo", Text.Clean, type text}}
+    ),
+    #"Texto Aparado" = Table.TransformColumns(
+        #"Texto Limpo",
+        {{"tipo", Text.Trim, type text}}
+    )
+in
+    #"Texto Aparado"
+```
+
+**Perguntas:**
+1. O que faz `Text.Upper`?
+2. Qual a diferença entre `Text.Clean` e `Text.Trim`?
+3. Por que a ordem das transformações importa?
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+**Respostas:**
+
+1. **Text.Upper**: Converte todo texto para MAIÚSCULAS
+   - "uniforme" → "UNIFORME"
+   - Útil para padronização e comparações
+
+2. **Diferença Clean vs Trim**:
+   - **Text.Clean**: Remove caracteres não imprimíveis (quebras de linha, tabs invisíveis)
+   - **Text.Trim**: Remove espaços no início e fim
+   - Exemplo: " texto  \n " → Clean: " texto   " → Trim: "texto"
+
+3. **Ordem importa**:
+   - Primeiro Upper (facilita identificar problemas)
+   - Depois Clean (remove sujeira invisível)
+   - Por fim Trim (remove espaços extras)
+
+**Exemplo completo:**
+```
+ANTES:    "  uniforme  \n"
+Upper:    "  UNIFORME  \n"
+Clean:    "  UNIFORME  "
+Trim:     "UNIFORME"
+```
+
+**Conceitos aplicados:**
+- Transformação de colunas
+- Funções de texto em M
+- Pipeline de limpeza
+
+</details>
+
+---
+
+### 6.4.2. Bloco 2: Transformações Intermediárias {#642-bloco-2-transformacoes-intermediarias}
+
+#### Exercício 4.3 - Split de Coluna por Delimitador 🟡
+**Contexto:** Coluna com dados compostos "orc_jan_2025" precisa ser separada.  
+**Objetivo:** Entender Table.SplitColumn e Splitter.SplitTextByDelimiter.
+
+**Código fornecido:**
+
+```m
+let
+    Fonte = ...,
+    #"Dividir Coluna por Delimitador" = Table.SplitColumn(
+        Fonte, 
+        "Atributo", 
+        Splitter.SplitTextByDelimiter("_", QuoteStyle.Csv), 
+        {"Atributo.1", "Atributo.2", "Atributo.3"}
+    ),
+    #"Tipo Alterado" = Table.TransformColumnTypes(
+        #"Dividir Coluna por Delimitador",
+        {{"Atributo.1", type text}, {"Atributo.2", type text}, {"Atributo.3", Int64.Type}}
+    ),
+    #"Colunas Removidas" = Table.RemoveColumns(#"Tipo Alterado", {"Atributo.3"}),
+    #"Colunas Renomeadas" = Table.RenameColumns(
+        #"Colunas Removidas",
+        {{"Atributo.1", "Orcado_Real"}, {"Atributo.2", "Mes"}}
+    )
+in
+    #"Colunas Renomeadas"
+```
+
+**Perguntas:**
+1. O que faz `Splitter.SplitTextByDelimiter("_")`?
+2. Por que especificar {"Atributo.1", "Atributo.2", "Atributo.3"}?
+3. Por que remover "Atributo.3" depois?
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+**Respostas:**
+
+1. **SplitTextByDelimiter("_")**: Divide texto usando "_" como separador
+   - "orc_jan_2025" → ["orc", "jan", "2025"]
+   - Cada parte vira uma coluna
+
+2. **Lista de nomes**: Define nomes das novas colunas resultantes
+   - Sem isso: Power Query gera nomes genéricos (Column1, Column2...)
+   - Com isso: Nomes descritivos desde o início
+
+3. **Remover Atributo.3**: Coluna de ano não era necessária
+   - Split gera 3 colunas, mas só precisávamos de 2
+   - Remove coluna extra para simplificar
+
+**Transformação visual:**
+
+```
+ANTES:
+Atributo
+orc_jan_2025
+
+SPLIT:
+Atributo.1 | Atributo.2 | Atributo.3
+orc        | jan        | 2025
+
+DEPOIS (remove .3 e renomeia):
+Orcado_Real | Mes
+orc         | jan
+```
+
+**Conceitos aplicados:**
+- Split de texto por delimitador
+- Nomeação de colunas resultantes
+- Limpeza pós-transformação
+
+</details>
+
+---
+
+#### Exercício 4.4 - Pivot Após Unpivot (Reestruturação) 🟡
+**Contexto:** Dados foram desempilhados (unpivot), transformados, e precisam voltar para formato wide.  
+**Objetivo:** Entender Table.Pivot para inverter unpivot.
+
+**Código fornecido:**
+
+```m
+let
+    Fonte = ...,
+    #"Unpivot" = Table.UnpivotOtherColumns(Fonte, {"tipo"}, "Metrica", "Valor"),
+    #"Split Metrica" = Table.SplitColumn(...),  // separa "orc_jan" em "orc" e "jan"
+    #"Renomear" = Table.RenameColumns(..., {{"Atributo.1", "Orcado_Real"}}),
+    #"Coluna em pivô" = Table.Pivot(
+        #"Renomear", 
+        List.Distinct(#"Renomear"[Orcado_Real]), 
+        "Orcado_Real", 
+        "Valor", 
+        List.Sum
+    )
+in
+    #"Coluna em pivô"
+```
+
+**Perguntas:**
+1. O que faz `Table.Pivot`?
+2. O que significa `List.Distinct(#"Renomear"[Orcado_Real])`?
+3. Por que usar `List.Sum` como último parâmetro?
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+**Respostas:**
+
+1. **Table.Pivot**: Transforma linhas em colunas (oposto de unpivot)
+   - ANTES (long): `tipo | Orcado_Real | Valor`
+   - DEPOIS (wide): `tipo | orc | real`
+
+2. **List.Distinct**: Lista valores únicos da coluna
+   - Ex: ["orc", "real"] se coluna tem "orc", "real", "orc", "real"...
+   - Define quais serão os nomes das novas colunas
+
+3. **List.Sum**: Função de agregação para valores duplicados
+   - Se houver múltiplas linhas para mesmo tipo+Orcado_Real, soma valores
+   - Outras opções: List.Min, List.Max, List.Average
+
+**Transformação visual:**
+```
+ANTES (long):
+tipo      | Orcado_Real | Valor
+UNIFORME  | orc         | 1000
+UNIFORME  | real        | 950
+EPI       | orc         | 500
+EPI       | real        | 480
+
+DEPOIS (wide - pivot):
+tipo      | orc  | real
+UNIFORME  | 1000 | 950
+EPI       | 500  | 480
+```
+
+**Conceitos aplicados:**
+- Pivot (long → wide)
+- Valores distintos como nomes de colunas
+- Agregação em pivot
+
+</details>
+
+---
+
+### 6.4.3. Bloco 3: Análise de Pipeline Completo {#643-bloco-3-analise-de-pipeline-completo}
+
+#### Exercício 4.5 - Pipeline de Transformação Completo 🔴
+**Contexto:** Analisar código M real do orçamento de laboratório com múltiplas transformações encadeadas.  
+**Objetivo:** Compreender pipeline completo de ETL no Power Query.
+
+**Código fornecido (simplificado):**
+
+```m
+let
+    Fonte = AmazonRedshift.Database("servidor", "database"),
+    dbt_marts = Fonte{[Name="dbt_marts"]}[Data],
+    fat_orcamento = dbt_marts{[Name="fat_orcamento_laboratorio_custo_fixo"]}[Data],
+    
+    // 1. Unpivot
+    #"Colunas Não Dinâmicas" = Table.UnpivotOtherColumns(
+        fat_orcamento, 
+        {"tipo"}, 
+        "Atributo", 
+        "Valor"
+    ),
+    
+    // 2. Renomear
+    #"Colunas Renomeadas" = Table.RenameColumns(
+        #"Colunas Não Dinâmicas",
+        {{"Atributo", "Mês"}, {"tipo", "TIPO"}}
+    ),
+    
+    // 3. Split
+    #"Dividir Coluna por Delimitador" = Table.SplitColumn(
+        #"Colunas Renomeadas", 
+        "Mês", 
+        Splitter.SplitTextByDelimiter("_", QuoteStyle.Csv), 
+        {"Mês.1", "Mês.2", "Mês.3"}
+    ),
+    
+    // 4. Remover coluna ano
+    #"Colunas Removidas" = Table.RemoveColumns(
+        #"Dividir Coluna por Delimitador",
+        {"Mês.3"}
+    ),
+    
+    // 5. Renomear split
+    #"Colunas Renomeadas1" = Table.RenameColumns(
+        #"Colunas Removidas",
+        {{"Mês.1", "Orçado Real"}, {"Mês.2", "Mês"}}
+    ),
+    
+    // 6. Pivot
+    #"Coluna em pivô" = Table.Pivot(
+        #"Colunas Renomeadas1", 
+        List.Distinct(#"Colunas Renomeadas1"[#"Orçado Real"]), 
+        "Orçado Real", 
+        "Valor", 
+        List.Sum
+    ),
+    
+    // 7. Renomear colunas finais
+    #"Colunas Renomeadas2" = Table.RenameColumns(
+        #"Coluna em pivô",
+        {{"orc", "valor_orc2025"}, {"real", "valor_real2025"}}
+    ),
+    
+    // 8. Substituir valores específicos
+    #"Valor Substituído" = Table.ReplaceValue(
+        #"Colunas Renomeadas2",
+        5161.73,
+        0,
+        Replacer.ReplaceValue,
+        {"valor_real2025"}
+    ),
+    
+    // 9. Converter zeros em null
+    #"Valor Substituído2" = Table.ReplaceValue(
+        #"Valor Substituído",
+        0,
+        null,
+        Replacer.ReplaceValue,
+        {"valor_orc2025"}
+    ),
+    
+    // 10. Padronizar texto
+    #"Texto em Maiúscula" = Table.TransformColumns(
+        #"Valor Substituído2",
+        {{"TIPO", Text.Upper, type text}}
+    ),
+    
+    // 11. Limpar caracteres especiais
+    #"Valor Substituído4" = Table.ReplaceValue(
+        #"Texto em Maiúscula",
+        "Ô",
+        "O",
+        Replacer.ReplaceText,
+        {"TIPO"}
+    ),
+    
+    // 12. Limpeza final
+    #"Texto Limpo" = Table.TransformColumns(
+        #"Valor Substituído4",
+        {{"TIPO", Text.Clean, type text}}
+    )
+in
+    #"Texto Limpo"
+```
+
+**Perguntas:**
+1. Qual a estrutura inicial vs final dos dados?
+2. Por que unpivot → split → pivot (ida e volta)?
+3. Quais são as 3 fases principais do pipeline?
+4. Por que tantos steps de substituição de valores?
+
+<details>
+<summary>📝 Ver Solução</summary>
+
+**Respostas:**
+
+**1. Estrutura Inicial vs Final:**
+
+INICIAL (wide):
+```
+tipo      | orc_jan_2025 | real_jan_2025 | orc_fev_2025 | real_fev_2025
+INSUMOS   | 1000         | 950           | 1100         | 1050
+```
+
+FINAL (semi-wide):
+```
+TIPO      | Mês | valor_orc2025 | valor_real2025
+INSUMOS   | jan | 1000          | 950
+INSUMOS   | fev | 1100          | 1050
+```
+
+**2. Por que Unpivot → Split → Pivot?**
+
+- **Unpivot**: Traz todas as colunas mensais para linhas (facilita split)
+- **Split**: Separa "orc_jan_2025" em ["orc", "jan", "2025"]
+- **Pivot**: Volta "orc" e "real" para colunas (formato final desejado)
+
+É mais fácil processar texto quando está em linhas!
+
+**3. Três Fases Principais:**
+
+**FASE 1 - Reestruturação (steps 1-6):**
+- Unpivot → Split → Pivot
+- Objetivo: Formato long com colunas orc/real separadas
+
+**FASE 2 - Limpeza de Dados (steps 7-9):**
+- Substituir valores específicos
+- Converter zeros em null
+- Objetivo: Dados limpos e corretos
+
+**FASE 3 - Padronização de Texto (steps 10-12):**
+- Maiúsculas
+- Remover acentos
+- Limpar caracteres especiais
+- Objetivo: Texto consistente para análise
+
+**4. Por que Tantas Substituições?**
+
+- **Valor específico (5161.73 → 0)**: Valor incorreto conhecido no source
+- **Zeros → null**: Distinguir "sem dados" de "valor zero real"
+- **Caracteres especiais**: Garantir compatibilidade e padronização
+
+**Pipeline Visual:**
+```
+1. CONECTAR    → Redshift (raw)
+2. NAVEGAR     → dbt_marts.fat_orcamento
+3. UNPIVOT     → Meses em linhas
+4. SPLIT       → "orc_jan_2025" → ["orc","jan","2025"]
+5. LIMPAR      → Remove coluna ano
+6. PIVOT       → orc/real voltam para colunas
+7. CORRIGIR    → Valores errados
+8. PADRONIZAR  → Texto limpo e maiúsculo
+9. ENTREGAR    → Tabela final
+```
+
+**Conceitos aplicados:**
+- Pipeline ETL completo
+- Transformações encadeadas
+- Lógica de reestruturação (unpivot-pivot)
+- Qualidade de dados (limpeza + padronização)
+- Navegação em objetos aninhados
+
+</details>
+
+---
 
 ## Contato
 
