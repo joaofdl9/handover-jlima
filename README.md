@@ -25,15 +25,11 @@ Transferir conhecimento operacional do pipeline de dados para garantir continuid
 ---
 
 ### Visão Geral da Arquitetura
-```
-┌─────────────┐    ┌──────────┐    ┌──────────┐    ┌─────┐    ┌──────────┐
-│ SQL Server  │───▶│ Airflow  │───▶│ Redshift │───▶│ dbt │───▶│ Power BI │
-│  (Origem)   │    │ (70 DAGs)│    │   (DW)   │    │(300)│    │ (Dashs)  │
-└─────────────┘    └──────────┘    └──────────┘    └─────┘    └──────────┘
-```
 
-**Volume Diário:** ~7.000 execuções de pipeline  
-**Cobertura de Dados:** 8 anos de histórico operacional
+![Processo ELT Barra Mansa](imagens/DIAGRAMAS/elt_bm.png)
+*Pipeline completo: extração, camadas de transformação e visualização*
+
+**Volume Diário:** ~7.000 execuções | **Cobertura:** 8 anos de histórico
 
 ---
 
@@ -237,8 +233,10 @@ Guia visual e pratico para construcao de consultas SQL no ambiente Barra Mansa A
 
 #### Estrutura de uma Consulta SQL
 
-O processo completo de construcao de uma query SQL segue tres passos sequenciais:
+![Construindo uma Consulta SQL](imagens/DIAGRAMAS/sql_basico.png)
+*Fluxo SELECT → FROM → WHERE com exemplos práticos*
 
+O processo segue tres passos sequenciais:
 
 - Liste as colunas que deseja exibir
 - Use o alias da tabela (N.) antes de cada coluna
@@ -985,6 +983,9 @@ ORDER BY LC.codfil, LC.datlct, LC.tipo
 
 ### 1.1.3. SQL Aplicado - COFINS a Recuperar (exemplo real)
 
+![Query COFINS a Recuperar](imagens/DIAGRAMAS/sql-confins-a-recuperar-cont.png)
+*Estrutura da query: UNION de lançamentos a crédito e débito com JOINs*
+
 ```sql
 -- =========================================================
 -- Query: COFINS a Recuperar – Visao Contabil (Conta 10.530)
@@ -1622,23 +1623,8 @@ Framework conceitual para o processo de analise de dados - Pipeline Auditavel En
 
 ### 2.1.1. Etapas do Ciclo (6 etapas)
 
-
-```
-┌────────────────┐   ┌────────────────┐   ┌────────────────┐   ┌────────────────┐   ┌────────────────┐   ┌────────────────┐
-│ 1. Definicao   │   │ 2. Analise     │   │ 3. Preparacao  │   │ 4. Modelagem   │   │ 5. Validacao   │   │ 6. Power BI    │
-│ do Problema    │──▶│ Exploratoria   │──▶│ e Transformacao│──▶│ Dimensional    │──▶│ de Integridade │──▶│                │
-│ de Negocio     │   │                │   │                │   │                │   │                │   │                │
-└────────────────┘   └────────────────┘   └────────────────┘   └────────────────┘   └────────────────┘   └────────────────┘
-     │                    │                    │                    │                    │                    │
-     ▼                    ▼                    ▼                    ▼                    ▼                    ▼
- • Objetivos         • Mapeamento         • Staging Layer      • Marts Layer        • Totalizacao       • Modelagem 1:N
- • KPIs              SQL Server           dbt                  dbt                  Tripla              • DAX
- • Stakeholders      • Cardinalidades     • Padronizacao       • Fatos              • Origem → dbt      • Dashboards
-                     • Anomalias          • Limpeza            • Dimensoes          → SQL Server
-                                          • Joins              • Star Schema
-                                          • Testes
-```
-
+![Ciclo de Vida da Análise de Dados](imagens/DIAGRAMAS/ciclo-de-vida-analise.png)
+*Pipeline completo: da definição do problema até dashboards auditáveis*
 
 ### 2.1.2. Detalhamento das Etapas
 
@@ -5188,16 +5174,17 @@ Qualidade não é binário. Não existe dado "bom" ou "ruim" de forma absoluta. 
 
 #### 5.1.2. Atributos de Qualidade de Dados
 
-Para avaliar se um dado tem qualidade, usamos atributos específicos. Cada um responde uma pergunta diferente:
+![Dimensões da Qualidade dos Dados](imagens/DIAGRAMAS/qualidade-dados.png)
+*6 dimensões para avaliar qualidade de dados*
 
 | Atributo | Definição | Pergunta-chave |
 |----------|-----------|----------------|
 | **Completude** | Todos os registros esperados estão presentes | Falta algum dado? |
-| **Acurácia** | Valores refletem a realidade | O número está certo? |
-| **Atualidade** | Dados estão no tempo esperado | É de quando deveria ser? |
 | **Consistência** | Mesmo dado não conflita entre fontes | Bate em todos os lugares? |
-| **Unicidade** | Sem duplicações indevidas | Tem registro repetido? |
+| **Conformidade** | Adesão a padrões e regras de negócio | Segue o formato esperado? |
 | **Integridade** | Relacionamentos entre dados estão corretos | As chaves encontram correspondência? |
+| **Precisão** | Valores refletem a realidade | O número está certo? |
+| **Atualidade** | Dados estão no tempo esperado | É de quando deveria ser? |
 
 Quando um usuário diz "o número está errado", ele está apontando um sintoma. O trabalho do analista é identificar qual atributo foi comprometido para encontrar a causa.
 
