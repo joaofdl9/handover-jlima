@@ -282,6 +282,9 @@ WHERE N.codemp = 1
 
 **Ambiente de execucao:** SSMS (SQL Server Management Studio) no Banco de Dados `sapiens_prod`
 
+![SSMS](imagens/SQL%20SERVER/sssm.png)
+*Interface SSMS conectado ao sapiens_prod*
+
 ---
 
 ### 1.1.2. SQL Intermediario (JOINs, Agregacoes, CTEs, Window Functions, UNION)
@@ -1487,8 +1490,10 @@ for chave, valor in config.items():
 
 ### 1.2.3. Pandas para Analise Exploratoria
 
-
 > Biblioteca para analise e manipulacao de dados tabulares.
+
+![Análise Exploratória](imagens/Python/analise-exploratoria.png)
+*Jupyter Notebook com análise exploratória*
 
 ---
 
@@ -1713,6 +1718,9 @@ O pipeline de dados esta estruturado para processar informacoes dos sistemas cor
 
 ### 3.1.1. Navegacao
 
+![Terminal WSL](imagens/AMBIENTE/terminal.png)
+*Terminal WSL integrado ao VS Code*
+
 ```bash
 pwd                 # Mostra diretorio atual
 ls                  # Lista arquivos
@@ -1753,6 +1761,8 @@ python -m venv nome_env     # Cria ambiente
 source nome_env/bin/activate    # Ativa (Linux/WSL)
 ```
 
+![Ambiente dbt](imagens/AMBIENTE/exemplo_ambiente_dbt.png)
+*Ambiente virtual ativado com projeto dbt*
 
 ### 3.2.2. Gerenciar Dependencias
 
@@ -2047,6 +2057,9 @@ Visao geral dos servicos AWS utilizados no pipeline de dados.
                      └─────────────┘
 ```
 
+![Console AWS](imagens/AWS/pagina_incial.png)
+*Console AWS - acesso aos serviços*
+
 ---
 
 ## 4.1.2 S3
@@ -2054,6 +2067,9 @@ Visao geral dos servicos AWS utilizados no pipeline de dados.
 **O que é:** Armazenamento de arquivos na nuvem (buckets e objetos).
 
 **Uso na Barra Mansa:** area de staging temporaria. Os arquivos CSV/GZIP ficam no S3 entre a extracao (SQL Server) e a carga (Redshift).
+
+![S3 Buckets](imagens/AWS/s3.png)
+*Bucket S3 com arquivos de staging*
 
 **Estrutura:**
 ```
@@ -2071,6 +2087,9 @@ s3://bm-airflow/
 
 **Uso na Barra Mansa:** Maquina onde roda o Apache Airflow, executando as DAGs de extracao e carga.
 
+![EC2 Instances](imagens/AWS/ec2.png)
+*Instância EC2 executando Airflow*
+
 ---
 
 ## 4.1.4. Redshift
@@ -2078,6 +2097,9 @@ s3://bm-airflow/
 **O que é:** Data Warehouse colunar da AWS, otimizado para consultas analiticas (OLAP).
 
 **Uso na Barra Mansa:** Destino final dos dados. O Power BI conecta aqui para os dashboards.
+
+![DBeaver Redshift](imagens/REDSHIFT/dbvear.png)
+*Conexão Redshift via DBeaver*
 
 ---
 
@@ -2217,6 +2239,9 @@ Ferramenta de transformacao de dados que roda SQL no warehouse.
 
 ## 4.2.1. Estrutura do Projeto
 
+![Estrutura dbt](imagens/DBT%20CORE/estrutura-dbt.png)
+*Estrutura de pastas do projeto dbt*
+
 ```
 dbt_bm/
 ├── models/
@@ -2261,6 +2286,9 @@ dbt_bm/
 | **Source** | `source` | dbt | Padronizacao de nomes e tipos |
 | **Staging** | `staging` | dbt | Limpeza, joins, regras de negocio |
 | **Marts** | `marts` | dbt | Dimensoes e Fatos para consumo |
+
+![Modelo Staging](imagens/DBT%20CORE/staging_gasto_estoque.png)
+*Exemplo de modelo staging no VS Code*
 
 ---
 
@@ -2440,6 +2468,8 @@ dbt docs serve       # Abre no navegador
 
 ### 4.2.7. Comandos dbt
 
+![dbt run](imagens/DBT%20CORE/comando-dbt-run.png)
+*Execução do comando dbt run no terminal*
 
 #### Execucao
 ```bash
@@ -2482,6 +2512,8 @@ Orquestrador de pipelines de dados.
 
 ### 4.3.1. Conceitos Essenciais
 
+![Estrutura Airflow](imagens/AIRFLOW/Estrutura_Airflow.png)
+*Interface do Airflow com DAGs*
 
 **Airflow** agenda, executa e monitora pipelines de dados.
 
@@ -2713,6 +2745,8 @@ for _, row in df.iterrows():
 
 ### 4.3.6. Airflow na Barra Mansa
 
+![DAG e640lct](imagens/AIRFLOW/interaface_el_sapiens_e640lct_increm.png)
+*DAG incremental da tabela e640lct*
 
 #### Visao Geral
 
@@ -2784,6 +2818,9 @@ Usado para carga inicial antes de ativar incremental.
 #### job_sapiens_incremental
 
 Carga incremental de transacoes (43 tabelas).
+
+![Job Incremental](imagens/AIRFLOW/job_sapiens_incremental.png)
+*Execução do job_sapiens_incremental*
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -2877,6 +2914,9 @@ Proximas execucoes: incremental automatico.
 
 ### 4.3.8. Operacao
 
+![Job Controladoria](imagens/AIRFLOW/job_controladoria_finaceira.png)
+*DAG da controladoria financeira*
+
 #### Cenario 3: Tabela NRT (transacional + transformacao)
 
 | Passo | Arquivo | Acao |
@@ -2954,6 +2994,9 @@ Conectar  ──►  Modelar  ──►  Visualizar  ──►  Publicar
 
 ### 4.4.1. Conexao com Fontes
 
+![Obter Dados](imagens/PBI/obter-dados.png)
+*Tela Obter Dados do Power BI*
+
 #### Redshift (conector nativo)
 1. Obter Dados → Banco de Dados → Amazon Redshift
 2. Informar servidor e banco
@@ -2985,6 +3028,9 @@ Conectar  ──►  Modelar  ──►  Visualizar  ──►  Publicar
 
 ### Modelagem de Dados
 
+![Power Query](imagens/PBI/gasto-estoque-trasnformar-dados.png)
+*Transformações no Power Query*
+
 #### Star Schema
 
 Modelo ideal para analise: tabela **Fato** no centro, **Dimensoes** ao redor.
@@ -3008,6 +3054,8 @@ Modelo ideal para analise: tabela **Fato** no centro, **Dimensoes** ao redor.
 | **Fato** | Métricas, transacoes | vendas, saidas, lancamentos |
 | **Dimensao** | Atributos descritivos | produto, cliente, data |
 
+![Modelagem](imagens/PBI/gasto-esoque-modelagem.png)
+*Modelo de dados no Power BI*
 
 ### 4.4.3. DAX Intermediario
 
@@ -3132,6 +3180,9 @@ DATATABLE(
 
 ### 4.4.5. Criacao de Visuais
 
+![Dashboard Gasto Estoque](imagens/PBI/gasto-estoque-p1.png)
+*Dashboard de Gasto de Estoque*
+
 ```dax
 // Medidas
 Realizado = SUM(fato_lancamentos[valor])
@@ -3166,6 +3217,12 @@ DIVIDE(
 3. Ajustar transparencia se necessario
 
 ### 4.4.6. Interatividade
+
+![Detalhamento](imagens/PBI/gasto-estoque-detalhamento.png)
+*Drill-down de dados*
+
+![Tooltip](imagens/PBI/gasto-estoque-dica-ferramenta.png)
+*Dica de ferramenta personalizada*
 
 #### Principios de Design
 
@@ -3400,6 +3457,9 @@ Visao rapida e clara do desempenho comercial, identificacao de tendencias e padr
 
 ### 4.5 Power BI Service
 
+![PBI Service](imagens/PBI%20SERVICE/pagina-inicial.png)
+*Página inicial do Power BI Service*
+
 #### 4.5.1 Introdução e Conceitos
 
 **O que é Power BI Service?**
@@ -3441,6 +3501,9 @@ Raw (Airflow) → Source (dbt) → Staging (dbt) → Marts (dbt) → Power BI
 ---
 
 #### 4.5.2 Estrutura: Workspaces e Componentes
+
+![Workspace BM](imagens/PBI%20SERVICE/estrutura-workspace-bm.png)
+*Estrutura do workspace Controladoria Financeira*
 
 **Workspaces**
 
@@ -3487,6 +3550,9 @@ Se você atualizar o modelo, todos os relatórios conectados refletem as mudanç
 ---
 
 #### 4.5.3 Infraestrutura: Gateway de Dados
+
+![Gateway](imagens/PBI%20SERVICE/gateway.png)
+*Configuração do Gateway de Dados*
 
 **O que é Gateway?**
 
@@ -3592,6 +3658,9 @@ Erros comuns:
 
 #### 4.5.4 Operação Básica: Publicação e Atualização
 
+![Configurar Atualização](imagens/PBI%20SERVICE/configurar-atulizacao.png)
+*Configuração de atualização agendada*
+
 **Publicar Relatório**
 
 **Passo a passo:**
@@ -3693,6 +3762,9 @@ Total: 5 atualizações/dia (dentro do limite de 8)
 ---
 
 #### 4.5.5 Operação Básica: Gestão de Acessos
+
+![Gerenciar Acesso](imagens/PBI%20SERVICE/gerenciar-acesso.png)
+*Gerenciamento de permissões*
 
 **Requisito Fundamental**
 
@@ -3815,6 +3887,9 @@ Workspace settings → Access
 ---
 
 #### 4.5.6 Operação Geral: Monitoramento e Validação
+
+![Monitoramento](imagens/PBI%20SERVICE/monitoramento-bm.png)
+*Painel de monitoramento*
 
 **Validação pelo Card de Data**
 
@@ -4289,6 +4364,9 @@ Relatório → Settings → Usage metrics report
 
 ### 4.6 DBT Cloud
 
+![dbt Cloud Dashboard](imagens/DBT%20CLOUD/dashboard.png)
+*Dashboard do dbt Cloud*
+
 ---
 
 #### 4.6.1 Conceitos Fundamentais
@@ -4385,6 +4463,9 @@ Relatório → Settings → Usage metrics report
 ---
 
 #### 4.6.2 Operacional Básico
+
+![dbt Studio](imagens/DBT%20CLOUD/studio.png)
+*IDE Studio do dbt Cloud*
 
 ##### A. IDE Studio - Desenvolvimento
 
@@ -4560,6 +4641,12 @@ select coluna_antiga from {{ ref('stg_vendas') }}
 ---
 
 #### 4.6.3 Operacional Avançado
+
+![Orchestration Jobs](imagens/DBT%20CLOUD/orchestration-jobs.png)
+*Lista de jobs no dbt Cloud*
+
+![Orchestration Run](imagens/DBT%20CLOUD/orchestration-run.png)
+*Execução de job*
 
 ##### Criação e Configuração de Novos Jobs
 
