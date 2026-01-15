@@ -143,7 +143,7 @@ Transferir conhecimento operacional do pipeline de dados para garantir continuid
 - [4.3.7. Como Adicionar Nova Tabela](#437-como-adicionar-nova-tabela)
 - [4.3.8. Operacao](#438-operacao)
 
-### 4.4. Power BI
+### . Power BI
 - [4.4.1. Conexao com Fontes](#441-conexao-com-fontes)
 - [4.4.2. Modelagem de Dados](#442-modelagem-de-dados)
 - [4.4.3. DAX Intermediario](#443-dax-intermediario)
@@ -3364,6 +3364,1694 @@ Visao rapida e clara do desempenho comercial, identificacao de tendencias e padr
 
 ---
 
+### 4.5 Power BI Service
+
+#### 4.5.1 Introdução e Conceitos
+
+**O que é Power BI Service?**
+
+Power BI Service é a plataforma em nuvem da Microsoft para publicação, atualização e compartilhamento de relatórios. Enquanto o Power BI Desktop é usado para desenvolvimento local, o Service funciona como ambiente de produção onde usuários finais acessam dashboards atualizados.
+
+**Fluxo de trabalho:**
+```
+Desktop (desenvolvimento) → Service (publicação) → Usuários (consumo)
+```
+
+**Escopo na BM:**
+
+Os relatórios estão organizados no workspace **Controladoria Financeira**, divididos em subpastas por área:
+
+```
+Controladoria Financeira/
+├── Auditoria/
+│   └── Auditoria Lenha
+├── CONTABILIDADE/
+│   ├── conciliação_almoxarifado
+│   └── conciliacao_clientes_adt
+├── fiscal/
+│   └── obrigacoes_acessorias
+├── Orçamento/
+│   └── orçamento_ti
+└── Custo/
+    └── gasto_estoque_geral
+```
+
+**Arquitetura de dados:**
+
+Os relatórios consomem dados que passam por 4 camadas de transformação:
+
+```
+Raw (Airflow) → Source (dbt) → Staging (dbt) → Marts (dbt) → Power BI
+```
+
+---
+
+#### 4.5.2 Estrutura: Workspaces e Componentes
+
+**Workspaces**
+
+Espaços que agrupam relatórios relacionados. Na BM, há um workspace principal (**Controladoria Financeira**) organizado em subpastas por setor.
+
+**Níveis de permissão:**
+
+| Permissão | Visualizar | Editar | Publicar | Gerenciar |
+|-----------|------------|--------|----------|-----------|
+| **Viewer** | ✅ | ❌ | ❌ | ❌ |
+| **Contributor** | ✅ | ❌ | ✅ | ❌ |
+| **Member** | ✅ | ✅ | ✅ | ❌ |
+| **Admin** | ✅ | ✅ | ✅ | ✅ |
+
+**Exemplo BM:** Analistas de Custo têm permissão **Member** na subpasta "Custo" para editar `gasto_estoque_geral`.
+
+---
+
+**Componentes Publicados**
+
+Quando você publica do Desktop, dois componentes são criados:
+
+**1. Modelo Semântico (Dataset)**
+- Contém: tabelas, relações, medidas DAX
+- Um modelo pode alimentar múltiplos relatórios
+- Exemplo: modelo `financeiro_base` alimenta vários dashboards
+
+**2. Relatório**
+- Contém: páginas, visuais, filtros
+- Sempre vinculado a um modelo semântico
+- Exemplo: `gasto_estoque_geral` (relatório) conectado a modelo `custos_operacionais`
+
+**Relação:**
+```
+Desktop (.pbix)
+    ↓ Publicar
+Service:
+  ├── Modelo Semântico (dados + medidas)
+  └── Relatório (visualizações)
+```
+
+Se você atualizar o modelo, todos os relatórios conectados refletem as mudanças automaticamente.
+
+---
+
+#### 4.5.3 Infraestrutura: Gateway de Dados
+
+**O que é Gateway?**
+
+Ponte entre Power BI Service (nuvem) e fontes de dados internas. Permite que relatórios atualizem automaticamente consultando dados corporativos que não estão na nuvem pública.
+
+**Por que precisamos?**
+
+Power BI Service está na nuvem Microsoft, mas nossos dados estão em:
+- Redshift (AWS privado)
+- Servidores locais BM
+- Google Sheets (conta corporativa)
+
+---
+
+**Gateways Configurados na BM**
+
+**1. Gateway Redshift (Redshift2)**
+
+**Conecta:** AWS Redshift (data warehouse)
+
+**Usado em:**
+- Dados processados por dbt: `gasto_estoque_geral`, `orçamento_ti`
+- Dados NRT do Airflow: `conciliação_almoxarifado`, `conciliacao_clientes_adt`
+
+**Exemplo:** `gasto_estoque_geral` consulta `marts.fato_gasto_estoque` via Redshift2.
+
+---
+
+**2. Gateway Rede Local (GatewayBM)**
+
+**Conecta:** Pastas compartilhadas em servidores BM
+
+**Usado em:** Arquivos Excel/CSV atualizados manualmente
+
+**Exemplo:** `obrigacoes_acessorias` lê Excel em `\\servidor-bm\fiscal\obrigacoes_2026.xlsx`.
+
+---
+
+**3. Gateway Google Sheets (GatewaySheets)**
+
+**Conecta:** Planilhas do Google Drive corporativo
+
+**Usado em:** Dados coletados via Google Forms
+
+**Exemplo:** `Auditoria Lenha` combina Google Sheets (coleta manual) + Redshift (após processamento dbt).
+
+---
+
+**Como Escolher o Gateway**
+
+| Fonte de Dados | Gateway | Modo Suportado | Exemplo BM |
+|----------------|---------|----------------|------------|
+| Marts dbt (Redshift) | Redshift2 | Import / Direct Query | gasto_estoque_geral |
+| NRT Airflow (Redshift) | Redshift2 | Import / Direct Query | conciliação_almoxarifado |
+| Excel rede local | GatewayBM | Apenas Import | obrigacoes_acessorias |
+| Google Sheets | GatewaySheets | Apenas Import | Auditoria Lenha |
+
+---
+
+**⚠️ Resolução de Problemas: Falha na Atualização**
+
+**Sintoma:** Erro ao atualizar relatório automaticamente
+
+**Checklist:**
+
+**1. Confirmar gateway correto**
+```
+Settings do modelo → Gateway connection
+Verificar se gateway selecionado corresponde à fonte:
+- Redshift → Redshift2
+- Rede local → GatewayBM
+- Sheets → GatewaySheets
+```
+
+**2. Verificar status do gateway**
+```
+Power BI Admin Portal → Gateway management
+Status deve estar "Online" (bolinha verde)
+Se offline: verificar com TI se servidor está ligado
+```
+
+**3. Testar conexão**
+```
+Settings → Data source credentials → Edit credentials
+Test connection
+Se falhar: senha pode ter expirado
+```
+
+**4. Ver histórico de erros**
+```
+Refresh history → clicar em status "Failed"
+Erros comuns:
+- "Gateway not found": gateway removido/renomeado
+- "Credentials expired": atualizar senha
+- "Connection timeout": verificar rede/firewall
+```
+
+**Exemplo real:**
+
+`gasto_estoque_geral` falhou com erro "Gateway not found". Verificação mostrou que estava configurado para gateway "Redshift_OLD". Solução: reconfigurar para "Redshift2".
+
+---
+
+#### 4.5.4 Operação Básica: Publicação e Atualização
+
+**Publicar Relatório**
+
+**Passo a passo:**
+
+1. **No Power BI Desktop:**
+   - Arquivo salvo e validado localmente
+   - Clicar em "Publish" (barra superior)
+   - Selecionar workspace: "Controladoria Financeira"
+   - Selecionar subpasta (Custo, Orçamento, etc)
+   - Aguardar upload
+
+2. **No Power BI Service:**
+   - Acessar workspace selecionado
+   - Verificar presença de modelo semântico e relatório
+   - Abrir relatório para conferir visualizações
+
+**Importante:** Primeira publicação cria os componentes. Publicações seguintes apenas atualizam o existente.
+
+---
+
+**Configurar Atualização Automática**
+
+**Localização:**
+```
+Workspace → Modelo semântico → Settings → Scheduled refresh
+```
+
+**Exemplo prático: `gasto_estoque_geral`**
+
+**1. Configurar credenciais**
+```
+Data source credentials → Edit credentials
+- Authentication: Basic
+- Username: [usuario_powerbi]
+- Password: [senha]
+- Privacy level: Organizational
+→ Sign in
+```
+
+**2. Selecionar gateway**
+```
+Gateway connection → Use a data gateway
+- Selecionar: Redshift2
+(fonte é marts.fato_gasto_estoque no Redshift)
+```
+
+**3. Agendar horários**
+```
+Scheduled refresh → On
+- Frequency: Daily
+- Time zone: (UTC-03:00) Brasília
+- Time: 06:30, 12:00, 18:00
+- Refresh failure notifications: analista.dados@barramansa.com.br
+→ Apply
+```
+
+**Motivo dos horários:** dbt atualiza marts às 06:00, 11:30, 17:30. Power BI atualiza 30min depois (margem de segurança).
+
+---
+
+**Limites de Atualização**
+
+| Licença | Atualizações/dia | Observação |
+|---------|------------------|------------|
+| **Pro** | 8 | Padrão BM |
+| **Premium** | 48 | Apenas workspace Controladoria |
+
+**Exemplo de distribuição (Pro):**
+- 06:30 - Antes do expediente
+- 09:00 - Início das operações
+- 12:00 - Meio-dia
+- 15:00 - Tarde
+- 18:00 - Fim do expediente
+
+Total: 5 atualizações/dia (dentro do limite de 8)
+
+---
+
+**Boas Práticas**
+
+✅ **Sincronizar com upstream:**
+- dbt roda 06:00 → PBI atualiza 06:30
+- Airflow NRT roda de hora em hora → PBI atualiza 10min depois
+
+✅ **Escalonar horários:**
+- `gasto_estoque_geral`: 06:30
+- `orçamento_ti`: 07:00
+- Evita sobrecarga simultânea no gateway
+
+✅ **Documentar:**
+- Anotar horários no README do projeto
+- Explicar motivo de cada horário
+
+❌ **Evitar:**
+- Agendar todos os relatórios às 06:00 (sobrecarga)
+- Ignorar e-mails de falha
+- Atualizar Direct Query agendadamente (não é necessário)
+
+---
+
+#### 4.5.5 Operação Básica: Gestão de Acessos
+
+**Requisito Fundamental**
+
+Para acessar qualquer relatório da BM:
+- ✅ E-mail corporativo `@barramansa.com.br`
+- ❌ E-mails pessoais não funcionam
+
+---
+
+**Método 1: Adicionar ao Workspace**
+
+**Quando usar:** Usuário precisa acessar vários relatórios do setor
+
+**Exemplo:** Nova pessoa na equipe Custo precisa acessar múltiplos relatórios.
+
+**Como fazer:**
+```
+1. Workspace "Controladoria Financeira" → Settings
+2. Access → Add people or groups
+3. Digitar: novo.analista@barramansa.com.br
+4. Selecionar permissão:
+   - Viewer: apenas visualizar
+   - Contributor: visualizar + publicar novos
+   - Member: visualizar + editar + publicar
+   - Admin: controle total
+5. Add
+```
+
+**Resultado:** Usuário vê **todos** os relatórios do workspace.
+
+---
+
+**Método 2: Compartilhar Relatório Direto**
+
+**Quando usar:** Compartilhar apenas 1 relatório específico
+
+**Exemplo:** Diretor Comercial precisa ver `gasto_estoque_geral` pontualmente.
+
+**Como fazer:**
+```
+1. Abrir relatório gasto_estoque_geral
+2. Botão "Share" (topo direito)
+3. Digitar: diretor.comercial@barramansa.com.br
+4. (Opcional) Send email notification
+5. Grant access
+```
+
+**Resultado:** Usuário acessa **apenas aquele relatório** (somente visualização).
+
+---
+
+**Comparação**
+
+| Aspecto | Workspace | Share Direto |
+|---------|-----------|--------------|
+| **Escopo** | Todos os relatórios | 1 relatório |
+| **Permissões** | Configuráveis | Apenas visualização |
+| **Edição** | Possível (Member/Admin) | Não |
+| **Gestão** | Centralizada | Individual |
+| **Exemplo BM** | Equipe Custo inteira | Diretor externo ao setor |
+
+---
+
+**⚠️ Resolução de Problemas: Usuário Não Vê Relatório**
+
+**Sintoma:** Usuário diz que não consegue acessar relatório compartilhado
+
+**Checklist:**
+
+**1. Confirmar e-mail correto**
+```
+- Deve ser @barramansa.com.br
+- Verificar digitação (sem espaços, letras trocadas)
+- Confirmar que usuário fez login com e-mail corporativo
+```
+
+**2. Verificar compartilhamento**
+```
+Relatório → Share → People with access
+- E-mail deve aparecer na lista
+- Se não está: repetir compartilhamento
+```
+
+**3. Verificar permissões do workspace**
+```
+Se usuário precisa editar:
+Workspace settings → Access
+- Adicionar com permissão adequada (Member/Contributor)
+```
+
+**4. Orientar usuário:**
+```
+- Acessar app.powerbi.com
+- Login com @barramansa.com.br
+- Verificar:
+  • Shared with me (share direto)
+  • Workspaces (se foi adicionado)
+- Checar spam no e-mail
+```
+
+**5. Testar acesso pessoalmente**
+```
+- Abrir navegador anônimo
+- Login com credenciais do usuário (se disponível)
+- Tentar acessar relatório
+- Se você não consegue: problema de permissão
+- Se você consegue: problema no lado do usuário
+```
+
+**6. Último recurso**
+```
+- Remover usuário completamente
+- Aguardar 5 minutos
+- Adicionar novamente
+- Se persistir: abrir chamado com TI
+  • Verificar conta ativa no Azure AD
+  • Confirmar licença Power BI Pro
+```
+
+---
+
+#### 4.5.6 Operação Geral: Monitoramento e Validação
+
+**Validação pelo Card de Data**
+
+Todo dashboard BM deve ter card "Última Atualização".
+
+**Implementar:**
+```dax
+Última Atualização = NOW()
+```
+
+**Validar:**
+```
+1. Abrir dashboard
+2. Verificar card
+3. Comparar com horário agendado
+   - Se recente: ✅ ok
+   - Se antigo: ⚠️ investigar
+```
+
+**Exemplo:** `gasto_estoque_geral` atualiza às 06:30. Se você abre às 09:00 e card mostra 06:35, está correto.
+
+---
+
+**Histórico de Atualizações**
+
+**Acessar:**
+```
+Workspace → Modelo semântico → Settings → Refresh history
+```
+
+**Status possíveis:**
+
+| Status | Significado | Ação |
+|--------|-------------|------|
+| ✅ **Completed** | Sucesso | Nenhuma |
+| ❌ **Failed** | Falha | Investigar |
+| ⏸️ **Cancelled** | Cancelada | Verificar motivo |
+| ⏳ **In Progress** | Rodando | Aguardar |
+
+**Ver erro:**
+```
+Clicar em Failed → Details
+Mensagens comuns:
+- "Gateway timeout": fonte demorou muito
+- "Invalid credentials": senha expirou
+- "Table not found": tabela removida/renomeada
+```
+
+---
+
+**⚠️ Resolução de Problemas**
+
+**Problema 1: PBI Atualizou, Mas Dados Estão Antigos**
+
+**Sintoma:** Refresh history mostra "Completed", mas números desatualizados
+
+**Investigação em camadas** (do fim para o início):
+
+**Exemplo: `gasto_estoque_geral`**
+
+```
+Hoje: 14/01/2026, 10:00
+Card: "Última Atualização: 13/01/2026 18:05"
+Status: ❌ Dados de ontem
+```
+
+**Etapa 1: Validar Power BI**
+```
+Card mostra data antiga → problema está upstream (antes do PBI)
+```
+
+**Etapa 2: Validar camada Marts (dbt)**
+```sql
+SELECT MAX(data_atualizacao), COUNT(*)
+FROM marts.fato_gasto_estoque;
+-- Resultado: 13/01/2026 18:00, 15.420 linhas
+```
+→ Marts não atualizou hoje ❌
+
+**Etapa 3: Validar camada Staging**
+```sql
+SELECT MAX(data_carga)
+FROM staging.estoque_movimentacao;
+-- Resultado: 14/01/2026 06:05
+```
+→ Staging atualizou hoje ✅
+
+**Etapa 4: Verificar job dbt**
+```
+dbt Cloud → Jobs → job_marts_controladoria
+Status: Failed às 06:15
+Erro: "Relation 'staging.produto_categoria' does not exist"
+```
+
+**Causa raiz:** dbt marts falhou. Staging tem dados novos, mas marts não foi reconstruído.
+
+**Solução:** Corrigir dependência no dbt, re-executar job manualmente.
+
+---
+
+**Objetivo da investigação:**
+
+Identificar em qual camada o pipeline parou:
+
+```
+Raw ❌ → problema Airflow (extração)
+Raw ✅ → Staging ❌ → problema dbt staging
+Raw ✅ → Staging ✅ → Marts ❌ → problema dbt marts
+Raw ✅ → Staging ✅ → Marts ✅ → PBI ❌ → problema Power BI
+```
+
+---
+
+**Problema 2: Números Estranhos**
+
+**Sintoma:** Relatório mostra dados inconsistentes
+
+**Exemplo: `conciliacao_clientes_adt`**
+
+```
+Situação: Mostra "0 clientes inadimplentes"
+Realidade: Gerente sabe que há 15
+```
+
+**Checklist:**
+
+**1. Verificar slicers visíveis**
+```
+Slicer "Período" → estava "Dezembro 2025"
+Alterar para "Janeiro 2026" → 15 clientes aparecem
+```
+
+**2. Verificar filtros de página**
+```
+Filters pane → Page level
+"Status Cliente" = "Ativo" estava aplicado
+Remover filtro → inadimplentes aparecem
+```
+
+**3. Verificar filtros de visual**
+```
+Selecionar visual → Filters pane → Visual level
+Algum filtro oculto aplicado?
+```
+
+**4. Revisar medida DAX**
+```
+Clicar no visual → ver medida usada
+Verificar fórmula no Model view
+Testar em tabela simples (sem formatação)
+```
+
+**5. Validar relações do modelo**
+```
+Model view:
+- Cardinalidade correta? (1:*, *:1)
+- Direção de filtro: ambos ou único?
+- Relação ativa conforme esperado?
+```
+
+**6. Comparar com fonte**
+```sql
+-- Query direto no Redshift
+SELECT 
+  COUNT(*) as total_inadimplentes
+FROM marts.fato_credito_cliente
+WHERE status_credito = 'Inadimplente'
+  AND data_referencia = '2026-01-14';
+-- Resultado: 15 linhas
+
+-- Comparar com Power BI
+```
+
+**Dica:** Use tabela matrix sem formatação para debug. Visuais complexos podem mascarar problemas.
+
+---
+
+#### 4.5.7 Operação Geral: Import vs Direct Query
+
+**Diferenças Técnicas**
+
+| Aspecto | Import | Direct Query |
+|---------|--------|--------------|
+| **Dados** | Copiados para Power BI | Permanecem na fonte |
+| **Atualização** | Agendada (8x/dia Pro) | Tempo real |
+| **Performance** | Mais rápida | Depende da fonte |
+| **Limite** | 1GB (Pro) | Sem limite |
+| **Transformações** | Todas (Power Query) | Limitadas |
+| **Carga no servidor** | Apenas no refresh | Constante |
+
+---
+
+**Quando Usar na BM**
+
+**Import - Casos de Uso**
+
+✅ **Use Import para:**
+- Dados históricos/marts consolidados
+- Volumes pequenos/médios (< 1GB)
+- Múltiplos usuários simultâneos
+- Fontes: Google Sheets, Excel local
+
+**Exemplos BM:**
+
+| Relatório | Fonte | Motivo | Freq. Atualização |
+|-----------|-------|--------|-------------------|
+| **gasto_estoque_geral** | marts.fato_gasto_estoque | Agregado mensal, 40k linhas, alta performance | 3x/dia (06:30, 12:00, 18:00) |
+| **orçamento_ti** | marts.dim_orcamento_ti | Histórico, 5k linhas, baixo volume | 1x/dia (07:00) |
+| **Auditoria Lenha** | Sheets → marts.fato_auditoria_lenha | Multi-fonte, 500 linhas | 2x/dia (08:00, 14:00) |
+| **obrigacoes_acessorias** | Excel `\\servidor-bm\fiscal\obrigacoes.xlsx` | Manual, 2k linhas | 1x/dia (09:00) |
+
+---
+
+**Direct Query - Casos de Uso**
+
+✅ **Use Direct Query para:**
+- Dados operacionais em tempo real
+- Tabelas NRT do Airflow
+- Volumes grandes (> 1GB)
+- Dados que mudam constantemente
+
+**Exemplos BM:**
+
+| Relatório | Fonte | Motivo | Pipeline Upstream |
+|-----------|-------|--------|-------------------|
+| **conciliação_almoxarifado** | raw.almoxarifado_movimentacao | Conferência no mesmo dia, 500k linhas | Airflow NRT (30/30min) |
+| **conciliacao_clientes_adt** | raw.adt_clientes_credito | Crédito precisa status atual, 150k linhas | Airflow horária |
+
+---
+
+**Comparação Prática: Todos os Relatórios BM**
+
+| Relatório | Modo | Workspace | Volume | Pipeline | Motivo Escolha |
+|-----------|------|-----------|--------|----------|----------------|
+| gasto_estoque_geral | Import | Custo | 40k | dbt marts | Agregado, performance |
+| orçamento_ti | Import | Orçamento | 5k | dbt marts | Histórico, baixo |
+| conciliação_almoxarifado | Direct Query | CONTABILIDADE | 500k | Airflow NRT | Operacional, tempo real |
+| conciliacao_clientes_adt | Direct Query | CONTABILIDADE | 150k | Airflow NRT | Crédito, sempre atual |
+| Auditoria Lenha | Import | Auditoria | 500 | Sheets + dbt | Multi-fonte híbrida |
+| obrigacoes_acessorias | Import | fiscal | 2k | Manual Excel | Local, manual |
+
+---
+
+**Relação com Gateways**
+
+| Gateway | Import | Direct Query |
+|---------|--------|--------------|
+| **Redshift2** | ✅ Suporta | ✅ Suporta |
+| **GatewayBM** | ✅ Suporta | ❌ Não suporta |
+| **GatewaySheets** | ✅ Suporta | ❌ Não suporta |
+
+**Conclusão:** Direct Query só funciona com Redshift na BM.
+
+---
+
+**Modo Híbrido (Composite Model)**
+
+Combina Import e Direct Query no mesmo modelo.
+
+**Exemplo: `conciliacao_clientes_adt`**
+
+**Estrutura:**
+- Dimensão `dim_cliente`: **Import** (50k clientes, muda pouco)
+- Dimensão `dim_data`: **Import** (calendário, estático)
+- Fato `fato_credito_cliente`: **Direct Query** (150k linhas, sempre atual)
+
+**Vantagem:** Performance das dimensões + atualidade do fato.
+
+**Como configurar:**
+```
+Power BI Desktop:
+1. Importar dim_cliente e dim_data normalmente
+2. Conectar fato_credito_cliente via Direct Query
+3. Criar relações entre tabelas
+4. Model view → dim_cliente → Properties → Storage mode: Import
+5. Model view → fato_credito_cliente → Properties → Storage mode: DirectQuery
+```
+
+---
+
+**⚠️ Resolução de Problemas: Direct Query Desatualizado**
+
+**Sintoma:** Relatório Direct Query mostra dados antigos
+
+**Exemplo: `conciliacao_clientes_adt` mostra dados de 2 horas atrás**
+
+**Investigação:**
+
+**1. Confirmar modo Direct Query**
+```
+Power BI Desktop → selecionar tabela
+Ícone: ⚡ = Direct Query ✅
+```
+
+**2. Verificar DAG do Airflow**
+```
+Airflow → job_controladoria_financeira
+Status: ❌ Failed há 2 horas
+Último sucesso: 08:00 (agora 10:00)
+```
+
+**3. Ver log de erro**
+```
+Task: extract_adt_clientes
+Erro: "ConnectionError: Timeout connecting to ADT API"
+```
+
+**4. Validar tabela no Redshift**
+```sql
+SELECT MAX(data_atualizacao) 
+FROM raw.adt_clientes_credito;
+-- Resultado: 08:05 (confirma não atualizou)
+```
+
+**5. Solução**
+```
+Causa: API do ADT estava fora
+Ação imediata: Re-executar DAG manualmente
+Ação preventiva: Configurar retry na DAG
+```
+
+**Lição:** Direct Query depende 100% do pipeline upstream. Power BI só consulta o que está no Redshift. Se Airflow não carregou, não há dados novos.
+
+---
+
+#### 4.5.8 Recursos Avançados
+
+**Alertas de Dados**
+
+Notificações quando métrica atinge valor específico.
+
+**Quando usar:** Monitorar KPIs críticos
+
+**Exemplo BM:**
+```
+Relatório: obrigacoes_acessorias
+Card: "Obrigações Vencendo em 7 dias"
+Alert: Se > 5 → notificar gestor.fiscal@barramansa.com.br
+Frequência: Diária às 09:00
+```
+
+**Como configurar:**
+```
+1. Fixar visual (card) no dashboard
+2. Dashboard → (...) no card → Manage alerts
+3. Add alert rule:
+   - Condition: Above
+   - Threshold: 5
+   - Frequency: At most once a day
+4. Save
+```
+
+---
+
+**Subscriptions (Assinaturas)**
+
+Envio automático de snapshot por e-mail.
+
+**Quando usar:** Relatórios gerenciais recorrentes
+
+**Exemplo BM:**
+```
+Relatório: gasto_estoque_geral
+Destinatários: diretoria.controladoria@barramansa.com.br
+Frequência: Toda segunda às 08:00
+Formato: PDF do dashboard
+Objetivo: Revisão semanal de gastos
+```
+
+**Como configurar:**
+```
+1. Abrir relatório
+2. Subscribe → Others
+3. Configurar:
+   - Recipients: e-mails separados por vírgula
+   - Subject: [Semanal] Gastos com Estoque
+   - Frequency: Weekly - Monday
+   - Time: 08:00
+4. Save
+```
+
+**Importante:** E-mail contém imagem estática, não é interativo.
+
+---
+
+**Apps (Aplicativos)**
+
+Pacote curado de relatórios para distribuição.
+
+**Quando usar:** Distribuir conjunto relacionado
+
+**Exemplo BM:**
+```
+App: "Controladoria - Dashboards Operacionais"
+Conteúdo:
+  - gasto_estoque_geral (Custo)
+  - orçamento_ti (Orçamento)
+  - conciliacao_clientes_adt (CONTABILIDADE)
+Público: Equipe Controladoria (15 pessoas)
+```
+
+**Como criar:**
+```
+1. Workspace → Create app
+2. Setup:
+   - Name: Controladoria - Operacional
+   - Description
+3. Navigation: organizar em seções
+4. Permissions: adicionar usuários
+5. Publish app
+```
+
+**Vantagem:** Usuários instalam uma vez, recebem atualizações automaticamente quando você publica nova versão.
+
+---
+
+**Lineage View**
+
+Visualiza dependências entre componentes.
+
+**Quando usar:** Entender impacto de mudanças
+
+**Acessar:**
+```
+Workspace → Lineage view (ícone de rede)
+```
+
+**Mostra:**
+```
+Gateway → Modelo Semântico → Relatórios → Dashboards
+```
+
+**Exemplo de uso:** "Se eu alterar `marts.fato_gasto_estoque`, quais relatórios são afetados?" Lineage view mostra todos conectados.
+
+---
+
+**Métricas de Uso**
+
+Verificar acessos de cada relatório.
+
+**Quando usar:** Identificar relatórios subutilizados
+
+**Acessar:**
+```
+Relatório → Settings → Usage metrics report
+```
+
+**Métricas:**
+- Views por dia
+- Usuários únicos
+- Tempo médio de visualização
+- Método de acesso (web/mobile)
+
+**Exemplo:** `gasto_estoque_geral` tem 450 views/mês (muito usado ✅). `orçamento_ti` tem 45 views/mês (investigar se usuários conhecem o relatório ⚠️).
+
+---
+
+**Boas Práticas**
+
+✅ **Fazer:**
+- Alertas para KPIs críticos (não triviais)
+- Subscriptions para diretoria
+- Apps para facilitar onboarding
+- Lineage antes de mudanças estruturais
+
+❌ **Evitar:**
+- Alertas excessivos (fadiga)
+- Subscriptions de relatórios que mudam muito
+- Apps desorganizados
+
+---
+
+### 4.6 DBT Cloud
+
+---
+
+#### 4.6.1 Conceitos Fundamentais
+
+##### O que é dbt Cloud
+
+**dbt (data build tool)** é uma ferramenta de transformação de dados que opera sobre dados já carregados no data warehouse. No contexto da Barra Mansa:
+
+- **Função:** Camada de transformação (T) do pipeline ELT
+- **Entrada:** Dados raw/staging no Redshift
+- **Saída:** Tabelas analíticas (marts) prontas para BI
+- **Linguagem:** SQL + Jinja2
+
+**dbt Cloud** é a versão gerenciada do dbt, oferecendo:
+- IDE web (Studio) para desenvolvimento
+- Orquestração de jobs (schedules automáticos)
+- Documentação automática
+- Visualização de linhagem de dados
+- Controle de versão integrado com Git
+
+##### Diferença: dbt Core vs dbt Cloud
+
+| Aspecto | dbt Core | dbt Cloud |
+|---------|----------|-----------|
+| **Instalação** | Local (CLI) | SaaS (navegador) |
+| **IDE** | Editor externo | Studio integrado |
+| **Orquestração** | Manual ou via Airflow | Nativa (jobs + schedules) |
+| **Documentação** | Gerada localmente | Hospedada na plataforma |
+| **Colaboração** | Git manual | Git integrado + PRs |
+
+> **Na Barra Mansa:** Usamos **dbt Cloud** para facilitar a colaboração e orquestração. Airflow gerencia pipelines NRT, enquanto dbt Cloud orquestra transformações batch.
+
+##### Arquitetura dbt Cloud
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    DBT CLOUD                             │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  ┌────────────────────────────────────────────────┐    │
+│  │  IDE STUDIO (Desenvolvimento)                   │    │
+│  │  • Pull de alterações do Git                    │    │
+│  │  • Edição de modelos SQL                        │    │
+│  │  • Testes locais (run/test)                     │    │
+│  │  • Push via Pull Requests                       │    │
+│  └────────────────────────────────────────────────┘    │
+│                                                          │
+│  ┌────────────────────────────────────────────────┐    │
+│  │  ORQUESTRAÇÃO (Produção)                        │    │
+│  │  • Jobs agendados (daily, intraday)             │    │
+│  │  • Execução por tags ou seletores               │    │
+│  │  • Notificações de sucesso/falha                │    │
+│  └────────────────────────────────────────────────┘    │
+│                                                          │
+│  ┌────────────────────────────────────────────────┐    │
+│  │  DOCUMENTAÇÃO & LINEAGE                         │    │
+│  │  • Docs gerados automaticamente                 │    │
+│  │  • Linhagem visual upstream/downstream          │    │
+│  │  • Testes de qualidade de dados                 │    │
+│  └────────────────────────────────────────────────┘    │
+│                                                          │
+└─────────────────────────────────────────────────────────┘
+              ↓                              ↑
+      ┌───────────────┐            ┌──────────────────┐
+      │  Git Repo      │            │  Redshift        │
+      │  barramansa-dbt│            │  (staging → marts)│
+      └───────────────┘            └──────────────────┘
+```
+
+##### Papel no Pipeline ELT
+
+**Fluxo completo na Barra Mansa:**
+
+```
+1. EXTRACT (Airflow)
+   → Sapiens API → raw.sapiens_*
+
+2. LOAD (Airflow)
+   → raw → staging.stg_*
+
+3. TRANSFORM (dbt Cloud)
+   → staging → marts.mart_*
+   → marts → Power BI
+```
+
+**Responsabilidades do dbt:**
+- ✅ Lógica de negócio (agregações, cálculos, joins)
+- ✅ Modelagem dimensional (fatos, dimensões)
+- ✅ Testes de qualidade (not_null, unique, relationships)
+- ✅ Documentação de colunas e tabelas
+- ❌ Extração de dados (responsabilidade do Airflow)
+- ❌ Carga inicial (responsabilidade do Airflow)
+
+---
+
+#### 4.6.2 Operacional Básico
+
+##### A. IDE Studio - Desenvolvimento
+
+**Acesso ao Studio:**
+1. Acessar [dbt Cloud](https://cloud.getdbt.com)
+2. Selecionar projeto `barramansa-dbt`
+3. Abrir IDE Studio
+
+**Fluxo de trabalho típico:**
+
+**1. Sincronizar alterações do repositório**
+```bash
+# No Studio, clicar em "git pull" ou executar no terminal:
+git checkout main
+git pull origin main
+```
+
+**2. Criar branch para desenvolvimento**
+```bash
+# Seguindo commit semântico:
+git checkout -b feat/novo-modelo-vendas
+# ou
+git checkout -b fix/correcao-calculo-estoque
+```
+
+**3. Editar modelos SQL**
+- Criar arquivo `models/marts/vendas/mart_vendas_diarias.sql`
+- Escrever transformação SQL
+- Adicionar documentação em `schema.yml`
+
+**4. Testar modelo localmente**
+
+**Executar modelo específico:**
+```bash
+# Roda apenas o modelo e suas dependências
+dbt run --select mart_vendas_diarias
+```
+
+**Executar com pais e filhos (upstream + downstream):**
+```bash
+# + antes = inclui pais (upstream)
+# + depois = inclui filhos (downstream)
+dbt run --select +mart_vendas_diarias+
+```
+
+**Executar testes:**
+```bash
+dbt test --select mart_vendas_diarias
+```
+
+**5. Carregar seeds (se necessário)**
+
+Seeds são arquivos CSV com dados estáticos (ex: calendário, categorias).
+
+```bash
+# Executar seed específica
+dbt seed --select seed_calendario
+
+# Executar todas as seeds
+dbt seed
+
+# Forçar recarga (full-refresh)
+dbt seed --full-refresh
+```
+
+> **Quando usar seeds:**
+> - Tabelas de referência (ex: lista de feriados)
+> - Dados de configuração (ex: mapeamento de contas)
+> - Dados que mudam raramente
+
+**6. Criar Pull Request**
+- Commit das alterações: `git commit -m "feat: adicionar modelo de vendas diárias"`
+- Push da branch: `git push origin feat/novo-modelo-vendas`
+- Abrir PR no GitHub do repositório `barramansa-dbt`
+- Solicitar review da equipe
+- Após aprovação → merge para `main`
+
+##### B. Orquestração - Jobs Principais
+
+**Jobs configurados na Barra Mansa:**
+
+| Job | Frequência | Horário | Escopo | Tags/Comandos |
+|-----|------------|---------|--------|---------------|
+| **Daily** | 1x/dia | Madrugada (00:00) | Todos os modelos | `dbt run` |
+| **Fluxo de Caixa** | Múltiplas/dia + sob demanda | ~16h (fechamento) | Modelos financeiros | `dbt run --select tag:fluxo_caixa` |
+| **Almoxarifado** | Várias/dia | A cada 4h | Estoque e movimentações | `dbt run --select tag:almoxarifado` |
+| **Fiscal** | Várias/dia | A cada 6h | Obrigações e apurações | `dbt run --select tag:fiscal` |
+
+**Estratégias de execução:**
+
+**Por tags:**
+```bash
+# Modelos marcados com tag específica
+dbt run --select tag:fluxo_caixa
+
+# Múltiplas tags
+dbt run --select tag:fluxo_caixa tag:diario
+```
+
+**Por diretório:**
+```bash
+# Todos os modelos de uma pasta
+dbt run --select marts.financeiro.*
+```
+
+**Comandos combinados:**
+```bash
+# Exemplo: rodar staging + marts financeiro
+dbt run --select staging.stg_sapiens_* marts.financeiro.*
+```
+
+**Execução manual (sob demanda):**
+
+1. Acessar **Deploy → Jobs**
+2. Selecionar job (ex: Fluxo de Caixa)
+3. Clicar em **Run Now**
+4. Confirmar execução
+
+> **Caso de uso:** Gerente solicita atualização do fluxo de caixa antes do fechamento → executar job manualmente.
+
+##### C. Monitoramento Essencial
+
+**Acompanhamento de runs:**
+
+1. **Acessar histórico:**
+   - Deploy → Run History
+   - Visualizar runs recentes (sucesso/falha)
+
+2. **Verificar detalhes de um run:**
+   - Clicar no run específico
+   - Ver modelos executados
+   - Tempo de execução de cada modelo
+   - Erros (se houver)
+
+**Status possíveis:**
+- ✅ **Success:** Todos os modelos rodaram sem erros
+- ⚠️ **Success with warnings:** Rodou, mas há avisos (ex: testes falharam)
+- ❌ **Error:** Falhou (verificar logs)
+- 🔄 **Running:** Execução em andamento
+- ⏸️ **Cancelled:** Cancelado manualmente
+
+**Visualizar documentação gerada:**
+
+1. **Acessar:** Deploy → Documentation
+2. **Navegar:**
+   - Buscar por modelo (ex: `mart_fluxo_caixa`)
+   - Ver descrição de colunas
+   - Verificar dependências (upstream/downstream)
+
+**Identificar erros básicos:**
+
+**Erro de compilação:**
+```sql
+-- Exemplo: referência incorreta
+select * from {{ ref('modelo_que_nao_existe') }}
+```
+→ **Solução:** Corrigir nome do modelo
+
+**Erro de dependência circular:**
+```
+modelo_a depende de modelo_b
+modelo_b depende de modelo_a
+```
+→ **Solução:** Refatorar lógica para quebrar o ciclo
+
+**Erro de coluna não encontrada:**
+```sql
+-- Tabela upstream mudou estrutura
+select coluna_antiga from {{ ref('stg_vendas') }}
+```
+→ **Solução:** Atualizar query para usar coluna correta
+
+---
+
+#### 4.6.3 Operacional Avançado
+
+##### Criação e Configuração de Novos Jobs
+
+**Passo a passo:**
+
+1. **Acessar configuração:**
+   - Deploy → Jobs → Create Job
+
+2. **Configurar parâmetros básicos:**
+   - **Nome:** `Job - [Área] - [Descrição]` (ex: `Job - Fiscal - Apurações Diárias`)
+   - **Ambiente:** Production
+   - **Comando:** `dbt run --select tag:fiscal`
+
+3. **Schedule (agendamento):**
+   - **Cron expression:** `0 6,12,18 * * *` (às 6h, 12h, 18h)
+   - **Timezone:** America/Sao_Paulo
+   - **Run on merge:** ✅ (roda automaticamente após merge na main)
+
+4. **Notificações:**
+   - Email on failure: ✅
+   - Destinatários: equipe responsável
+
+5. **Advanced settings:**
+   - **Threads:** 4 (execução paralela de modelos)
+   - **Target:** prod (schema de produção)
+
+**Exemplo de job completo:**
+```yaml
+name: Job - Fiscal - Obrigações Acessórias
+commands:
+  - dbt run --select tag:fiscal
+  - dbt test --select tag:fiscal
+schedule: 0 */6 * * *  # A cada 6 horas
+threads: 4
+target: prod
+notifications:
+  email_on_failure: true
+```
+
+##### Estratégias de Execução
+
+**1. Execução incremental (performance)**
+
+Modelos incrementais processam apenas dados novos:
+
+```sql
+-- models/marts/vendas/mart_vendas_incremental.sql
+{{ config(
+    materialized='incremental',
+    unique_key='id_venda'
+) }}
+
+select
+    id_venda,
+    data_venda,
+    valor_total
+from {{ ref('stg_vendas') }}
+
+{% if is_incremental() %}
+    -- Apenas dados novos desde última execução
+    where data_venda > (select max(data_venda) from {{ this }})
+{% endif %}
+```
+
+**Quando usar:**
+- ✅ Tabelas grandes (>10M linhas)
+- ✅ Dados históricos que não mudam
+- ❌ Dados que sofrem atualizações retroativas
+
+**2. Full-refresh (reprocessamento completo)**
+
+```bash
+# Forçar reconstrução total de modelo incremental
+dbt run --select mart_vendas_incremental --full-refresh
+```
+
+**Quando usar:**
+- Correção de lógica histórica
+- Alteração de estrutura de tabela
+- Após mudanças em modelos upstream
+
+**3. Execução por tags (granularidade)**
+
+Organização típica no `barramansa-dbt`:
+
+```yaml
+# models/marts/financeiro/schema.yml
+models:
+  - name: mart_fluxo_caixa
+    config:
+      tags: ['financeiro', 'fluxo_caixa', 'diario']
+  
+  - name: mart_contas_receber
+    config:
+      tags: ['financeiro', 'contas_receber', 'intraday']
+```
+
+**Executar apenas modelos críticos:**
+```bash
+dbt run --select tag:intraday
+```
+
+##### Análise de Linhagem de Dados (Lineage)
+
+**Acessar visualização:**
+1. Deploy → Documentation
+2. Buscar modelo (ex: `mart_fluxo_caixa`)
+3. Clicar em **Lineage Graph**
+
+**Interpretar o gráfico:**
+
+```
+┌─────────────────┐
+│ raw.sapiens_mov │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│ stg_movimentos  │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐       ┌──────────────┐
+│ int_fluxo_caixa │ ───── │ seed_bancos  │
+└────────┬────────┘       └──────────────┘
+         │
+         ▼
+┌─────────────────┐
+│ mart_fluxo_caixa│ ─────→ (Power BI)
+└─────────────────┘
+```
+
+**Upstream (pais):** Modelos dos quais depende
+**Downstream (filhos):** Modelos que dependem dele
+
+**Uso prático:**
+- Identificar impacto de mudanças
+- Debugar dependências
+- Documentar fluxo de dados para auditoria
+
+##### Otimização de Performance
+
+**1. Materialização adequada:**
+
+| Tipo | Uso | Performance |
+|------|-----|-------------|
+| **view** | Modelos leves, queries simples | ⚡⚡ Rápida criação, lenta leitura |
+| **table** | Modelos intermediários, queries complexas | ⚡⚡⚡ Rápida leitura |
+| **incremental** | Grandes volumes, dados históricos | ⚡⚡⚡⚡ Melhor para tabelas massivas |
+| **ephemeral** | CTEs reutilizáveis, sem persistência | ⚡⚡⚡⚡⚡ Apenas em memória |
+
+**2. Redução de joins:**
+```sql
+-- ❌ Evitar joins desnecessários
+select
+    v.*,
+    c.nome_cliente,
+    c.cpf_cliente  -- Campos não utilizados
+from vendas v
+join clientes c on v.id_cliente = c.id_cliente
+
+-- ✅ Selecionar apenas campos necessários
+select
+    v.id_venda,
+    v.valor_total,
+    c.nome_cliente  -- Apenas o necessário
+from vendas v
+join clientes c on v.id_cliente = c.id_cliente
+```
+
+**3. Paralelização (threads):**
+- Configurar jobs com 4-8 threads
+- dbt executa modelos independentes em paralelo
+- Reduz tempo total de execução
+
+##### Gestão de Ambientes (Dev vs Prod)
+
+**Configuração no `profiles.yml`:**
+
+```yaml
+barramansa-dbt:
+  target: prod
+  outputs:
+    dev:
+      type: redshift
+      host: bm-redshift.us-east-1.redshift.amazonaws.com
+      database: dev
+      schema: dbt_{{ var('user_name') }}  # Schema isolado por dev
+      
+    prod:
+      type: redshift
+      host: bm-redshift.us-east-1.redshift.amazonaws.com
+      database: prod
+      schema: public  # Schema de produção
+```
+
+**Boas práticas:**
+- ✅ Desenvolver em schema isolado (`dbt_joao`, `dbt_maria`)
+- ✅ Testar exaustivamente antes de abrir PR
+- ✅ Jobs automáticos rodam apenas em `prod`
+- ❌ Nunca executar `dbt run` diretamente em prod via Studio
+
+---
+
+#### 4.6.4 Troubleshooting Comum
+
+##### Problema 1: Job Falhou
+
+**Sintomas:**
+- Notificação de erro por email
+- Run History mostra status "Error"
+- Power BI exibe dados desatualizados
+
+**Investigação:**
+
+**1. Acessar logs do run:**
+```
+Deploy → Run History → Clicar no run falhado
+```
+
+**2. Identificar modelo que quebrou:**
+```
+Exemplo de erro:
+❌ 1 of 45 ERROR creating table marts.mart_vendas_diarias
+```
+
+**3. Analisar mensagem de erro:**
+
+**Erro comum: coluna não existe**
+```sql
+Database Error in model mart_vendas_diarias
+  column "campo_novo" does not exist
+  
+Contexto: Modelo upstream (stg_vendas) removeu coluna
+```
+
+**Erro comum: violação de constraint**
+```sql
+Database Error in model mart_estoque
+  duplicate key value violates unique constraint
+  
+Contexto: Dados duplicados na fonte
+```
+
+**4. Verificar dependências upstream:**
+```bash
+# No Studio, verificar se modelos pais rodaram corretamente
+dbt run --select +mart_vendas_diarias
+
+# Se staging falhou, problema está antes
+```
+
+**Solução:**
+
+**A. Corrigir código:**
+```sql
+-- Antes (quebrado)
+select campo_novo from {{ ref('stg_vendas') }}
+
+-- Depois (corrigido)
+select campo_atual from {{ ref('stg_vendas') }}
+```
+
+**B. Testar no Studio:**
+```bash
+dbt run --select mart_vendas_diarias
+dbt test --select mart_vendas_diarias
+```
+
+**C. Commitar correção:**
+```bash
+git add models/marts/vendas/mart_vendas_diarias.sql
+git commit -m "fix: corrigir referência de coluna em mart_vendas_diarias"
+git push origin fix/correcao-mart-vendas
+```
+
+**D. Abrir PR → Merge → Job reexecuta automaticamente**
+
+---
+
+##### Problema 2: Dados Desatualizados
+
+**Sintomas:**
+- Power BI mostra dados de ontem
+- Usuário reporta números inconsistentes
+- Conferir horário: dados deveriam ter atualizado às 6h
+
+**Investigação:**
+
+**1. Verificar última execução:**
+```
+Deploy → Run History → Filtrar por job "Daily"
+Última execução: 05/01/2026 06:03 (sucesso)
+Esperado: 06/01/2026 06:00
+```
+
+**2. Identificar causa:**
+
+**Cenário A: Job não rodou no schedule**
+- Verificar se schedule está ativo
+- Conferir se ambiente está suspenso
+
+**Cenário B: Job rodou mas pulou modelos**
+```bash
+# Logs mostram:
+SKIP mart_fluxo_caixa (schema mismatch)
+```
+
+**Cenário C: Airflow não alimentou staging**
+- Dados raw não atualizaram
+- Pipeline upstream quebrado
+
+**Solução:**
+
+**Para Cenário A:**
+```
+1. Deploy → Jobs → Daily → Edit
+2. Verificar schedule: ☑️ Active
+3. Se desativado → Ativar e salvar
+4. Run Now (manual) para atualizar agora
+```
+
+**Para Cenário B:**
+```bash
+# Forçar reconstrução
+dbt run --select mart_fluxo_caixa --full-refresh
+```
+
+**Para Cenário C:**
+```
+1. Verificar Airflow (seção 4.3)
+2. Conferir logs da DAG upstream
+3. Se raw não atualizou → trigger manual da DAG
+4. Após raw atualizar → reexecutar job dbt
+```
+
+---
+
+##### Problema 3: Seed Não Carregou
+
+**Sintomas:**
+- Teste falha: `relationship test failed`
+- Query retorna valores NULL em joins com seed
+- Documentação mostra seed desatualizada
+
+**Investigação:**
+
+**1. Confirmar arquivo CSV no repositório:**
+```bash
+# No Studio, verificar:
+ls seeds/
+# Deve listar: calendario.csv, categorias.csv, etc.
+```
+
+**2. Validar formato do arquivo:**
+
+**Formato correto:**
+```csv
+id_categoria,nome_categoria,grupo
+1,Alimentos,Varejo
+2,Bebidas,Varejo
+3,Limpeza,Varejo
+```
+
+**Problemas comuns:**
+- ❌ Encoding errado (usar UTF-8)
+- ❌ Delimitador incorreto (usar vírgula)
+- ❌ Linhas vazias no final
+- ❌ Aspas duplas mal formatadas
+
+**3. Checar logs de erro:**
+```
+Deploy → Run History → Buscar execução de seed
+
+Erro típico:
+Database Error in seed calendario
+  invalid input syntax for type date: "32/13/2026"
+```
+
+**Solução:**
+
+**A. Corrigir arquivo CSV:**
+```csv
+# Antes (errado)
+data_feriado,descricao
+32/13/2026,Feriado Inválido
+
+# Depois (correto)
+data_feriado,descricao
+2026-01-01,Ano Novo
+```
+
+**B. Commitar correção:**
+```bash
+git add seeds/calendario.csv
+git commit -m "fix: corrigir datas inválidas em seed calendario"
+git push
+```
+
+**C. Executar seed manualmente:**
+```bash
+# No Studio
+dbt seed --select calendario --full-refresh
+
+# Verificar resultado
+select * from {{ ref('calendario') }} limit 10
+```
+
+**D. Se seed for grande (>1000 linhas):**
+- ❌ Evitar seeds para dados volumosos
+- ✅ Migrar para tabela real carregada via Airflow
+
+---
+
+##### Problema 4: Conflitos no Git (Studio)
+
+**Sintomas:**
+- Git pull retorna mensagem de conflito
+- Arquivo mostra marcações `<<<<<<< HEAD`
+- Não consegue fazer push da branch
+
+**Investigação:**
+
+**Exemplo de conflito:**
+```sql
+-- models/marts/vendas/mart_vendas.sql
+
+<<<<<<< HEAD
+-- Sua alteração
+select id_venda, valor_total * 1.1 as valor_ajustado
+=======
+-- Alteração do colega no main
+select id_venda, valor_total * 1.05 as valor_ajustado
+>>>>>>> origin/main
+
+from {{ ref('stg_vendas') }}
+```
+
+**Solução:**
+
+**1. Pull antes de iniciar trabalho (prevenção):**
+```bash
+# SEMPRE fazer antes de começar:
+git checkout main
+git pull origin main
+git checkout -b feat/minha-feature
+```
+
+**2. Resolver conflito manualmente:**
+```sql
+-- Decidir qual versão manter ou combinar:
+
+-- Opção A: Manter sua alteração
+select id_venda, valor_total * 1.1 as valor_ajustado
+from {{ ref('stg_vendas') }}
+
+-- Opção B: Manter alteração do colega
+select id_venda, valor_total * 1.05 as valor_ajustado
+from {{ ref('stg_vendas') }}
+
+-- Opção C: Combinar (se fizer sentido)
+select
+    id_venda,
+    valor_total * 1.1 as valor_ajustado_fiscal,
+    valor_total * 1.05 as valor_ajustado_gerencial
+from {{ ref('stg_vendas') }}
+```
+
+**3. Remover marcações de conflito:**
+- Deletar linhas `<<<<<<<`, `=======`, `>>>>>>>`
+- Manter apenas código final escolhido
+
+**4. Testar modelo após resolver:**
+```bash
+dbt run --select mart_vendas
+dbt test --select mart_vendas
+```
+
+**5. Commitar resolução:**
+```bash
+git add models/marts/vendas/mart_vendas.sql
+git commit -m "merge: resolver conflito em mart_vendas"
+git push origin feat/minha-feature
+```
+
+**Prevenção:**
+- ✅ Pull frequente (início e fim do dia)
+- ✅ Branches de vida curta (<3 dias)
+- ✅ Comunicação com equipe sobre modelos sendo editados
+- ✅ Code reviews rápidos (não acumular PRs)
+
+---
+
+#### Referências Rápidas
+
+**Comandos essenciais:**
+```bash
+# Desenvolvimento
+dbt run --select modelo                  # Rodar modelo específico
+dbt run --select +modelo                 # Modelo + pais
+dbt run --select modelo+                 # Modelo + filhos
+dbt run --select +modelo+                # Modelo + pais + filhos
+dbt test --select modelo                 # Testar modelo
+dbt seed --select seed_name              # Carregar seed
+
+# Troubleshooting
+dbt run --select modelo --full-refresh   # Reprocessar tudo
+dbt compile --select modelo              # Compilar sem executar
+dbt debug                                # Diagnóstico de conexão
+
+# Produção (via Jobs)
+dbt run                                  # Todos os modelos
+dbt run --select tag:fiscal              # Por tag
+dbt run --select marts.financeiro.*      # Por diretório
+```
+
+**Links úteis:**
+- Documentação oficial: [docs.getdbt.com](https://docs.getdbt.com)
+- Repositório Barra Mansa: `github.com/barramansa-alimentos/barramansa-dbt`
+- dbt Cloud: [cloud.getdbt.com](https://cloud.getdbt.com)
+
+---
+
+**Status:** Operacional  
+**Última Atualização:** Janeiro 2026  
+**Responsável:** Equipe de Dados - Controladoria Financeira
 
 ---
 
