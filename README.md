@@ -10,8 +10,8 @@
 | **Responsável** | João Lima |
 | **Cargo** | Analista Contábil Jr |
 | **Período** | Mar/2025 - Jan/2026 |
-| **Última Atualização** | 15/01/2026 |
-| **Versão** | 1.1 |
+| **Última Atualização** | 14/01/2026 |
+| **Versão** | 1.0 |
 | **Status** | ✅ Final |
 
 ---
@@ -71,6 +71,7 @@ Transferir conhecimento operacional do pipeline de dados para garantir continuid
 - [1.2.1. Sintaxe Basica (tipos, colecoes, operadores, controle)](#121-sintaxe-basica-tipos-colecoes-operadores-controle)
 - [1.2.2. Recursos da Linguagem (comprehension, decorators, context manager)](#122-recursos-da-linguagem-comprehension-decorators-context-manager)
 - [1.2.3. Pandas para Analise Exploratoria](#123-pandas-para-analise-exploratoria)
+- [1.2.4. Python para Pipelines (os, gzip, boto3, streaming)](#124-python-para-pipelines)
 
 ---
 
@@ -1488,6 +1489,102 @@ for chave, valor in config.items():
 
 ---
 
+#### Generators (yield)
+
+**O que é:** Função que **produz valores sob demanda**, sem carregar tudo na memória. Usa `yield` em vez de `return`.
+
+**Quando usar:** Processar arquivos grandes ou resultados de banco linha a linha.
+
+```python
+# Generator simples - produz valores um por vez
+def contar_ate(n):
+    i = 1
+    while i <= n:
+        yield i          # Pausa aqui, retorna valor, continua na próxima chamada
+        i += 1
+
+for num in contar_ate(3):
+    print(num)           # Imprime 1, 2, 3 (um por vez, não lista [1,2,3])
+
+# Uso real - ler arquivo grande sem carregar tudo
+def ler_em_lotes(arquivo, tamanho=1000):
+    with open(arquivo) as f:
+        lote = []
+        for linha in f:
+            lote.append(linha)
+            if len(lote) >= tamanho:
+                yield lote   # Entrega lote e pausa
+                lote = []
+        if lote:             # Últimas linhas restantes
+            yield lote
+```
+
+**Diferença chave:** `return [1,2,3]` cria lista inteira na memória. `yield 1`, `yield 2`, `yield 3` entrega um valor por vez.
+
+---
+
+#### Lambda (funções anônimas)
+
+**O que é:** Função compacta de uma linha, sem nome. Sintaxe: `lambda argumentos: expressão`
+
+**Quando usar:** Transformações rápidas com `map()`, `filter()` ou `sorted()`.
+
+```python
+# Função normal vs lambda (equivalentes)
+def dobrar(x):
+    return x * 2
+
+dobrar = lambda x: x * 2
+
+# map() - aplica função a cada elemento
+numeros = [1, 2, 3, 4]
+dobrados = list(map(lambda x: x * 2, numeros))       # [2, 4, 6, 8]
+
+# filter() - filtra elementos que retornam True
+pares = list(filter(lambda x: x % 2 == 0, numeros))  # [2, 4]
+
+# sorted() - ordenação customizada
+nomes = ["Ana", "Bob", "Carol"]
+por_tamanho = sorted(nomes, key=lambda x: len(x))    # ["Ana", "Bob", "Carol"]
+```
+
+**Preferência:** Use comprehension quando possível (`[x*2 for x in nums]`). Lambda é útil quando a função de transformação é um parâmetro.
+
+---
+
+#### @lru_cache (cache de resultados)
+
+**O que é:** Decorator que **memoriza resultados** de funções. Mesmos argumentos = resultado cacheado, não recalcula.
+
+**Quando usar:** Funções lentas chamadas repetidamente com mesmos parâmetros (consultas, cálculos pesados).
+
+```python
+from functools import lru_cache
+
+# Sem cache - recalcula toda vez
+def consulta_lenta(id_cliente):
+    # Simula consulta ao banco (demora 2 segundos)
+    return f"Dados do cliente {id_cliente}"
+
+# Com cache - calcula só na primeira vez
+@lru_cache(maxsize=128)       # Guarda até 128 resultados diferentes
+def consulta_cacheada(id_cliente):
+    # Primeira chamada: executa. Próximas com mesmo id: retorna do cache
+    return f"Dados do cliente {id_cliente}"
+
+# Uso
+consulta_cacheada(42)         # Executa consulta
+consulta_cacheada(42)         # Retorna do cache (instantâneo)
+consulta_cacheada(99)         # Executa consulta (id diferente)
+
+# Limpar cache quando necessário
+consulta_cacheada.cache_clear()
+```
+
+**Cuidado:** Só funciona com argumentos hashable (números, strings, tuplas). Não use com listas ou dicts como parâmetro.
+
+---
+
 
 ### 1.2.3. Pandas para Analise Exploratoria
 
@@ -1589,6 +1686,89 @@ df.to_excel("saida.xlsx", index=False)
 
 ---
 
+#### Transformar Colunas
+
+Aplicar funções em colunas existentes ou criar novas baseadas em lógica.
+
+| Método | Uso |
+|--------|-----|
+| `.apply()` | Aplica função em cada valor da coluna |
+| `.map()` | Substitui valores usando dicionário |
+| `.astype()` | Converte tipo da coluna |
+
+```python
+# apply: aplicar função em cada valor
+df["nome_upper"] = df["nome"].apply(lambda x: x.upper())
+df["valor_formatado"] = df["valor"].apply(lambda x: f"R$ {x:,.2f}")
+
+# map: substituir valores por mapeamento
+status_map = {1: "Ativo", 0: "Inativo"}
+df["status_texto"] = df["status"].map(status_map)
+
+# astype: converter tipos
+df["codigo"] = df["codigo"].astype(str)
+df["valor"] = df["valor"].astype(float)
+```
+
+---
+
+#### Combinar DataFrames
+
+Juntar dados de diferentes fontes é essencial em análise. Pandas oferece `merge` (como JOIN SQL) e `concat` (empilhar).
+
+| Método | Equivalente SQL | Uso |
+|--------|-----------------|-----|
+| `merge()` | JOIN | Combinar por chave comum |
+| `concat()` | UNION | Empilhar linhas ou colunas |
+
+```python
+# merge: equivalente a JOIN do SQL
+df_vendas = pd.merge(
+    df_pedidos,
+    df_clientes,
+    on="id_cliente",          # chave de junção
+    how="left"                # left, right, inner, outer
+)
+
+# merge com chaves diferentes
+df_resultado = pd.merge(
+    df_fato,
+    df_dim,
+    left_on="cod_produto",    # chave na tabela esquerda
+    right_on="codigo",        # chave na tabela direita
+    how="inner"
+)
+
+# concat: empilhar DataFrames (como UNION)
+df_completo = pd.concat([df_jan, df_fev, df_mar], ignore_index=True)
+```
+
+---
+
+#### Datas no Pandas
+
+Colunas de data precisam ser convertidas para tipo datetime para permitir filtros e extrações.
+
+```python
+# Converter string para datetime
+df["data"] = pd.to_datetime(df["data"], format="%Y-%m-%d")
+
+# Extrair componentes
+df["ano"] = df["data"].dt.year
+df["mes"] = df["data"].dt.month
+df["dia"] = df["data"].dt.day
+df["dia_semana"] = df["data"].dt.day_name()
+
+# Filtrar por período
+df_recente = df[df["data"] >= "2025-01-01"]
+df_periodo = df[df["data"].between("2025-01-01", "2025-06-30")]
+
+# Diferença entre datas
+df["dias_atraso"] = (pd.Timestamp.now() - df["data_vencimento"]).dt.days
+```
+
+---
+
 ##### Teste seu Conhecimento
 
 **O que esse codigo retorna?**
@@ -1612,6 +1792,194 @@ resultado = [x["nome"] for x in dados if x["ativo"]]
 Explicacao: List comprehension que filtra apenas os dicionarios onde `ativo` é `True` e extrai o valor de `"nome"`.
 
 </details>
+
+---
+
+### 1.2.4. Python para Pipelines
+
+Módulos e padrões usados em DAGs e scripts de extração na BM.
+
+---
+
+#### Módulos de Sistema
+
+Scripts de pipeline precisam interagir com o sistema operacional: ler variáveis de ambiente (credenciais), manipular caminhos de arquivos e criar arquivos temporários.
+
+| Módulo | Função |
+|--------|--------|
+| `os` | Variáveis de ambiente, operações de sistema |
+| `pathlib` | Manipulação de caminhos (mais legível que `os.path`) |
+| `tempfile` | Criar arquivos temporários que não conflitam |
+
+```python
+import os
+from pathlib import Path
+import tempfile
+
+# Variáveis de ambiente (credenciais ficam aqui, não no código)
+usuario = os.getenv("DB_USER", "default")
+
+# Caminhos com pathlib (preferido - mais legível)
+caminho = Path("/home/airflow/dags")
+arquivo = caminho / "config" / "tables.py"  # operador / concatena
+arquivo.parent                               # diretório pai
+arquivo.name                                 # nome do arquivo
+arquivo.exists()                             # verifica se existe
+
+# Arquivo temporário (evita conflito entre execuções paralelas)
+with tempfile.NamedTemporaryFile(delete=False, suffix=".csv") as tmp:
+    tmp.write(b"dados")
+    tmp_path = tmp.name                      # salva caminho para usar depois
+```
+
+---
+
+#### Arquivos Comprimidos
+
+Dados extraídos do SQL Server são grandes. Comprimir antes de enviar ao S3 reduz tempo de transferência e custo de armazenamento. O padrão BM é CSV comprimido com GZIP.
+
+| Módulo | Função |
+|--------|--------|
+| `gzip` | Compressão/descompressão de arquivos |
+| `csv` | Leitura/escrita de arquivos CSV estruturados |
+
+**Modos de abertura:** `wt` = write text, `rt` = read text (texto, não bytes).
+
+```python
+import gzip
+import csv
+
+# Escrever CSV comprimido (padrão BM para S3)
+with gzip.open("dados.csv.gz", "wt", encoding="utf-8") as f:
+    writer = csv.writer(f, quoting=csv.QUOTE_MINIMAL)
+    writer.writerow(["col1", "col2"])        # header
+    writer.writerows(lista_de_tuplas)        # dados em lote
+
+# Ler CSV comprimido
+with gzip.open("dados.csv.gz", "rt", encoding="utf-8") as f:
+    reader = csv.reader(f)
+    for row in reader:
+        print(row)
+```
+
+---
+
+#### Conexões de Banco
+
+Extrair dados de bancos relacionais (SQL Server, Redshift) requer conexão via cursor. O padrão é usar `fetchmany()` em vez de `fetchall()` para não estourar memória com tabelas grandes.
+
+**Conceitos:**
+- **cursor**: objeto que executa queries e armazena resultados
+- **fetchmany(n)**: busca n registros por vez (controle de memória)
+- **generator (yield)**: retorna dados sob demanda, sem carregar tudo
+
+```python
+def extrair_dados(conn, query, chunk_size=10000):
+    """Extrai dados em chunks para não estourar memória."""
+    cursor = conn.cursor()
+    cursor.execute(query)
+
+    # Extrai nomes das colunas do cursor
+    colunas = [desc[0] for desc in cursor.description]
+
+    while True:
+        rows = cursor.fetchmany(chunk_size)  # busca N registros
+        if not rows:
+            break
+        yield colunas, rows                  # retorna sob demanda
+
+    cursor.close()
+```
+
+**Transações:** quando múltiplas operações precisam ser atômicas (todas ou nenhuma).
+
+```python
+try:
+    cursor.execute("DELETE FROM tabela WHERE data < '2024-01-01'")
+    cursor.execute("INSERT INTO tabela SELECT * FROM staging")
+    conn.commit()      # confirma ambas operações
+except Exception:
+    conn.rollback()    # desfaz tudo se qualquer uma falhar
+    raise
+```
+
+---
+
+#### AWS S3 (boto3)
+
+S3 é o armazenamento intermediário do pipeline BM. Dados extraídos do SQL Server vão para o S3, e de lá são carregados no Redshift via COPY.
+
+**boto3** é a biblioteca oficial da AWS para Python.
+
+| Operação | Método |
+|----------|--------|
+| Enviar arquivo | `upload_file()` |
+| Baixar arquivo | `download_file()` |
+| Deletar arquivo | `delete_object()` |
+| Verificar existência | `head_object()` |
+
+```python
+import boto3
+
+s3 = boto3.client("s3")
+
+# Upload: local → S3
+s3.upload_file(
+    Filename="/tmp/dados.csv.gz",
+    Bucket="bm-airflow",
+    Key="comercial/tabela_temp.csv.gz"
+)
+
+# Download: S3 → local
+s3.download_file(
+    Bucket="bm-airflow",
+    Key="comercial/tabela_temp.csv.gz",
+    Filename="/tmp/dados.csv.gz"
+)
+
+# Deletar objeto do S3
+s3.delete_object(Bucket="bm-airflow", Key="comercial/tabela_temp.csv.gz")
+
+# Verificar se arquivo existe (evita erro ao tentar baixar)
+try:
+    s3.head_object(Bucket="bm-airflow", Key="comercial/tabela.csv.gz")
+    existe = True
+except s3.exceptions.ClientError:
+    existe = False
+```
+
+---
+
+#### Streaming de Dados
+
+Tabelas grandes (milhões de registros) não cabem na memória. O padrão é processar em streaming: ler um pedaço, processar, descartar, repetir.
+
+**Fluxo BM:**
+```
+SQL Server → fetchmany() → gzip.write() → S3.upload()
+            (chunk)        (comprime)      (envia)
+```
+
+Nunca carrega a tabela inteira na memória.
+
+```python
+def pipeline_extracao(conn, query, s3_key):
+    """Extrai, comprime e envia para S3 sem carregar tudo em memória."""
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".csv.gz") as tmp:
+        with gzip.open(tmp.name, "wt", encoding="utf-8") as gz:
+            writer = csv.writer(gz)
+            primeiro = True
+
+            for colunas, rows in extrair_dados(conn, query):
+                if primeiro:
+                    writer.writerow(colunas)  # header só na primeira vez
+                    primeiro = False
+                writer.writerows(rows)        # escreve chunk
+
+        s3.upload_file(tmp.name, "bm-airflow", s3_key)
+
+    os.remove(tmp.name)  # limpeza do arquivo temporário
+```
 
 ---
 
@@ -1695,6 +2063,246 @@ O pipeline de dados esta estruturado para processar informacoes dos sistemas cor
 - **Power BI Service** - Dashboards corporativos para todas as areas
 
 ---
+
+## 2.3. Conceitos de Engenharia de Software
+
+> Princípios fundamentais que guiam o design de sistemas bem estruturados. Entender esses conceitos ajuda a compreender **por que** o pipeline foi construído dessa forma.
+
+---
+
+### 2.3.1. Organização de Código
+
+#### Separação de Responsabilidades
+
+**O que é:** Dividir o sistema em partes distintas, cada uma com uma única função.
+
+**Analogia:** Numa cozinha, quem corta não cozinha, quem cozinha não serve. Cada pessoa faz uma coisa bem feita.
+
+```
+sistema/
+├── orquestracao/    → QUANDO e EM QUE ORDEM executar
+├── logica/          → COMO fazer (funções)
+└── configuracao/    → O QUE processar (listas, parâmetros)
+```
+
+**Benefício:** Mudar a lógica não afeta a orquestração. Adicionar item novo = só editar configuração.
+
+---
+
+#### DRY (Don't Repeat Yourself)
+
+**O que é:** Cada conhecimento deve existir em um único lugar no sistema.
+
+**Problema:**
+```python
+# Código repetido em 50 arquivos diferentes
+conexao = conectar()
+dados = consultar()
+salvar(dados)
+fechar(conexao)
+```
+
+**Solução:**
+```python
+# Centralizado em uma função
+from utils import processar_dados
+processar_dados(tabela)  # Uma linha, mesma funcionalidade
+```
+
+**Benefício:** Corrigir bug = mudar 1 lugar, afeta todo o sistema.
+
+---
+
+#### Encapsulamento
+
+**O que é:** Esconder complexidade atrás de interface simples.
+
+```python
+# Quem usa não precisa saber os detalhes
+resultado = enviar_email(destinatario, assunto, corpo)
+# ↑ Esconde: conexão SMTP, autenticação, formatação, retry, logs
+```
+
+**Benefício:** Código que usa fica legível. Detalhes ficam isolados.
+
+---
+
+### 2.3.2. Configuração e Padrões
+
+#### Configuração Externalizada
+
+**O que é:** Separar dados de configuração do código executável.
+
+| Tipo | Onde fica | Exemplo |
+|------|-----------|---------|
+| Código | `.py`, `.sql` | Lógica, funções |
+| Configuração | `.csv`, `.json`, `.yaml` | Listas, parâmetros |
+
+**Benefício:** Adicionar item novo = editar arquivo de config, não código.
+
+---
+
+#### Convenção de Nomenclatura
+
+**O que é:** Padrão consistente de nomes que comunica intenção.
+
+```
+processo_sistema_entidade_tipo.py
+    │        │        │      └── Variação (full, parcial)
+    │        │        └───────── O que processa
+    │        └────────────────── De onde vem
+    └─────────────────────────── Tipo de operação
+```
+
+**Benefício:** Ler o nome = saber o que faz sem abrir o arquivo.
+
+---
+
+#### Single Source of Truth (Fonte Única)
+
+**O que é:** Cada informação vive em um único lugar.
+
+```
+config.csv → Define estrutura de TODAS as entidades
+          → Usado por criar(), consultar(), validar()
+          → Mudar estrutura = editar 1 arquivo
+```
+
+**Benefício:** Não tem risco de uma função usar definição diferente de outra.
+
+---
+
+### 2.3.3. Robustez e Segurança
+
+#### Resource Management
+
+**O que é:** Garantir que recursos (conexões, arquivos) sejam sempre liberados.
+
+```python
+recurso = None
+try:
+    recurso = abrir_recurso()
+    usar(recurso)
+finally:
+    # SEMPRE executa, mesmo com erro
+    if recurso:
+        recurso.fechar()
+```
+
+**Benefício:** Não vaza conexões, não deixa arquivos abertos.
+
+---
+
+#### Fail-Fast (Falhar Rápido)
+
+**O que é:** Detectar e reportar erros o mais cedo possível.
+
+```python
+def processar(dados):
+    # Valida ANTES de processar
+    if not dados or len(dados) == 0:
+        raise ValueError("Dados vazios - algo errado na extração")
+
+    # Só processa se passou na validação
+    fazer_processamento(dados)
+```
+
+**Benefício:** Erro detectado cedo = menos estrago, debug mais fácil.
+
+---
+
+#### Funções Puras
+
+**O que é:** Dado o mesmo input, retorna o mesmo output. Sem efeitos colaterais.
+
+```python
+# Pura - previsível
+def calcular_imposto(valor, aliquota):
+    return valor * aliquota
+
+# Impura - depende de estado externo
+def calcular_imposto(valor):
+    aliquota = buscar_do_banco()  # Pode mudar
+    return valor * aliquota
+```
+
+**Benefício:** Testável, previsível, sem surpresas.
+
+---
+
+### 2.3.4. Integridade de Dados
+
+#### Idempotência
+
+**O que é:** Executar a mesma operação múltiplas vezes produz o mesmo resultado.
+
+```sql
+-- Não idempotente (duplica a cada execução)
+INSERT INTO tabela VALUES (1, 'dado');
+
+-- Idempotente (mesmo resultado sempre)
+DELETE FROM tabela WHERE id = 1;
+INSERT INTO tabela VALUES (1, 'dado');
+```
+
+**Benefício:** Re-executar processo que falhou = resultado correto, sem duplicação.
+
+---
+
+#### Transações Atômicas
+
+**O que é:** Operações que executam completamente ou não executam nada.
+
+```sql
+BEGIN;                          -- Inicia transação
+DELETE FROM tabela WHERE ...;   -- Passo 1
+INSERT INTO tabela ...;         -- Passo 2
+COMMIT;                         -- Confirma tudo junto
+-- Se INSERT falhar, DELETE é revertido automaticamente
+```
+
+**Benefício:** Dados nunca ficam em estado inconsistente (metade feito).
+
+---
+
+### 2.3.5. Performance
+
+#### Streaming/Chunking
+
+**O que é:** Processar dados em pedaços em vez de carregar tudo na memória.
+
+```python
+# Problema - carrega 100M linhas na memória
+todos_dados = consultar_tudo()
+
+# Solução - processa 10k por vez
+while True:
+    lote = consultar_proximo_lote(10_000)
+    if not lote:
+        break
+    processar(lote)
+```
+
+**Benefício:** Processar volumes enormes sem estourar memória.
+
+---
+
+### Resumo dos Conceitos
+
+| Conceito | Pergunta que responde |
+|----------|----------------------|
+| Separação de Responsabilidades | Quem faz o quê? |
+| DRY | Está repetido? |
+| Encapsulamento | Precisa saber os detalhes? |
+| Configuração Externalizada | Dado ou código? |
+| Convenção de Nomenclatura | O nome comunica? |
+| Single Source of Truth | Onde está a verdade? |
+| Resource Management | Recurso foi liberado? |
+| Fail-Fast | Erro foi detectado cedo? |
+| Funções Puras | É previsível? |
+| Idempotência | Posso re-executar? |
+| Transações Atômicas | É tudo ou nada? |
+| Streaming | Cabe na memória? |
 
 ---
 
@@ -2657,17 +3265,108 @@ def processar(tabela, **context):
 
 ---
 
-#### TaskGroups
+#### XCom (comunicação entre tasks)
 
-Agrupa tasks visualmente.
+**O que é:** Mecanismo para **passar dados entre tasks**. Quando uma task retorna valor, ele vai automaticamente para o XCom.
+
+**Como funciona:**
+```python
+@task
+def extrair():
+    dados = {"total": 100, "arquivo": "s3://bucket/dados.csv"}
+    return dados      # Automaticamente salvo no XCom
+
+@task
+def processar(info):
+    print(info["total"])      # Acessa dados da task anterior
+    print(info["arquivo"])
+
+# Encadeamento - retorno de extrair() vai para processar()
+resultado = extrair()
+processar(resultado)
+```
+
+**Acesso manual (em PythonOperator tradicional):**
+```python
+def task_downstream(**context):
+    # Puxa valor do XCom de outra task
+    valor = context["ti"].xcom_pull(task_ids="extrair", key="return_value")
+```
+
+**Cuidado:** XCom armazena no banco do Airflow. Use apenas para metadados pequenos (paths, contadores), não dados grandes.
+
+---
+
+#### Sensors (aguardar condições)
+
+**O que é:** Tasks especiais que **esperam uma condição** antes de prosseguir. Útil para dependências externas.
+
+**Sensors comuns no BM:**
+
+| Sensor | Aguarda |
+|--------|---------|
+| `S3KeySensor` | Arquivo existir no S3 |
+| `ExternalTaskSensor` | Outra DAG finalizar |
+| `SqlSensor` | Query retornar resultado |
+
+```python
+from airflow.providers.amazon.aws.sensors.s3 import S3KeySensor
+from airflow.sensors.external_task import ExternalTaskSensor
+
+# Espera arquivo aparecer no S3
+aguarda_arquivo = S3KeySensor(
+    task_id="aguarda_csv",
+    bucket_name="bucket-dados",
+    bucket_key="entrada/{{ ds }}/vendas.csv",  # Usa data execução
+    aws_conn_id="aws_default",
+    timeout=3600,           # Timeout em segundos (1 hora)
+    poke_interval=60,       # Verifica a cada 60 segundos
+    mode="poke"             # poke (ocupa worker) ou reschedule (libera)
+)
+
+# Espera outra DAG terminar
+aguarda_dag = ExternalTaskSensor(
+    task_id="aguarda_extracao",
+    external_dag_id="dag_extracao_vendas",
+    external_task_id=None,  # None = aguarda DAG inteira
+    timeout=7200,
+    mode="reschedule"       # Libera worker enquanto espera
+)
+
+aguarda_arquivo >> processar_dados >> aguarda_dag >> gerar_relatorio
+```
+
+**mode:** `poke` mantém worker ocupado (bom para esperas curtas). `reschedule` libera worker (bom para esperas longas).
+
+---
+
+#### TaskGroups (agrupamento visual)
+
+**O que é:** Organiza tasks relacionadas em **grupos colapsáveis** na interface. Não afeta execução, apenas visualização.
+
+**Quando usar:** DAGs com muitas tasks que podem ser agrupadas logicamente (por tabela, por etapa).
 
 ```python
 from airflow.utils.task_group import TaskGroup
 
-with TaskGroup(group_id="vendas") as grupo:
-    extrair_clientes()
-    extrair_produtos()
+with DAG("pipeline_vendas", ...):
+
+    # Grupo de extração
+    with TaskGroup(group_id="extracao") as grupo_ext:
+        extrair_clientes = extrair("clientes")
+        extrair_produtos = extrair("produtos")
+        extrair_pedidos = extrair("pedidos")
+
+    # Grupo de transformação
+    with TaskGroup(group_id="transformacao") as grupo_transf:
+        transformar_fato_vendas = transformar("fato_vendas")
+        transformar_dim_tempo = transformar("dim_tempo")
+
+    # Dependência entre grupos
+    grupo_ext >> grupo_transf >> carregar_dw
 ```
+
+**Na UI:** Aparece como caixa colapsável. Clique para expandir e ver tasks internas.
 
 ---
 
@@ -2956,6 +3655,169 @@ airflow dags trigger job_sapiens_incremental \
 | Running | 🟡 | Aguardar |
 
 #### Troubleshooting
+
+---
+
+### 4.3.9. Conceitos Aplicados no Pipeline
+
+> Os conceitos de engenharia de software (seção 2.3) não são teoria abstrata — eles fundamentam cada decisão de arquitetura do pipeline. Esta seção mostra **onde** e **como** cada conceito aparece na prática.
+
+---
+
+#### Mapeamento: Conceito → Aplicação
+
+| Conceito (2.3) | Onde está aplicado no BM |
+|----------------|--------------------------|
+| Separação de Responsabilidades | `dags/` ↔ `scripts/python/` ↔ `include/seed/` |
+| DRY | Funções em `get_el_tasks.py` usadas por todas DAGs |
+| Encapsulamento | `extract_upload_full()` esconde 50+ linhas de lógica |
+| Configuração Externalizada | `schema.csv`, `dags_schedule.csv`, `tables.py` |
+| Convenção de Nomenclatura | `el_sapiens_e640lct_incremental.py` |
+| Single Source of Truth | `schema.csv` define estrutura única |
+| Resource Management | `try/finally` em todas conexões |
+| Fail-Fast | Validação `s3_min_bytes` antes do DELETE |
+| Funções Puras | `get_select_sql()`, `get_create_sql()` |
+| Idempotência | DELETE + COPY, DROP + CREATE |
+| Transações Atômicas | BEGIN/COMMIT em cargas incrementais |
+| Streaming | `fetchmany(10_000)` em loop |
+
+---
+
+#### Estrutura de Pastas (Separação de Responsabilidades)
+
+```
+airflow-bm/
+├── dags/                         # ORQUESTRAÇÃO (quando, ordem)
+│   ├── el_sapiens_*.py           # DAGs de extração
+│   └── job_*.py                  # Jobs agrupados
+│
+├── scripts/python/               # LÓGICA (como fazer)
+│   ├── get_el_tasks.py           # Funções de EL
+│   └── get_redshift_tasks.py     # Funções de Redshift
+│
+├── scripts/sql/                  # QUERIES específicas
+│   └── incremental/              # SQLs parametrizados
+│
+└── include/seed/                 # CONFIGURAÇÃO (o que processar)
+    ├── schema.csv                # Estrutura das tabelas
+    ├── dags_schedule.csv         # Horários de execução
+    └── tables.py                 # Listas de tabelas
+```
+
+**Na prática:** Adicionar tabela nova = editar CSV, não código Python.
+
+---
+
+#### Exemplos de Código Real
+
+**DRY + Encapsulamento:**
+```python
+# DAG fica simples - 3 linhas
+from scripts.python.get_el_tasks import extract_upload_full
+
+@task()
+def extrair(tabela):
+    return extract_upload_full(tabela, S3_BUCKET, s3_key)
+    # ↑ Esconde: conexão, cursor, chunks, gzip, upload, cleanup
+```
+
+**Fail-Fast (proteção antes de deletar):**
+```python
+def delete_and_copy_incremental(payload, s3_min_bytes=64):
+    s3_bytes = payload["s3_bytes"]
+
+    # Proteção: arquivo muito pequeno = extração falhou
+    if s3_bytes <= s3_min_bytes:
+        raise ValueError(f"Arquivo S3 muito pequeno ({s3_bytes} bytes)")
+
+    # Só executa DELETE se passou na validação
+    execute_delete_and_copy(...)
+```
+
+**Idempotência + Atomicidade:**
+```python
+sql = """
+BEGIN;
+
+-- Idempotente: remove janela antes de inserir
+DELETE FROM raw.e640lct
+WHERE dt_criacao >= '{data_inicio}';
+
+-- Insere dados novos
+COPY raw.e640lct FROM 's3://bucket/e640lct.csv.gz'
+IAM_ROLE '...' FORMAT AS CSV GZIP;
+
+COMMIT;
+"""
+# Se COPY falhar → DELETE revertido → dados intactos
+```
+
+**Streaming (não estoura memória):**
+```python
+while True:
+    batch = cursor.fetchmany(10_000)  # 10k linhas por vez
+    if not batch:
+        break
+    writer.writerows(batch)
+    # Processa 100M de linhas sem carregar tudo na RAM
+```
+
+**Resource Management:**
+```python
+conn = None
+temp_path = None
+
+try:
+    conn = hook.get_conn()
+    temp_path = criar_arquivo_temp()
+    processar(conn, temp_path)
+
+finally:
+    # SEMPRE executa, mesmo com erro
+    if conn:
+        conn.close()
+    if temp_path and os.path.exists(temp_path):
+        os.remove(temp_path)
+```
+
+---
+
+#### Convenção de Nomenclatura das DAGs
+
+```
+el_sapiens_e640lct_incremental.py
+│    │       │         └── Tipo: full | incremental | nrt
+│    │       └──────────── Tabela origem
+│    └──────────────────── Sistema: sapiens | ais
+└────────────────────────── Operação: el (Extract-Load)
+```
+
+| Prefixo | Significado |
+|---------|-------------|
+| `el_` | Extract-Load (uma tabela) |
+| `job_` | Job com múltiplas tabelas |
+| `_full` | Carga completa (DROP + CREATE) |
+| `_incremental` | Carga incremental (DELETE janela + COPY) |
+| `_nrt` | Near Real-Time (transacional + transformação) |
+
+**Benefício:** `ls dags/` = entender o pipeline sem abrir arquivos.
+
+---
+
+#### Por que isso importa?
+
+Esses conceitos não são regras arbitrárias — eles resolvem problemas reais:
+
+| Problema | Conceito que resolve |
+|----------|---------------------|
+| Bug em 50 DAGs | DRY → corrige em 1 lugar |
+| Erro silencioso apaga dados | Fail-Fast → valida antes |
+| Re-run duplica registros | Idempotência → mesmo resultado |
+| Tabela de 100M estoura memória | Streaming → processa em chunks |
+| Meia carga corrompe dados | Atomicidade → tudo ou nada |
+| Conexão fica aberta | Resource Management → finally |
+
+---
 
 
 ## 4.4. Power BI
