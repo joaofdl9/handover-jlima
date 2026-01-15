@@ -1,0 +1,1047 @@
+
+  s3.get_paginator()      # Iteração paginada (listas grandes)
+  s3.delete_objects()     # Delete em batch
+  TransferConfig          # Configurar multipart upload
+
+  Cursor de Banco de Dados
+
+  cursor.fetchmany(size)  # Buscar em chunks (memória)
+  cursor.description      # Metadados das colunas
+  conn.commit() / close() # Gerenciamento de conexão
+
+  Padrão de String Substitution
+
+  sql.replace('{placeholder}', valor)  # Templates SQL
+  f"{{escapar}}"                       # Escapar {} em f-strings
+
+  ---
+  Resumo Final - Lista Completa
+  ┌───────────────┬────────────────────────────────────────────────────────────────┐
+  │     Nível     │                            Tópicos                             │
+  ├───────────────┼────────────────────────────────────────────────────────────────┤
+  │ Básico        │ Funções, dict/list, loops, f-strings, comprehensions           │
+  ├───────────────┼────────────────────────────────────────────────────────────────┤
+  │ Intermediário │ Decorators, context managers, type hints, exceptions, closures │
+  ├───────────────┼────────────────────────────────────────────────────────────────┤
+  │ Arquivos      │ os.path, pathlib, tempfile, gzip, csv                          │
+  ├───────────────┼────────────────────────────────────────────────────────────────┤
+  │ Dados         │ Pandas (read_csv, filter, tolist), cursor DB (fetchmany)       │
+  ├───────────────┼────────────────────────────────────────────────────────────────┤
+  │ AWS           │ boto3 (client, paginator, delete_objects, TransferConfig)      │
+  ├───────────────┼────────────────────────────────────────────────────────────────┤
+  │ Airflow       │ @dag, @task, Hooks, TaskGroup, XCom, Variables                 │
+  └───────────────┴────────────────────────────────────────────────────────────────┘
+  Resposta: Sim, com essa lista conseguirão entender todas as funções. O código usa Python relativamente direto - não há metaprogramação avançada, apenas padrões bem estabelecidos de ETL.
+
+❯ apenas isso? 
+
+● Deixe-me verificar mais a fundo.
+
+● Read(scripts/python/get_el_tasks.py)
+  ⎿  Read 721 lines
+
+● Read(scripts/python/get_el_tasks_geral.py)
+  ⎿  Read 679 lines
+
+● Search(pattern: "dags/**/*.py")
+  ⎿  Found 53 files (ctrl+o to expand)
+
+● Não, faltam alguns conceitos importantes que encontrei no código:
+
+  Conceitos Adicionais Encontrados
+
+  Python Avançado (que faltou)
+  ┌─────────────────────────┬──────────────────────────────────────────────────────────────────────────────────┐
+  │        Conceito         │                                Exemplo no código                                 │
+  ├─────────────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+  │ nonlocal                │ Modificar variáveis do escopo externo em closures                                │
+  ├─────────────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+  │ Keyword-only args       │ def func(a, *, mssql_conn_id: str) - parâmetros após * são obrigatórios por nome │
+  ├─────────────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+  │ Underscores em números  │ 10_000, 1_000_000 para legibilidade                                              │
+  ├─────────────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+  │ Optional[] type hint    │ Optional[str] = None                                                             │
+  ├─────────────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+  │ Generator expressions   │ sum(o["bytes"] for o in created_objects)                                         │
+  ├─────────────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+  │ Walrus operator context │ Loops com while True + break (padrão de streaming)                               │
+  ├─────────────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+  │ Float division guards   │ if tempo > 0 else 0 para evitar divisão por zero                                 │
+  ├─────────────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+  │ csv.QUOTE_MINIMAL       │ Constantes do módulo csv                                                         │
+  └─────────────────────────┴──────────────────────────────────────────────────────────────────────────────────┘
+  Padrões de Streaming/Memória
+
+  # fetchmany em loop (não fetchall)
+  while True:
+      batch = cursor.fetchmany(chunk_size)
+      if not batch:
+          break
+
+  Transações SQL
+
+  BEGIN;
+  DELETE FROM ...;
+  COPY ...;
+  COMMIT;
+
+  ---
+  Lista COMPLETA Final
+  ┌───────────────┬─────────────────────────────────────────────────────────────────────────────────┐
+  │   Categoria   │                                     Tópicos                                     │
+  ├───────────────┼─────────────────────────────────────────────────────────────────────────────────┤
+  │ Básico        │ Funções, dict/list/tuple, loops, f-strings, comprehensions                      │
+  ├───────────────┼─────────────────────────────────────────────────────────────────────────────────┤
+  │ Intermediário │ Decorators, context managers (with), type hints, exceptions, closures           │
+  ├───────────────┼─────────────────────────────────────────────────────────────────────────────────┤
+  │ Avançado      │ nonlocal, keyword-only args (*,), generators, Optional[]                        │
+  ├───────────────┼─────────────────────────────────────────────────────────────────────────────────┤
+  │ Arquivos      │ os.path, tempfile, gzip, csv (writer, QUOTE_MINIMAL)                            │
+  ├───────────────┼─────────────────────────────────────────────────────────────────────────────────┤
+  │ Dados         │ Pandas (read_csv, filter, tolist), cursor DB (fetchmany, fetchall, description) │
+  ├───────────────┼─────────────────────────────────────────────────────────────────────────────────┤
+  │ AWS           │ boto3 (client, paginator, TransferConfig, head_object)                          │
+  ├───────────────┼─────────────────────────────────────────────────────────────────────────────────┤
+  │ SQL           │ Transações (BEGIN/COMMIT), COPY, DELETE, parametrização                         │
+  ├───────────────┼─────────────────────────────────────────────────────────────────────────────────┤
+  │ Airflow       │ @dag, @task, Hooks, TaskGroup, Variables, XCom, Sensors, Operators              │
+  └───────────────┴─────────────────────────────────────────────────────────────────────────────────┘
+  Agora sim está completo. O código não usa nada mais avançado que isso - sem metaclasses, async/await, ou abstrações complexas.
+
+❯ não deveria ter o como criar funções semelahntes na usadas no repositorio? pq não basta as peças, tem que saber como montar o quebra cabeça? 
+
+● Tem toda razão. Faltou o "como montar". Vou adicionar os padrões de construção.
+
+  Padrões de Montagem das Funções
+
+  1. Estrutura Base de uma Função ETL
+
+  def funcao_etl(param_origem, param_destino, **kwargs):
+      """Docstring explicando o que faz"""
+
+      # 1. Inicializar variáveis de controle
+      conn = None
+      temp_path = None
+
+      try:
+          # 2. Medir tempo
+          t0 = datetime.datetime.now()
+
+          # 3. Conectar via Hook
+          hook = MsSqlHook(mssql_conn_id="conexao")
+          conn = hook.get_conn()
+          cursor = conn.cursor()
+
+          # 4. Executar operação principal
+          cursor.execute(sql)
+
+          # 5. Processar dados (loop de streaming)
+          while True:
+              batch = cursor.fetchmany(CHUNK_SIZE)
+              if not batch:
+                  break
+              # processar batch...
+
+          # 6. Log de tempo
+          print(f"[{datetime.datetime.now()}] Tempo: {(datetime.datetime.now()-t0).total_seconds()}s")
+
+          # 7. Retornar resultado estruturado
+          return {"status": "success", "rows": total}
+
+      except Exception as e:
+          print(f"Erro: {str(e)}")
+          raise  # Re-lança para o Airflow capturar
+
+      finally:
+          # 8. Limpeza SEMPRE executada
+          if cursor: cursor.close()
+          if conn: conn.close()
+          if temp_path and os.path.exists(temp_path):
+              os.remove(temp_path)
+
+  ---
+  2. Estrutura de uma DAG
+
+  from airflow.decorators import dag, task
+  from airflow.utils.task_group import TaskGroup
+  import pendulum
+
+  @dag(
+      dag_id="nome_da_dag",
+      schedule_interval="0 6 * * *",
+      start_date=pendulum.datetime(2024, 1, 1, tz="America/Sao_Paulo"),
+      catchup=False,
+      max_active_runs=1,
+      tags=["dominio", "tipo"],
+  )
+  def minha_dag():
+
+      # Tasks definidas como funções internas
+      @task()
+      def extrair():
+          from scripts.python.get_el_tasks import extract_upload_full
+          return extract_upload_full(...)
+
+      @task()
+      def carregar(payload):  # Recebe retorno da task anterior
+          from scripts.python.get_el_tasks import copy_from_s3
+          return copy_from_s3(...)
+
+      # Encadeamento de dependências
+      resultado_extracao = extrair()
+      carregar(resultado_extracao)
+
+  # Instancia a DAG
+  minha_dag()
+
+  ---
+  3. Padrão de Streaming (Memória Eficiente)
+
+  # ERRADO - carrega tudo na memória
+  rows = cursor.fetchall()  # Pode estourar RAM
+
+  # CERTO - processa em chunks
+  while True:
+      batch = cursor.fetchmany(10_000)
+      if not batch:
+          break
+      for row in batch:
+          writer.writerow(row)
+
+  ---
+  4. Padrão de Arquivo Temporário + Upload
+
+  import tempfile
+  import gzip
+
+  # Criar arquivo temporário comprimido
+  tmp = tempfile.NamedTemporaryFile(delete=False, suffix='.csv.gz')
+
+  with gzip.open(tmp.name, "wt", newline="", encoding="utf-8") as gz:
+      writer = csv.writer(gz)
+      writer.writerow(colunas)  # Header
+      writer.writerows(dados)   # Dados
+
+  # Upload para S3
+  s3.upload_file(tmp.name, bucket, key)
+
+  # Limpar
+  os.remove(tmp.name)
+
+  ---
+  5. Padrão de Função com Closure (Reutilização)
+
+  def extract_upload_incremental_new(
+      tabela_origem: str,
+      s3_bucket: str,
+      *,  # Força kwargs após este ponto
+      chunk_rows: int = 10_000,
+      mssql_conn_id: str,
+  ) -> Dict:
+
+      # Variáveis do escopo externo
+      file_idx = 0
+
+      # Função interna que acessa/modifica escopo externo
+      def _open_new_file():
+          nonlocal file_idx  # Permite modificar variável externa
+          file_idx += 1
+          return tempfile.NamedTemporaryFile(...)
+
+      # Usa a função interna
+      current_path = _open_new_file()
+
+  ---
+  6. Padrão de Configuração Centralizada
+
+  # Em include/seed/schema.csv
+  # table_name;select;create;order
+  # e001tns;CONVERT(VARCHAR, TNS_CODIGO);TNS_CODIGO VARCHAR(10);TNS_CODIGO
+
+  # Em scripts/python/get_schema.py
+  def get_select_sql(table_name):
+      df = pd.read_csv('schema.csv', sep=';')
+      cols = df[df['table_name'] == table_name]['select'].tolist()
+      return f"SELECT {', '.join(cols)} FROM dbo.{table_name}"
+
+  ---
+  7. Padrão de Task Encadeada com XCom
+
+  @task()
+  def extrair():
+      # Retorno vira XCom automaticamente
+      return {"rowcount": 1000, "s3_key": "dados.csv.gz"}
+
+  @task()
+  def carregar(payload):  # Recebe XCom como parâmetro
+      rowcount = payload["rowcount"]
+      s3_key = payload["s3_key"]
+      # ...
+
+  # Encadeamento
+  payload = extrair()
+  carregar(payload)  # Airflow resolve a dependência
+
+  ---
+  8. Padrão de Geração Dinâmica de Tasks
+
+  TABELAS = ["e001tns", "e007ufs", "e020snf"]
+
+  @dag(...)
+  def dag_dinamica():
+
+      for tabela in TABELAS:
+          @task(task_id=f"extrair_{tabela}")
+          def extrair(t=tabela):  # Captura valor atual
+              return extract_upload(t, ...)
+
+          extrair()
+
+  ---
+  Resumo: Ordem de Aprendizado
+
+  1. Python básico → sintaxe, estruturas de dados
+  2. Python intermediário → decorators, context managers, exceptions
+  3. Padrões ETL → try/finally, streaming, arquivos temporários
+  4. Airflow básico → @dag, @task, hooks
+  5. Padrões de integração → XCom, TaskGroups, geração dinâmica
+  6. Otimização → chunks, compressão, transações atômicas
+
+  Agora sim a lista está completa para replicar o repositório.
+
+✻ Brewed for 33s
+
+❯ traga uma lista de cada topico e os conteudos, separe no basico, no intermedio, no para analise de dados e para engenharia de dados e por fim o que é especifico do airflow separado 
+
+● 1. PYTHON BÁSICO
+  ┌────────────────────────┬──────────────────────────────────────────────────────────────────────────────────────┐
+  │         Tópico         │                                      Conteúdos                                       │
+  ├────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────┤
+  │ Variáveis e Tipos      │ int, float, str, bool, None                                                          │
+  ├────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────┤
+  │ Estruturas de Dados    │ list, dict, tuple, set                                                               │
+  ├────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────┤
+  │ Operadores             │ Aritméticos, comparação, lógicos (and, or, not)                                      │
+  ├────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────┤
+  │ Strings                │ Concatenação, slicing, f-strings, .format(), .replace(), .strip(), .join(), .split() │
+  ├────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────┤
+  │ Controle de Fluxo      │ if/elif/else, for, while, break, continue                                            │
+  ├────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────┤
+  │ Funções                │ def, parâmetros, return, valores default, *args, **kwargs                            │
+  ├────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────┤
+  │ Comprehensions         │ List [x for x in lista], Dict {k: v for k, v in items}                               │
+  ├────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────┤
+  │ Imports                │ import, from x import y, as alias                                                    │
+  ├────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────┤
+  │ Manipulação de Erros   │ try, except, finally, raise                                                          │
+  ├────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────┤
+  │ Operações com Arquivos │ open(), with, read(), write(), modos r, w, a                                         │
+  └────────────────────────┴──────────────────────────────────────────────────────────────────────────────────────┘
+  ---
+  2. PYTHON INTERMEDIÁRIO
+  ┌──────────────────┬──────────────────────────────────────────────────────────────────┐
+  │      Tópico      │                            Conteúdos                             │
+  ├──────────────────┼──────────────────────────────────────────────────────────────────┤
+  │ Type Hints       │ def func(x: str) -> int, List, Dict, Optional, Union             │
+  ├──────────────────┼──────────────────────────────────────────────────────────────────┤
+  │ Decorators       │ @decorator, criar decorators, decorators com parâmetros          │
+  ├──────────────────┼──────────────────────────────────────────────────────────────────┤
+  │ Context Managers │ with, __enter__, __exit__, contextlib                            │
+  ├──────────────────┼──────────────────────────────────────────────────────────────────┤
+  │ Closures         │ Funções aninhadas, captura de escopo, nonlocal                   │
+  ├──────────────────┼──────────────────────────────────────────────────────────────────┤
+  │ Generators       │ yield, expressões geradoras, next(), iteração lazy               │
+  ├──────────────────┼──────────────────────────────────────────────────────────────────┤
+  │ Lambda           │ lambda x: x + 1, uso com map, filter, sorted                     │
+  ├──────────────────┼──────────────────────────────────────────────────────────────────┤
+  │ Args Avançados   │ Keyword-only (*,), positional-only (/), unpacking *lista, **dict │
+  ├──────────────────┼──────────────────────────────────────────────────────────────────┤
+  │ Módulo functools │ lru_cache, partial, wraps                                        │
+  ├──────────────────┼──────────────────────────────────────────────────────────────────┤
+  │ Módulo typing    │ Optional, List, Dict, Callable, Any                              │
+  ├──────────────────┼──────────────────────────────────────────────────────────────────┤
+  │ Docstrings       │ Convenções, """docstring""", parâmetros, retornos                │
+  └──────────────────┴──────────────────────────────────────────────────────────────────┘
+  ---
+  3. PYTHON PARA ANÁLISE DE DADOS
+  ┌──────────────────┬─────────────────────────────────────────────────────────────────┐
+  │      Tópico      │                            Conteúdos                            │
+  ├──────────────────┼─────────────────────────────────────────────────────────────────┤
+  │ Pandas Básico    │ pd.read_csv(), DataFrame, Series, .head(), .info(), .describe() │
+  ├──────────────────┼─────────────────────────────────────────────────────────────────┤
+  │ Seleção de Dados │ df['col'], df[['col1', 'col2']], df.loc[], df.iloc[]            │
+  ├──────────────────┼─────────────────────────────────────────────────────────────────┤
+  │ Filtros          │ df[df['col'] == valor], múltiplas condições, .query()           │
+  ├──────────────────┼─────────────────────────────────────────────────────────────────┤
+  │ Transformações   │ .apply(), .map(), .str.strip(), .astype()                       │
+  ├──────────────────┼─────────────────────────────────────────────────────────────────┤
+  │ Agregações       │ .groupby(), .sum(), .mean(), .count(), .agg()                   │
+  ├──────────────────┼─────────────────────────────────────────────────────────────────┤
+  │ Joins            │ .merge(), .join(), pd.concat()                                  │
+  ├──────────────────┼─────────────────────────────────────────────────────────────────┤
+  │ Limpeza          │ .dropna(), .fillna(), .drop_duplicates()                        │
+  ├──────────────────┼─────────────────────────────────────────────────────────────────┤
+  │ Exportação       │ .to_csv(), .to_json(), .tolist(), .to_dict()                    │
+  ├──────────────────┼─────────────────────────────────────────────────────────────────┤
+  │ Datetime         │ pd.to_datetime(), .dt.date, .dt.year, timedelta                 │
+  └──────────────────┴─────────────────────────────────────────────────────────────────┘
+  ---
+  4. PYTHON PARA ENGENHARIA DE DADOS
+  ┌────────────────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │       Tópico       │                                                Conteúdos                                                 │
+  ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Módulo os          │ os.path.join(), os.path.dirname(), os.path.exists(), os.remove(), os.environ                             │
+  ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Módulo pathlib     │ Path(), .parent, .name, .suffix, / operator                                                              │
+  ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Módulo tempfile    │ NamedTemporaryFile(), delete=False, .name                                                                │
+  ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Módulo gzip        │ gzip.open(), compresslevel, modos wt, rt                                                                 │
+  ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Módulo csv         │ csv.writer(), csv.reader(), .writerow(), .writerows(), QUOTE_MINIMAL                                     │
+  ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Módulo json        │ json.dumps(), json.loads(), json.load(), json.dump()                                                     │
+  ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Módulo datetime    │ datetime.now(), timedelta, .isoformat(), .strftime(), .total_seconds()                                   │
+  ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Módulo logging     │ logging.info(), logging.error(), configuração básica                                                     │
+  ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Conexões DB        │ cursor.execute(), cursor.fetchall(), cursor.fetchmany(), cursor.description, conn.commit(), conn.close() │
+  ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Boto3 (AWS S3)     │ boto3.client('s3'), .upload_file(), .delete_object(), .head_object(), .get_paginator(), TransferConfig   │
+  ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Requests (APIs)    │ requests.get(), requests.post(), .json(), .status_code, headers, timeout                                 │
+  ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Padrão Try/Finally │ Garantir limpeza de recursos (conexões, arquivos temporários)                                            │
+  ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Streaming de Dados │ Loop while True + fetchmany() + break, processar sem carregar tudo em memória                            │
+  ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Transações SQL     │ BEGIN, COMMIT, ROLLBACK, operações atômicas                                                              │
+  └────────────────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+  ---
+  5. ESPECÍFICO DO AIRFLOW
+
+  5.1 Conceitos Fundamentais
+  ┌─────────────┬─────────────────────────────────────────────────────────┐
+  │   Tópico    │                        Conteúdos                        │
+  ├─────────────┼─────────────────────────────────────────────────────────┤
+  │ DAG         │ Directed Acyclic Graph, definição de pipelines          │
+  ├─────────────┼─────────────────────────────────────────────────────────┤
+  │ Task        │ Unidade de trabalho, operadores                         │
+  ├─────────────┼─────────────────────────────────────────────────────────┤
+  │ Scheduler   │ Agendamento, schedule_interval, cron expressions        │
+  ├─────────────┼─────────────────────────────────────────────────────────┤
+  │ Executor    │ LocalExecutor, CeleryExecutor, KubernetesExecutor       │
+  ├─────────────┼─────────────────────────────────────────────────────────┤
+  │ Connections │ Credenciais gerenciadas, conn_id                        │
+  ├─────────────┼─────────────────────────────────────────────────────────┤
+  │ Variables   │ Configurações globais, Variable.get()                   │
+  ├─────────────┼─────────────────────────────────────────────────────────┤
+  │ XCom        │ Comunicação entre tasks, ti.xcom_push(), ti.xcom_pull() │
+  └─────────────┴─────────────────────────────────────────────────────────┘
+  5.2 TaskFlow API (Moderna)
+  ┌────────────────────┬────────────────────────────────────────────────────────────┐
+  │       Tópico       │                         Conteúdos                          │
+  ├────────────────────┼────────────────────────────────────────────────────────────┤
+  │ @dag decorator     │ @dag(dag_id, schedule_interval, start_date, catchup, tags) │
+  ├────────────────────┼────────────────────────────────────────────────────────────┤
+  │ @task decorator    │ @task(), @task(task_id="nome"), múltiplas instâncias       │
+  ├────────────────────┼────────────────────────────────────────────────────────────┤
+  │ Retorno automático │ Return de @task vira XCom automaticamente                  │
+  ├────────────────────┼────────────────────────────────────────────────────────────┤
+  │ Encadeamento       │ resultado = task1() → task2(resultado)                     │
+  ├────────────────────┼────────────────────────────────────────────────────────────┤
+  │ TaskGroup          │ with TaskGroup("nome"):, agrupamento visual                │
+  └────────────────────┴────────────────────────────────────────────────────────────┘
+  5.3 Hooks (Conexões)
+  ┌───────────────────────────┬─────────────────────────────┐
+  │           Hook            │             Uso             │
+  ├───────────────────────────┼─────────────────────────────┤
+  │ MsSqlHook                 │ Conexão SQL Server          │
+  ├───────────────────────────┼─────────────────────────────┤
+  │ PostgresHook              │ Conexão PostgreSQL/Redshift │
+  ├───────────────────────────┼─────────────────────────────┤
+  │ S3Hook                    │ Operações AWS S3            │
+  ├───────────────────────────┼─────────────────────────────┤
+  │ HttpHook                  │ Chamadas HTTP/API           │
+  ├───────────────────────────┼─────────────────────────────┤
+  │ BaseHook.get_connection() │ Obter credenciais genéricas │
+  └───────────────────────────┴─────────────────────────────┘
+  5.4 Operators
+  ┌───────────────────────┬─────────────────────────────────┐
+  │       Operator        │               Uso               │
+  ├───────────────────────┼─────────────────────────────────┤
+  │ PythonOperator        │ Executar função Python (legado) │
+  ├───────────────────────┼─────────────────────────────────┤
+  │ BashOperator          │ Executar comando bash           │
+  ├───────────────────────┼─────────────────────────────────┤
+  │ TriggerDagRunOperator │ Disparar outra DAG              │
+  ├───────────────────────┼─────────────────────────────────┤
+  │ ExternalTaskSensor    │ Aguardar task de outra DAG      │
+  ├───────────────────────┼─────────────────────────────────┤
+  │ SqlSensor             │ Aguardar condição SQL           │
+  └───────────────────────┴─────────────────────────────────┘
+  5.5 Configuração de DAG
+
+  @dag(
+      dag_id="nome_unico",
+      schedule_interval="0 6 * * *",      # Cron ou timedelta
+      start_date=pendulum.datetime(2024, 1, 1, tz="America/Sao_Paulo"),
+      catchup=False,                       # Não executar runs passados
+      max_active_runs=1,                   # Apenas 1 execução simultânea
+      default_args={
+          "owner": "time_dados",
+          "retries": 2,
+          "retry_delay": timedelta(minutes=5),
+      },
+      tags=["dominio", "tipo"],
+  )
+
+  5.6 Padrões de Dependência
+
+  # Sequencial
+  task1 >> task2 >> task3
+
+  # Paralelo
+  task1 >> [task2, task3] >> task4
+
+  # Com TaskGroup
+  with TaskGroup("extracao") as grupo:
+      t1 = extrair_tabela_a()
+      t2 = extrair_tabela_b()
+
+  grupo >> carregar()
+
+  5.7 Sensors e Esperas
+
+  from airflow.sensors.external_task import ExternalTaskSensor
+
+  esperar = ExternalTaskSensor(
+      task_id="esperar_dag_upstream",
+      external_dag_id="dag_origem",
+      external_task_id="task_final",
+      timeout=3600,
+      poke_interval=60,
+  )
+
+  5.8 Geração Dinâmica de Tasks
+
+  TABELAS = ["tabela_a", "tabela_b", "tabela_c"]
+
+  @dag(...)
+  def minha_dag():
+      for tabela in TABELAS:
+          @task(task_id=f"processar_{tabela}")
+          def processar(t=tabela):
+              return funcao_etl(t)
+
+          processar()
+
+  5.9 Tratamento de Erros Airflow
+
+  from airflow.exceptions import AirflowSkipException, AirflowFailException
+
+  @task()
+  def minha_task():
+      if condicao_pular:
+          raise AirflowSkipException("Nada para processar")
+
+      if erro_critico:
+          raise AirflowFailException("Falha irrecuperável")
+
+  ---
+  Ordem de Estudo Recomendada
+
+  1. Python Básico (2-3 semanas)
+           ↓
+  2. Python Intermediário (2 semanas)
+           ↓
+  3. Python para Análise de Dados (1-2 semanas)
+           ↓
+  4. Python para Engenharia de Dados (2-3 semanas)
+           ↓
+  5. Airflow Específico (2-3 semanas)
+
+✻ Churned for 41s
+
+❯ isso é pyhton de que nivel? que profisional opera isso normalmente? 
+
+● Nível do Python
+
+  Intermediário - não é Python avançado.
+
+  O código não usa:
+  - Async/await
+  - Metaclasses
+  - Decorators customizados complexos
+  - Design patterns sofisticados
+  - Multithreading/multiprocessing manual
+  - Abstrações avançadas (ABC, Protocols)
+
+  É essencialmente:
+  - Funções procedurais
+  - Try/except/finally
+  - Loops e condicionais
+  - Bibliotecas prontas (boto3, pandas, hooks)
+
+  ---
+  Profissionais que operam isso
+  ┌────────────────────────────┬──────────────┬─────────────────────────────────────────────────────┐
+  │           Cargo            │    Nível     │                      Contexto                       │
+  ├────────────────────────────┼──────────────┼─────────────────────────────────────────────────────┤
+  │ Engenheiro de Dados Júnior │ 1-2 anos exp │ Consegue manter e criar novas DAGs seguindo padrões │
+  ├────────────────────────────┼──────────────┼─────────────────────────────────────────────────────┤
+  │ Engenheiro de Dados Pleno  │ 2-4 anos exp │ Criou essa estrutura, define padrões                │
+  ├────────────────────────────┼──────────────┼─────────────────────────────────────────────────────┤
+  │ Analista de Dados Sr       │ 3+ anos      │ Se tiver migrado para engenharia                    │
+  ├────────────────────────────┼──────────────┼─────────────────────────────────────────────────────┤
+  │ Desenvolvedor Python       │ 2+ anos      │ Qualquer dev Python com noção de dados              │
+  └────────────────────────────┴──────────────┴─────────────────────────────────────────────────────┘
+  ---
+  Realidade do mercado
+
+  Esse repositório é típico de:
+  - Empresa média com time de dados pequeno (2-5 pessoas)
+  - Engenheiro Pleno que estruturou
+  - Júnior/Pleno que mantém e expande
+
+  Não é código de:
+  - Big Tech (seria mais abstrato/genérico)
+  - Startup early-stage (seria mais bagunçado)
+  - Consultoria (seria mais over-engineered)
+
+  ---
+  Resumo direto
+
+  Um Engenheiro de Dados Júnior/Pleno com 1-3 anos de experiência opera esse código sem dificuldade. É o "arroz com feijão" da engenharia de dados moderna.
+
+❯ para  analista de dados jr é bom? 
+
+● Para Analista de Dados Jr
+
+  Depende do objetivo.
+  ┌─────────────────────────────────┬────────────────────────────────────────┐
+  │       Se o objetivo é...        │               Veredicto                │
+  ├─────────────────────────────────┼────────────────────────────────────────┤
+  │ Continuar como Analista         │ Excessivo - não vai usar 70% disso     │
+  ├─────────────────────────────────┼────────────────────────────────────────┤
+  │ Migrar para Engenharia de Dados │ Excelente - é exatamente o caminho     │
+  ├─────────────────────────────────┼────────────────────────────────────────┤
+  │ Ser Analista diferenciado       │ Bom - entender o pipeline agrega valor │
+  └─────────────────────────────────┴────────────────────────────────────────┘
+  ---
+  O que Analista de Dados Jr realmente usa
+  ┌──────────────────────────────────┬────────────────────┐
+  │             Precisa              │    Não precisa     │
+  ├──────────────────────────────────┼────────────────────┤
+  │ SQL (80% do trabalho)            │ Airflow            │
+  ├──────────────────────────────────┼────────────────────┤
+  │ Pandas/Excel                     │ boto3/S3           │
+  ├──────────────────────────────────┼────────────────────┤
+  │ Visualização (Power BI, Tableau) │ Hooks de banco     │
+  ├──────────────────────────────────┼────────────────────┤
+  │ Python básico para automações    │ Streaming de dados │
+  ├──────────────────────────────────┼────────────────────┤
+  │ Estatística básica               │ Transações SQL     │
+  └──────────────────────────────────┴────────────────────┘
+  ---
+  Minha sugestão honesta
+
+  Se é Analista Jr querendo evoluir:
+
+  Opção A: Ficar em Análise
+  → Foca em SQL avançado + visualização + estatística
+  → Ignora esse repositório por agora
+
+  Opção B: Migrar para Engenharia
+  → Esse repositório é um ótimo mapa do que aprender
+  → Mas vai levar 6-12 meses de estudo dedicado
+
+  ---
+  Resposta direta
+
+  Para um Analista de Dados Jr que quer ser Engenheiro de Dados, essa lista é um roadmap excelente.
+
+  Para um Analista de Dados Jr que quer ser Analista Sr, é perda de tempo - melhor investir em SQL, negócio e soft skills.
+
+  Qual é o objetivo?
+
+❯ nesse repositorio tem conceitos de eng software aplcicados? 
+
+● Vou verificar o que realmente está aplicado.
+
+● Search(pattern: "tests/**/*.py")
+  ⎿  Found 1 file (ctrl+o to expand)
+
+● Read(scripts/python/get_el_tasks_geral.py)
+  ⎿  Read 100 lines
+
+● Read(tests/el_sapiens_e640lct_spark.py)
+  ⎿  Read 97 lines
+
+● Search(pattern: "*.py")
+  ⎿  Found 70 files (ctrl+o to expand)
+
+● Conceitos de Eng. Software no Repositório
+
+  ✅ O QUE TEM (Básico)
+  ┌────────────────────────────────┬────────────────────────────────────────────────────────────────────────┐
+  │            Conceito            │                           Como está aplicado                           │
+  ├────────────────────────────────┼────────────────────────────────────────────────────────────────────────┤
+  │ Separação de responsabilidades │ dags/ (orquestração), scripts/python/ (lógica), include/seed/ (config) │
+  ├────────────────────────────────┼────────────────────────────────────────────────────────────────────────┤
+  │ DRY (Don't Repeat Yourself)    │ Funções reutilizáveis em get_el_tasks.py, get_schema.py                │
+  ├────────────────────────────────┼────────────────────────────────────────────────────────────────────────┤
+  │ Configuração centralizada      │ CSVs para schemas, schedules, listas de tabelas                        │
+  ├────────────────────────────────┼────────────────────────────────────────────────────────────────────────┤
+  │ Nomenclatura consistente       │ el_ (extract-load), job_, _full, _incremental, _nrt                    │
+  ├────────────────────────────────┼────────────────────────────────────────────────────────────────────────┤
+  │ Type Hints                     │ def func(x: str) -> Dict                                               │
+  ├────────────────────────────────┼────────────────────────────────────────────────────────────────────────┤
+  │ Docstrings                     │ Algumas funções documentadas                                           │
+  ├────────────────────────────────┼────────────────────────────────────────────────────────────────────────┤
+  │ Tratamento de erros            │ try/except/finally com cleanup                                         │
+  ├────────────────────────────────┼────────────────────────────────────────────────────────────────────────┤
+  │ Constantes                     │ Variáveis em MAIÚSCULAS no topo dos arquivos                           │
+  └────────────────────────────────┴────────────────────────────────────────────────────────────────────────┘
+  ---
+  ❌ O QUE NÃO TEM
+  ┌─────────────────────────┬────────────────────────────────────────────────────────────────────────────┐
+  │        Conceito         │                                   Status                                   │
+  ├─────────────────────────┼────────────────────────────────────────────────────────────────────────────┤
+  │ Testes unitários        │ Praticamente inexistente (1 arquivo em tests/ que é uma DAG, não um teste) │
+  ├─────────────────────────┼────────────────────────────────────────────────────────────────────────────┤
+  │ OOP/Classes             │ Zero - tudo é função procedural                                            │
+  ├─────────────────────────┼────────────────────────────────────────────────────────────────────────────┤
+  │ Design Patterns         │ Nenhum formal (Factory, Strategy, etc)                                     │
+  ├─────────────────────────┼────────────────────────────────────────────────────────────────────────────┤
+  │ Interfaces/Contratos    │ Não tem ABC, Protocol, ou tipagem rigorosa                                 │
+  ├─────────────────────────┼────────────────────────────────────────────────────────────────────────────┤
+  │ Logging estruturado     │ Usa print() em vez de logging com níveis                                   │
+  ├─────────────────────────┼────────────────────────────────────────────────────────────────────────────┤
+  │ Injeção de dependência  │ Conexões hardcoded nos hooks                                               │
+  ├─────────────────────────┼────────────────────────────────────────────────────────────────────────────┤
+  │ CI/CD                   │ Não visível no repositório                                                 │
+  ├─────────────────────────┼────────────────────────────────────────────────────────────────────────────┤
+  │ Documentação            │ Sem README, sem docstrings completos                                       │
+  ├─────────────────────────┼────────────────────────────────────────────────────────────────────────────┤
+  │ Validação de entrada    │ Mínima - confia nos parâmetros                                             │
+  ├─────────────────────────┼────────────────────────────────────────────────────────────────────────────┤
+  │ Versionamento de schema │ Não tem migrations                                                         │
+  └─────────────────────────┴────────────────────────────────────────────────────────────────────────────┘
+  ---
+  ⚠️ O QUE TEM PARCIAL
+  ┌─────────────────┬─────────────────────────────────────────────────┐
+  │    Conceito     │                    Situação                     │
+  ├─────────────────┼─────────────────────────────────────────────────┤
+  │ Modularização   │ Funções separadas, mas sem camadas claras       │
+  ├─────────────────┼─────────────────────────────────────────────────┤
+  │ Reutilização    │ Boa em scripts/python/, mas DAGs têm duplicação │
+  ├─────────────────┼─────────────────────────────────────────────────┤
+  │ Error handling  │ Existe, mas genérico (except Exception)         │
+  ├─────────────────┼─────────────────────────────────────────────────┤
+  │ Observabilidade │ Logs de tempo, mas sem métricas estruturadas    │
+  └─────────────────┴─────────────────────────────────────────────────┘
+  ---
+  Resumo Honesto
+  ┌────────────────────────┬──────┐
+  │        Aspecto         │ Nota │
+  ├────────────────────────┼──────┤
+  │ Organização de pastas  │ 7/10 │
+  ├────────────────────────┼──────┤
+  │ Reutilização de código │ 6/10 │
+  ├────────────────────────┼──────┤
+  │ Testes                 │ 1/10 │
+  ├────────────────────────┼──────┤
+  │ Documentação           │ 2/10 │
+  ├────────────────────────┼──────┤
+  │ OOP/Design Patterns    │ 1/10 │
+  ├────────────────────────┼──────┤
+  │ Boas práticas gerais   │ 5/10 │
+  └────────────────────────┴──────┘
+  ---
+  Veredicto
+
+  É código de Engenharia de DADOS, não de SOFTWARE.
+
+  Funciona, resolve o problema, é mantível por quem conhece o contexto. Mas um engenheiro de software olharia e diria:
+
+  - "Cadê os testes?"
+  - "Por que tudo é função solta?"
+  - "Por que print() em vez de logging?"
+  - "Cadê a documentação?"
+
+  Nível: Pragmático/funcional, típico de times pequenos de dados focados em entregar valor rápido, não em práticas de engenharia de software rigorosas.
+
+✻ Cooked for 35s
+
+❯ o que tem aplicado e os conceitos por tras 
+
+● Conceitos de Eng. Software Aplicados e a Teoria
+
+  ---
+  1. SEPARAÇÃO DE RESPONSABILIDADES (Separation of Concerns)
+
+  O que é:
+  Dividir o sistema em partes distintas, cada uma responsável por uma única preocupação.
+
+  Como está aplicado:
+  dags/                    → Orquestração (QUANDO e EM QUE ORDEM)
+  scripts/python/          → Lógica de negócio (COMO fazer)
+  scripts/sql/             → Queries específicas
+  include/seed/            → Configuração (O QUE processar)
+
+  Benefício:
+  Mudar a lógica de extração não afeta a orquestração. Adicionar tabela nova = só editar CSV.
+
+  ---
+  2. DRY (Don't Repeat Yourself)
+
+  O que é:
+  Cada pedaço de conhecimento deve ter uma única representação no sistema.
+
+  Como está aplicado:
+  # Em vez de repetir em cada DAG:
+  cursor.execute(sql)
+  rows = cursor.fetchall()
+  # ... 50 linhas de código ...
+
+  # Centraliza em uma função:
+  from scripts.python.get_el_tasks import extract_upload_full
+  result = extract_upload_full(tabela, bucket, key)
+
+  Benefício:
+  Corrigir bug ou melhorar performance = mudar em 1 lugar, afeta todas as DAGs.
+
+  ---
+  3. CONFIGURAÇÃO EXTERNALIZADA (Configuration as Data)
+
+  O que é:
+  Separar dados de configuração do código executável.
+
+  Como está aplicado:
+  include/seed/schema.csv      → Define colunas de cada tabela
+  include/seed/dags_schedule.csv → Define horários de execução
+  include/seed/tables.py       → Lista de tabelas por sistema
+
+  Código que consome:
+  df = pd.read_csv('schema.csv', sep=';')
+  colunas = df[df['table_name'] == tabela]['select'].tolist()
+
+  Benefício:
+  Adicionar tabela nova = editar CSV, não código Python.
+
+  ---
+  4. CONVENÇÃO DE NOMENCLATURA (Naming Convention)
+
+  O que é:
+  Padrão consistente de nomes que comunica intenção.
+
+  Como está aplicado:
+  el_sapiens_e001tns_full.py
+  │  │       │       └── Tipo de carga
+  │  │       └────────── Nome da tabela
+  │  └────────────────── Sistema origem
+  └────────────────────── Extract-Load
+
+  Padrões:
+  ┌──────────────┬───────────────────────────┐
+  │   Prefixo    │        Significado        │
+  ├──────────────┼───────────────────────────┤
+  │ el_          │ Extract-Load              │
+  ├──────────────┼───────────────────────────┤
+  │ job_         │ Job com múltiplas tabelas │
+  ├──────────────┼───────────────────────────┤
+  │ _full        │ Carga completa            │
+  ├──────────────┼───────────────────────────┤
+  │ _incremental │ Carga incremental         │
+  ├──────────────┼───────────────────────────┤
+  │ _nrt         │ Near Real-Time            │
+  └──────────────┴───────────────────────────┘
+  Benefício:
+  Olhar nome do arquivo = saber o que faz sem abrir.
+
+  ---
+  5. FUNÇÕES PURAS E PREVISÍVEIS
+
+  O que é:
+  Funções que dado o mesmo input, retornam o mesmo output.
+
+  Como está aplicado:
+  def get_select_sql(table_name):
+      # Sempre retorna o mesmo SQL para a mesma tabela
+      df = pd.read_csv('schema.csv')
+      cols = df[df['table_name'] == table_name]['select'].tolist()
+      return f"SELECT {', '.join(cols)} FROM dbo.{table_name}"
+
+  Benefício:
+  Testável, previsível, sem efeitos colaterais inesperados.
+
+  ---
+  6. RESOURCE MANAGEMENT (Gerenciamento de Recursos)
+
+  O que é:
+  Garantir que recursos (conexões, arquivos) sejam sempre liberados.
+
+  Como está aplicado:
+  conn = None
+  temp_path = None
+
+  try:
+      conn = hook.get_conn()
+      # ... usa conexão ...
+
+  finally:
+      # SEMPRE executa, mesmo com erro
+      if conn:
+          conn.close()
+      if temp_path and os.path.exists(temp_path):
+          os.remove(temp_path)
+
+  Benefício:
+  Não vaza conexões de banco, não deixa arquivos temporários órfãos.
+
+  ---
+  7. FAIL-FAST (Falhar Rápido)
+
+  O que é:
+  Detectar e reportar erros o mais cedo possível.
+
+  Como está aplicado:
+  def delete_and_copy_incremental(..., payload, s3_min_bytes=64):
+      s3_bytes = payload["s3_bytes"]
+
+      # Proteção: arquivo muito pequeno = algo errado
+      if s3_bytes <= s3_min_bytes:
+          raise ValueError(
+              f"Proteção acionada: arquivo S3 muito pequeno ({s3_bytes} bytes)"
+          )
+
+  Benefício:
+  Não executa DELETE no Redshift se extração falhou silenciosamente.
+
+  ---
+  8. IDEMPOTÊNCIA
+
+  O que é:
+  Executar a mesma operação múltiplas vezes produz o mesmo resultado.
+
+  Como está aplicado:
+  # DROP + CREATE em vez de só CREATE
+  sql_drop = f"DROP TABLE IF EXISTS {tabela} CASCADE;"
+  sql_create = f"CREATE TABLE IF NOT EXISTS {tabela} (...);"
+
+  # DELETE janela + INSERT em vez de só INSERT
+  DELETE FROM tabela WHERE data >= '2024-01-01';
+  COPY tabela FROM 's3://...';
+
+  Benefício:
+  Re-executar DAG que falhou = resultado correto, sem duplicação.
+
+  ---
+  9. TRANSAÇÕES ATÔMICAS (Atomicity)
+
+  O que é:
+  Operações que executam completamente ou não executam nada.
+
+  Como está aplicado:
+  sql = """
+  BEGIN;
+
+  DELETE FROM tabela
+  WHERE data >= '2024-01-01';
+
+  COPY tabela FROM 's3://...';
+
+  COMMIT;
+  """
+
+  Benefício:
+  Se COPY falhar, DELETE é revertido. Dados nunca ficam em estado inconsistente.
+
+  ---
+  10. STREAMING/CHUNKING (Processamento em Lotes)
+
+  O que é:
+  Processar dados em pedaços em vez de carregar tudo na memória.
+
+  Como está aplicado:
+  # ERRADO - pode estourar memória
+  rows = cursor.fetchall()
+
+  # CERTO - processa em chunks
+  while True:
+      batch = cursor.fetchmany(10_000)
+      if not batch:
+          break
+      writer.writerows(batch)
+
+  Benefício:
+  Processar tabela de 100M de linhas sem precisar de 100GB de RAM.
+
+  ---
+  11. ENCAPSULAMENTO DE DETALHES
+
+  O que é:
+  Esconder complexidade atrás de interface simples.
+
+  Como está aplicado:
+  # DAG não precisa saber como extração funciona
+  from scripts.python.get_el_tasks import extract_upload_full
+
+  @task()
+  def extrair():
+      return extract_upload_full(tabela, bucket, key)
+      # ↑ Esconde: conexão, cursor, chunks, gzip, upload, cleanup
+
+  Benefício:
+  DAG fica legível. Detalhes ficam isolados em módulo reutilizável.
+
+  ---
+  12. SINGLE SOURCE OF TRUTH (Fonte Única de Verdade)
+
+  O que é:
+  Cada informação vive em um único lugar.
+
+  Como está aplicado:
+  schema.csv → Define estrutura de TODAS as tabelas
+             → Usado por get_create_sql(), get_select_sql(), get_redshift_column_order()
+             → Mudar schema = editar 1 arquivo
+
+  Benefício:
+  Não tem risco de SELECT puxar colunas diferentes do CREATE.
+
+  ---
+  Resumo Visual
+
+  ┌─────────────────────────────────────────────────────────┐
+  │                 CONCEITOS APLICADOS                     │
+  ├─────────────────────────────────────────────────────────┤
+  │                                                         │
+  │  Separação de Responsabilidades                         │
+  │       ↓                                                 │
+  │  dags/ ←→ scripts/ ←→ include/                         │
+  │                                                         │
+  │  DRY + Encapsulamento                                   │
+  │       ↓                                                 │
+  │  Funções reutilizáveis em scripts/python/              │
+  │                                                         │
+  │  Configuração Externalizada                             │
+  │       ↓                                                 │
+  │  CSVs definem O QUE, código define COMO                │
+  │                                                         │
+  │  Resource Management + Fail-Fast                        │
+  │       ↓                                                 │
+  │  try/finally + validações de proteção                  │
+  │                                                         │
+  │  Idempotência + Atomicidade                            │
+  │       ↓                                                 │
+  │  DROP+CREATE, DELETE+COPY em transação                 │
+  │                                                         │
+  │  Streaming                                              │
+  │       ↓                                                 │
+  │  fetchmany() em loop, não fetchall()                   │
+  │                                                         │
+  └─────────────────────────────────────────────────────────┘
+
+  Esses são conceitos fundamentais de engenharia de software, aplicados de forma pragmática (não acadêmica) para resolver problemas reais de dados.
