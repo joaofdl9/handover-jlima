@@ -85,9 +85,15 @@ Transferir conhecimento operacional do pipeline de dados para garantir continuid
 - [2.2.1. Visao Geral do Processo](#221-visao-geral-do-processo)
 - [2.2.2. Componentes Principais (fontes, EL, transformacao, camadas, visualizacao)](#222-componentes-principais-fontes-el-transformacao-camadas-visualizacao)
 
-### 2.3 Principios de Engenharia de Software
-- [2.2.1 Geral](#221-geral)
+### 2.3 Engenharia de Software
+- [2.3.1. Organização de Código](#231-organizacao-de-codigos)
+- [2.3.2. Configuração e Padrões](#232-configuracoes-padroes)
+- [2.3.3. Robustez e Segurança](#233-robustez-e-segunranca)
+- [2.3.4. Integrridade de Dados](#234-integridade-de-dados)
+- [2.3.5. Performance](#235-performance)
 
+### 2.3.4. Integridade de Dados
+  
 ---
 
 ## 3. Ambiente e Ferramentas
@@ -142,6 +148,7 @@ Transferir conhecimento operacional do pipeline de dados para garantir continuid
 - [4.3.6. Airflow na Barra Mansa](#436-airflow-na-barra-mansa)
 - [4.3.7. Como Adicionar Nova Tabela](#437-como-adicionar-nova-tabela)
 - [4.3.8. Operacao](#438-operacao)
+- [4.3.9. Engenharia de Software Aplicados no Pipeline](#438-operacao)
 
 ### . Power BI
 - [4.4.1. Conexao com Fontes](#441-conexao-com-fontes)
@@ -2067,7 +2074,7 @@ O pipeline de dados esta estruturado para processar informacoes dos sistemas cor
 
 ---
 
-## 2.3. Conceitos de Engenharia de Software
+## 2.3. Engenharia de Software
 
 > Princípios fundamentais que guiam o design de sistemas bem estruturados. Entender esses conceitos ajuda a compreender **por que** o pipeline foi construído dessa forma.
 
@@ -3661,7 +3668,7 @@ airflow dags trigger job_sapiens_incremental \
 
 ---
 
-### 4.3.9. Conceitos Aplicados no Pipeline
+### 4.3.9. Engenharia de Software no pipeline
 
 > Os conceitos de engenharia de software (seção 2.3) não são teoria abstrata — eles fundamentam cada decisão de arquitetura do pipeline. Esta seção mostra **onde** e **como** cada conceito aparece na prática.
 
