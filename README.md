@@ -10,8 +10,8 @@
 | **Responsável** | João Lima |
 | **Cargo** | Analista Contábil Jr |
 | **Período** | Mar/2025 - Jan/2026 |
-| **Última Atualização** | 14/01/2026 |
-| **Versão** | 1.0 |
+| **Última Atualização** | 15/01/2026 |
+| **Versão** | 1.1 |
 | **Status** | ✅ Final |
 
 ---
