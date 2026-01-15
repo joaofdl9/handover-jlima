@@ -153,7 +153,7 @@ Transferir conhecimento operacional do pipeline de dados para garantir continuid
 - [4.4.7. Boas Praticas](#447-boas-praticas)
 - [4.4.8. Exemplos Contextualizados](#448-exemplos-contextualizados)
 
-  ### 4.5. Power BI Service
+### 4.5. Power BI Service
 - [4.5.1. Introdução e Conceitos](#451-introducao-e-conceitos)
 - [4.5.2. Estrutura: Workspaces e Componentes](#452-estrutura-workspaces-e-componentes)
 - [4.5.3. Infraestrutura: Gateway de Dados](#453-infraestrutura-gateway-de-dados)
