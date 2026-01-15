@@ -85,6 +85,9 @@ Transferir conhecimento operacional do pipeline de dados para garantir continuid
 - [2.2.1. Visao Geral do Processo](#221-visao-geral-do-processo)
 - [2.2.2. Componentes Principais (fontes, EL, transformacao, camadas, visualizacao)](#222-componentes-principais-fontes-el-transformacao-camadas-visualizacao)
 
+### 2.3 Principios de Engenharia de Software
+- [2.2.1 Geral](#221-geral)
+
 ---
 
 ## 3. Ambiente e Ferramentas
