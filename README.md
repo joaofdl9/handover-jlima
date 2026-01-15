@@ -153,6 +153,22 @@ Transferir conhecimento operacional do pipeline de dados para garantir continuid
 - [4.4.7. Boas Praticas](#447-boas-praticas)
 - [4.4.8. Exemplos Contextualizados](#448-exemplos-contextualizados)
 
+  ### 4.5. Power BI Service
+- [4.5.1. Introdução e Conceitos](#451-introducao-e-conceitos)
+- [4.5.2. Estrutura: Workspaces e Componentes](#452-estrutura-workspaces-e-componentes)
+- [4.5.3. Infraestrutura: Gateway de Dados](#453-infraestrutura-gateway-de-dados)
+- [4.5.4. Operação Básica: Publicação e Atualização](#454-operacao-basica-publicacao-e-atualizacao)
+- [4.5.5. Operação Básica: Gestão de Acessos](#455-operacao-basica-gestao-de-acessos)
+- [4.5.6. Operação Geral: Monitoramento e Validação](#456-operacao-geral-monitoramento-e-validacao)
+- [4.5.7. Operação Geral: Import vs Direct Query](#457-operacao-geral-import-vs-direct-query)
+- [4.5.8. Recursos Avançados](#458-recursos-avancados)
+
+### 4.6. DBT Cloud
+- [4.6.1. Conceitos Fundamentais](#461-conceitos-fundamentais)
+- [4.6.2. Operacional Básico](#462-operacional-basico)
+- [4.6.3. Operacional Avançado](#463-operacional-avancado)
+- [4.6.4. Troubleshooting Comum](#464-troubleshooting-comum)
+
 ---
 
 ## 5. Qualidade e Validação
