@@ -1024,6 +1024,10 @@ ORDER BY ano, mes
 
 ---
 
+### 6.2. Python
+
+---
+
 #### 6.2.1. Sintaxe Básica
 
 > ℹ️ **Setup:** Apenas Python 3.8+. Nenhuma instalação necessária.
